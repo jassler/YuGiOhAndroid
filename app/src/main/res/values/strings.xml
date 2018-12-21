@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">BoehlersYuGiOhApp</string>
+    <string name="version">v0.3</string>
+
+    <string name="button_add">0</string>
+    <string name="button_sub">1</string>
+    <string name="button_div">2</string>
+    <string name="button_neutral">3</string>
+
+    <string name="start_timer">Show timer</string>
+    <string name="stop_timer">Hide timer</string>
+</resources>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".MainActivity">
+    <item
+        android:id="@+id/action_undo"
+        android:orderInCategory="100"
+        android:title="Undo"
+        android:icon="@drawable/ic_baseline_undo_24px"
+        android:onClick="undo"
+        app:showAsAction="always"/>
+    <item
+        android:id="@+id/action_redo"
+        android:orderInCategory="200"
+        android:title="Redo"
+        android:icon="@drawable/ic_baseline_redo_24px"
+        android:onClick="redo"
+        app:showAsAction="always"/>
+    <item
+        android:id="@+id/action_reset"
+        android:orderInCategory="300"
+        android:title="Reset"
+        android:icon="@drawable/ic_baseline_autorenew_24px"
+        android:onClick="reset"
+        app:showAsAction="always"/>
+    <item
+        android:id="@+id/action_custom"
+        android:orderInCategory="400"
+        android:title="Custom view"
+        android:icon="@drawable/ic_baseline_dialpad_24px"
+        android:onClick="changeView"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/action_start_timer"
+        android:orderInCategory="500"
+        android:title="@string/start_timer"
+        android:icon="@drawable/ic_baseline_add_circle_outline_24px"
+        android:onClick="toggleTimer"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_settings"
+        android:orderInCategory="600"
+        android:title="Settings"
+        android:icon="@drawable/ic_launcher_background"
+        android:onClick="showSettings"
+        app:showAsAction="ifRoom" />
+
+</menu>
