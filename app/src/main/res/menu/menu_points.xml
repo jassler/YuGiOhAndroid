@@ -36,9 +36,9 @@
     <item
         android:id="@+id/action_start_timer"
         android:orderInCategory="500"
-        android:title="@string/start_timer"
+        android:title="@string/show_timer"
         android:icon="@drawable/ic_baseline_add_circle_outline_24px"
-        android:onClick="toggleTimer"
+        android:onClick="toggleTimerVisibility"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/action_settings"

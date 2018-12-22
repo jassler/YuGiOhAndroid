@@ -1,7 +1,5 @@
 package com.kaasbrot.boehlersyugiohapp;
 
-import android.animation.TypeEvaluator;
-import android.animation.ValueAnimator;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AlertDialog;
@@ -10,7 +8,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -34,10 +31,6 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
     GameTimer gameTimer;
     Random rand;
 
-    ValueAnimator animator;
-
-    int currentMarginTop;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,6 +38,18 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
         currentContentView = R.layout.activity_main;
         setContentView(currentContentView);
 
+
+        currentMenu = R.menu.menu_main;
+
+        toolbar = (Toolbar) findViewById(R.id.toolbar_main);
+        setSupportActionBar(toolbar);
+
+        gameTimer = new GameTimer();
+        rand = new Random();
+        updateComponentActivities();
+    }
+
+    private void updateComponentActivities() {
         p1.updateActivity(
                 (TextView) findViewById(R.id.pointsPlayer1),
                 (TextView) findViewById(R.id.tmpText1),
@@ -55,24 +60,11 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
                 (TextView) findViewById(R.id.tmpText2),
                 this
         );
-
-        currentMenu = R.menu.menu_main;
-
-        toolbar = (Toolbar) findViewById(R.id.toolbar_main);
-        setSupportActionBar(toolbar);
-
-        gameTimer = new GameTimer();
-        rand = new Random();
-
-        this.animator = new ValueAnimator();
-        animator.setInterpolator(new AccelerateDecelerateInterpolator());
-        animator.setEvaluator(new TypeEvaluator<Integer>() {
-            public Integer evaluate(float fraction, Integer startValue, Integer endValue) {
-                return Math.round(startValue + (endValue - startValue) * fraction);
-            }
-        });
-
-        currentMarginTop = 0;
+        gameTimer.updateActivity(
+                findViewById(R.id.viewTimer),
+                findViewById(R.id.timerText),
+                findViewById(R.id.timerPlayPauseButton)
+        );
     }
 
     @Override
@@ -84,10 +76,10 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
         undoButton = menu.findItem(R.id.action_redo);
 
         MenuItem timerButton = menu.findItem(R.id.action_start_timer);
-        if(gameTimer.isRunning()) {
-            timerButton.setTitle(R.string.stop_timer);
+        if(gameTimer.isTimerVisible()) {
+            timerButton.setTitle(R.string.hide_timer);
         } else {
-            timerButton.setTitle(R.string.start_timer);
+            timerButton.setTitle(R.string.show_timer);
         }
 
         // clock from here: https://stackoverflow.com/questions/5437674/what-unicode-characters-represent-time
@@ -326,54 +318,22 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
         historyAction(history.redo());
     }
 
-    private void setTimerText(String text) {
-        TextView timerText = findViewById(R.id.timerText);
-        if(timerText != null) {
-            timerText.setText(text);
-        }
-    }
-
-    private void animateTimerMovement(int from, int to, ConstraintLayout.LayoutParams layout) {
-        animator.setObjectValues(from, to);
-
-        int left = layout.leftMargin, bottom = layout.bottomMargin, right = layout.rightMargin;
-
-        animator.addUpdateListener(animation -> {
-            String strValue = String.valueOf(animation.getAnimatedValue());
-            int value = Integer.parseInt(strValue);
-            layout.setMargins(left, value, right, bottom);
-        });
-
-        animator.setDuration(500);
-        animator.start();
-    }
-
     /**
      * Called from Toolbar
      * If timer is running, stop and hide timer.
      * If timer is not running, start and update timer display every second.
      * @param item Timer menu item. Text is updated whether timer is shown or not.
      */
-    public void toggleTimer(MenuItem item) {
-        if(animator.isRunning())
-            animator.cancel();
+    public void toggleTimerVisibility(MenuItem item) {
+        gameTimer.toggleTimerVisibility(item);
+    }
 
-        ConstraintLayout view = findViewById(R.id.viewTimer);
-        ConstraintLayout.LayoutParams layout = (ConstraintLayout.LayoutParams) view.getLayoutParams();
+    public void toggleTimer(View v) {
+        gameTimer.toggleTimer();
+    }
 
-        if(gameTimer.isRunning()) {
-            // gameTimer.stopTimer();
-            item.setTitle(R.string.start_timer);
-
-            animateTimerMovement(layout.topMargin, 0, layout);
-        } else {
-            // gameTimer.startTimer(str -> setTimerText(str));
-            item.setTitle(R.string.stop_timer);
-
-            int timerHeight = findViewById(R.id.timerText).getHeight();
-            currentMarginTop = timerHeight + 8; // toolbar.getHeight();
-            animateTimerMovement(layout.topMargin, currentMarginTop, layout);
-        }
+    public void resetTimer(View v) {
+        gameTimer.resetTimer();
     }
 
     /**
@@ -415,10 +375,6 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
         // Intent ganesh = new Intent(this, PointsActivity.class);
         // startActivity(ganesh);
 
-        // stop viewtimer animation
-        if(animator.isRunning())
-            animator.cancel();
-
         // new toolbar id
         int toolbar_id;
 
@@ -437,23 +393,6 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
         toolbar = findViewById(toolbar_id);
         setSupportActionBar(toolbar);
 
-        if(gameTimer.isRunning()) {
-            TextView timerText = findViewById(R.id.timerText);
-            timerText.setText(gameTimer.getSecondsPassedString());
-            ConstraintLayout.LayoutParams l = (ConstraintLayout.LayoutParams) findViewById(R.id.viewTimer).getLayoutParams();
-            l.setMargins(l.leftMargin, currentMarginTop, l.rightMargin, l.bottomMargin);
-        }
-
-
-        p1.updateActivity(
-                (TextView) findViewById(R.id.pointsPlayer1),
-                (TextView) findViewById(R.id.tmpText1),
-                this
-        );
-        p2.updateActivity(
-                (TextView) findViewById(R.id.pointsPlayer2),
-                (TextView) findViewById(R.id.tmpText2),
-                this
-        );
+        updateComponentActivities();
     }
 }

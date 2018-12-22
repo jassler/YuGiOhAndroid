@@ -1,22 +1,39 @@
 package com.kaasbrot.boehlersyugiohapp;
 
+import android.animation.TypeEvaluator;
+import android.animation.ValueAnimator;
 import android.os.Handler;
+import android.support.constraint.ConstraintLayout;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.animation.AccelerateDecelerateInterpolator;
+import android.widget.ImageButton;
+import android.widget.TextView;
 
 public class GameTimer {
 
     private Handler handler;
     private long started;
-    private GameTimerUpdateListener updateListener;
+    private long paused = 0;
 
     private boolean running;
+    private boolean timerVisible;
+
+    private ValueAnimator animator;
+
+    private View viewTimer;
+    private TextView textTimer;
+    private ImageButton startStopButton;
+
+    private int marginTop = 0;
 
     private Runnable repeatingCall = new Runnable() {
         @Override
         public void run() {
             long secondsPassed = getSecondsPassed();
-            updateListener.timerUpdate(formatSeconds(secondsPassed));
+            updateTimerText();
 
-            // call function again in one second
+            // call function again in a quarter of a second second
             handler.postDelayed(repeatingCall, 250);
         }
     };
@@ -24,24 +41,29 @@ public class GameTimer {
     public GameTimer() {
         handler = new Handler();
         running = false;
+        animator = new ValueAnimator();
+        animator.setInterpolator(new AccelerateDecelerateInterpolator());
+        animator.setEvaluator(new TypeEvaluator<Integer>() {
+            public Integer evaluate(float fraction, Integer startValue, Integer endValue) {
+                return Math.round(startValue + (endValue - startValue) * fraction);
+            }
+        });
     }
 
-    public void startTimer(GameTimerUpdateListener updateListener) {
-        started = System.currentTimeMillis();
+    public void updateActivity(View viewTimer, TextView textTimer, View startStopButton) {
+        this.viewTimer = viewTimer;
+        this.textTimer = textTimer;
+        this.startStopButton = (ImageButton) startStopButton;
 
-        this.updateListener = updateListener;
-        if(running)
-            handler.removeCallbacks(repeatingCall);
+        ConstraintLayout.LayoutParams layout = (ConstraintLayout.LayoutParams) viewTimer.getLayoutParams();
+        layout.setMargins(layout.leftMargin, marginTop, layout.rightMargin, layout.bottomMargin);
 
-        running = true;
-        repeatingCall.run();
-    }
-
-    public void stopTimer() {
-        if(running) {
-            handler.removeCallbacks(repeatingCall);
-            running = false;
+        if(!running && started == 0) {
+            textTimer.setText("00:00");
+        } else {
+            updateTimerText();
         }
+        updateButtonImage();
     }
 
     public long getSecondsPassed() {
@@ -61,6 +83,104 @@ public class GameTimer {
             return String.format("%02d:%02d", seconds / 60, seconds % 60);
         }
         return String.format("%d:%02d:%02d", seconds / (60*60), (seconds / 60) % 60, seconds % 60);
+    }
+
+    private void updateTimerText() {
+        textTimer.setText(formatSeconds(getSecondsPassed()));
+    }
+
+    /**
+     * Make timer slide up and down
+     * @param from y Position element should start from
+     * @param to y Position element should move to
+     * @param layout Layout of element to be moved
+     */
+    private void animateTimerMovement(int from, int to, ConstraintLayout.LayoutParams layout) {
+        if(animator.isRunning())
+            animator.cancel();
+
+        animator.setObjectValues(from, to);
+
+        int left = layout.leftMargin, bottom = layout.bottomMargin, right = layout.rightMargin;
+
+        animator.addUpdateListener(animation -> {
+            String strValue = String.valueOf(animation.getAnimatedValue());
+            int value = Integer.parseInt(strValue);
+            layout.setMargins(left, value, right, bottom);
+        });
+
+        animator.setDuration(500);
+        animator.start();
+    }
+
+    /**
+     * Called from Toolbar
+     * If timer is running, stop and hide timer.
+     * If timer is not running, start and update timer display every second.
+     * @param item Timer menu item. Text is updated whether timer is shown or not.
+     */
+    public void toggleTimerVisibility(MenuItem item) {
+        timerVisible = !timerVisible;
+        ConstraintLayout.LayoutParams layout = (ConstraintLayout.LayoutParams) viewTimer.getLayoutParams();
+
+        if(timerVisible) {
+            // show timer
+            item.setTitle(R.string.hide_timer);
+            marginTop = textTimer.getHeight() + 8;
+            animateTimerMovement(layout.topMargin, marginTop, layout);
+
+            if(running)
+                repeatingCall.run();
+        } else {
+            // hide timer
+            item.setTitle(R.string.show_timer);
+            marginTop = 0;
+            animateTimerMovement(layout.topMargin, marginTop, layout);
+
+            // don't have to update timer every second
+            handler.removeCallbacks(repeatingCall);
+        }
+
+        item.setTitle("woot");
+    }
+
+    private void updateButtonImage() {
+        if(running) {
+            startStopButton.setImageResource(R.drawable.ic_baseline_pause_24px);
+        } else {
+            startStopButton.setImageResource(R.drawable.ic_baseline_play_arrow_24px);
+        }
+    }
+
+    public void toggleTimer() {
+        running = !running;
+
+
+        if(running) {
+            // start timer
+            started = System.currentTimeMillis() - paused;
+            paused = 0;
+
+            repeatingCall.run();
+
+        } else {
+            // pause timer
+            handler.removeCallbacks(repeatingCall);
+            paused = System.currentTimeMillis() - started;
+            updateTimerText();
+        }
+
+        updateButtonImage();
+    }
+
+    public void resetTimer() {
+        started = System.currentTimeMillis();
+        paused = 0;
+        updateTimerText();
+    }
+
+    public boolean isTimerVisible() {
+        return timerVisible;
     }
 
     public interface GameTimerUpdateListener {
