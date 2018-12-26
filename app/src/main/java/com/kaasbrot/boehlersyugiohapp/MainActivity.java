@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -21,6 +22,7 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
 
     MenuItem redoButton;
     MenuItem undoButton;
+    MenuItem timerShowButton;
 
     int currentContentView;
     int currentMenu;
@@ -73,7 +75,8 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(currentMenu, menu);
         redoButton = menu.findItem(R.id.action_redo);
-        undoButton = menu.findItem(R.id.action_redo);
+        undoButton = menu.findItem(R.id.action_undo);
+        timerShowButton = menu.findItem(R.id.action_start_timer);
 
         MenuItem timerButton = menu.findItem(R.id.action_start_timer);
         if(gameTimer.isTimerVisible()) {
@@ -353,6 +356,48 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
         // 3. Get the <code><a href="/reference/android/app/AlertDialog.html">AlertDialog</a></code> from <code><a href="/reference/android/app/AlertDialog.Builder.html#create()">create()</a></code>
         AlertDialog dialog = builder.create();
         dialog.show();
+    }
+
+    private int y1, y2;
+    static final int MIN_DISTANCE = 50;
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        int deltaY;
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                y1 = (int) event.getY();
+                break;
+            case MotionEvent.ACTION_UP:
+                y2 = (int) event.getY();
+                deltaY = y2 - y1;
+                if (Math.abs(deltaY) > MIN_DISTANCE) {
+                    gameTimer.toggleTimerVisibility(timerShowButton);
+                } else {
+                    View v = findViewById(R.id.viewTimer);
+                    ConstraintLayout.LayoutParams layout = (ConstraintLayout.LayoutParams) v.getLayoutParams();
+                    gameTimer.animateTimerMovement(layout.topMargin, gameTimer.getCurrentMarginTop(), layout);
+                    // consider as something else - a screen tap for example
+                }
+                break;
+            case MotionEvent.ACTION_MOVE:
+                y2 = (int) event.getY();
+                deltaY = y2 - y1;
+                if (Math.abs(deltaY) > MIN_DISTANCE) {
+                    View v = findViewById(R.id.viewTimer);
+                    ConstraintLayout.LayoutParams layout = (ConstraintLayout.LayoutParams) v.getLayoutParams();
+                    int left = layout.leftMargin, bottom = layout.bottomMargin, right = layout.rightMargin;
+
+                    if (deltaY > 0 && !gameTimer.isTimerVisible()) {
+                        // down gesture, show timer
+                        layout.setMargins(left, deltaY - MIN_DISTANCE + gameTimer.getCurrentMarginTop(), right, bottom);
+                    } else if (deltaY < 0 && gameTimer.isTimerVisible()) {
+                        // up gesture, hide timer
+                        layout.setMargins(left, deltaY + MIN_DISTANCE + gameTimer.getCurrentMarginTop(), right, bottom);
+                    }
+                }
+        }
+        return super.onTouchEvent(event);
     }
 
     /**

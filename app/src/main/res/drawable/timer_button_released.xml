@@ -3,5 +3,7 @@
     android:shape="rectangle">
     <solid android:color="@color/add_background" />
     <corners android:radius="3dp" />
-    <stroke android:width="5px" android:color="@color/add_border" />
+    <stroke
+        android:width="2px"
+        android:color="@color/toolbar_button" />
 </shape>

@@ -67,6 +67,9 @@ public class GameTimer {
     }
 
     public long getSecondsPassed() {
+        if (paused > 0) {
+            return paused / 1000;
+        }
         return (System.currentTimeMillis() - started) / 1000;
     }
 
@@ -95,7 +98,7 @@ public class GameTimer {
      * @param to y Position element should move to
      * @param layout Layout of element to be moved
      */
-    private void animateTimerMovement(int from, int to, ConstraintLayout.LayoutParams layout) {
+    public void animateTimerMovement(int from, int to, ConstraintLayout.LayoutParams layout) {
         if(animator.isRunning())
             animator.cancel();
 
@@ -140,8 +143,10 @@ public class GameTimer {
             // don't have to update timer every second
             handler.removeCallbacks(repeatingCall);
         }
+    }
 
-        item.setTitle("woot");
+    public int getCurrentMarginTop() {
+        return marginTop;
     }
 
     private void updateButtonImage() {
