@@ -18,23 +18,23 @@
     <color name="sub_border_pressed">#880000</color>
     <color name="sub_text_pressed">#880000</color>
 
-    <color name="div_background">#000000</color>
-    <color name="div_border">#0053FF</color>
+    <color name="dial_background">#000000</color>
+    <color name="dial_border">#0053FF</color>
     <!--<color name="div_text">#0053FF</color>-->
-    <color name="div_text">#AAAAAA</color>
-    <color name="div_background_pressed">#000000</color>
-    <color name="div_border_pressed">#000088</color>
-    <!--<color name="div_text_pressed">#000088</color>-->
-    <color name="div_text_pressed">#555555</color>
-
-    <color name="dial_background">#111111</color>
-    <!--<color name="dial_border">#AAAAAA</color>-->
-    <color name="dial_border">#AAAAAA</color>
     <color name="dial_text">#AAAAAA</color>
-    <color name="dial_background_pressed">#060606</color>
-    <!--<color name="dial_border_pressed">#555555</color>-->
+    <color name="dial_background_pressed">#000000</color>
+    <color name="dial_border_pressed">#000088</color>
+    <!--<color name="div_text_pressed">#000088</color>-->
     <color name="dial_text_pressed">#555555</color>
-    <color name="dial_border_pressed">#555555</color>
+
+    <color name="div_background">#000000</color>
+    <!--<color name="dial_border">#AAAAAA</color>-->
+    <color name="div_border">#AAAAAA</color>
+    <color name="div_text">#AAAAAA</color>
+    <color name="div_background_pressed">#060606</color>
+    <!--<color name="dial_border_pressed">#555555</color>-->
+    <color name="div_text_pressed">#555555</color>
+    <color name="div_border_pressed">#555555</color>
 
     <color name="toolbar_button">#AAAAAA</color>
 </resources>
