@@ -2,55 +2,55 @@ Warum Name Lloyd L doppelt
 
 ----------------------------------------
 
-Wüfel und Münze, wie?
+WÃ¼fel und MÃ¼nze, wie?
 
 Eigenes xml Fenster
-Öffnen durch Icon in Toolbar
+Ã–ffnen durch Icon in Toolbar
 Icon: (casino)
 Rausgehen durch selbes Icon in Toolbar
 und fetter Raus-Knopf (Exit, oder X) unten
 
 ODER
-Mini-Fenster über aktuellem xml-Fenster
-bisschen weniger hoch und aber dünner
+Mini-Fenster Ã¼ber aktuellem xml-Fenster
+bisschen weniger hoch und aber dÃ¼nner
 (so, dass LP nicht sichtbar/ nicht nur halb sichtbar)
-öffnen durch Icon in Toolbar
+Ã¶ffnen durch Icon in Toolbar
 Icon: (casino)
-Rausgehen durch irgendwo außerhalb klicken
+Rausgehen durch irgendwo auÃŸerhalb klicken
 [Toolbar trotzdem noch aktiv, z.B. auch zwischen Ansichten wechseln]
 
-Nach Öffnen
+Nach Ã–ffnen
 1 Quadrat eher oben
 1 Kreis eher unten
 In beiden steht "?"
 Durch drauf klicken taucht 1,2,3,4,5 oder 6 auf
 Durch drauf klicken taucht "Heads" oder "Tails" auf
-(Fancy Bilder mit Würfelaugen oder Kopf/Zahl Repräsentation niedrige Priorität, später)
-(?, damit man beim Öffnen nicht verwirrt ist "zählt das schon als mein erster Wurf?")
+(Fancy Bilder mit WÃ¼rfelaugen oder Kopf/Zahl ReprÃ¤sentation niedrige PrioritÃ¤t, spÃ¤ter)
+(?, damit man beim Ã–ffnen nicht verwirrt ist "zÃ¤hlt das schon als mein erster Wurf?")
 
 ----------------------------------------
 Log, wie genau, machen?
 
 Eigenes xml Fenster
-Öffnen durch Icon in Toolbar
+Ã–ffnen durch Icon in Toolbar
 Icon: (insert_drive oder format_list)
 Rausgehen durch selbes Icon in Toolbar
 und fetter Raus-Knopf (Exit, oder X) unten
 
 ODER
-Mini-Fenster über aktuellem xml-Fenster
-bisschen weniger hoch, aber dünner 
+Mini-Fenster Ã¼ber aktuellem xml-Fenster
+bisschen weniger hoch, aber dÃ¼nner 
 (so, dass LP nicht sichtbar/ nicht nur halb sichtbar)
-öffnen durch Icon in Toolbar
+Ã¶ffnen durch Icon in Toolbar
 Icon: (insert_drive oder format_list)
-Rausgehen durch irgendwo außerhalb klicken
+Rausgehen durch irgendwo auÃŸerhalb klicken
 [Toolbar trotzdem noch aktiv, z.B. auch zwischen Ansichten wechseln]
 
 Scrollable
 
-1. Priorität (Beim Öffnen)
+1. PrioritÃ¤t (Beim Ã–ffnen)
 letzte Aktion sichtbar
-2. Priorität (Beim Öffnen)
+2. PrioritÃ¤t (Beim Ã–ffnen)
 Ganz oben: aktuellster Reset
 
 Left Player Shit linke Seite
@@ -59,10 +59,10 @@ Aktuelle Lebenspunkte ganz oben sichtbar
 Aktuelle Lebenspunkte in Extra Box
 (stilistisch klar vom Log abgetrennt)
 
-+500 grün
++500 grÃ¼n
 -1000 rot
-halbieren weiß
-Würfel landet auf 6 weiß
+halbieren weiÃŸ
+WÃ¼rfel landet auf 6 weiÃŸ
 
 8000
 -800
@@ -80,53 +80,54 @@ linke: Linke Lebenspunkte Stand
 rechte: Rechte Lebenspunkte Stand
 Mittlere Spalte ist um eine halbe Zeile nach unten versetzt.
 jeweilige Aktion entweder
-- linksbündig (-200 für links z.B)
-- rechtsbündig (+500 für rechts z.B.)
-- linksbündig (/2 (-??) für links z.B.)
+- linksbÃ¼ndig (-200 fÃ¼r links z.B)
+- rechtsbÃ¼ndig (+500 fÃ¼r rechts z.B.)
+- linksbÃ¼ndig (/2 (-??) fÃ¼r links z.B.)
 zentriert: "Die landed on 4."
 zentriert: "Coin landed on Heads/Tails."
 
-Mittlere Priorität:
-Vor und Zurück-Button + Reset Button oben an der Leiste können 
-während der Log-Ansicht verwendet werden mit Live Update
-ZurückButton + neuer Eintrag soll weiterhin die 
-rückgängig gemachten löschen bzw. vergessen
+Mittlere PrioritÃ¤t:
+Vor und ZurÃ¼ck-Button + Reset Button oben an der Leiste kÃ¶nnen 
+wÃ¤hrend der Log-Ansicht verwendet werden mit Live Update
+ZurÃ¼ckButton + neuer Eintrag soll weiterhin die 
+rÃ¼ckgÃ¤ngig gemachten lÃ¶schen bzw. vergessen
 
-Optimal: drückt man rückgängig, werden Aktionen grau, sobald neuer Eintrag/Neue Aktion 
-(mit Lebenspunkten, nicht z.B. würfeln) die grauen Aktionen löschen
-Optimal: Würfelwurf und Münzwurf bei rückgängig nicht löschen
+Optimal: drÃ¼ckt man rÃ¼ckgÃ¤ngig, werden Aktionen grau, sobald neuer Eintrag/Neue Aktion 
+(mit Lebenspunkten, nicht z.B. wÃ¼rfeln) die grauen Aktionen lÃ¶schen
+Optimal: WÃ¼rfelwurf und MÃ¼nzwurf bei rÃ¼ckgÃ¤ngig nicht lÃ¶schen
 
 
-Niedrige Priorität:
+Niedrige PrioritÃ¤t:
 Einzelne Schritte ausklammern
 draufklicken --> Aktion und Resultat wird grau (nur noch ganz leich erkennbar)
 Nachfolgende Aktionen werden neu gerechnet
 /2 (-????) wird aktualisiert
 
-OBERCOOLSTES FEATURE ÜBERHAUPT
+OBERCOOLSTES FEATURE ÃœBERHAUPT
 Idee
-Ring der Zerstörung sollte beiden gleichzeitig LP abziehen
+Ring der ZerstÃ¶rung sollte beiden gleichzeitig LP abziehen
 Alex kann das mit seiner 2 Fingermethode "gleichzeitig" umsetzen
 App registriert es trotzdem hintereinander
 Was wenn App es als gleichzeitig wahrnimmt?
 zentriert in die Mitte schreiben, bei beiden abziehen
 
-Mögliche Umsetzung
-Wenn selbe Aktion für Spieler durchgeführt wird
+MÃ¶gliche Umsetzung
+Wenn selbe Aktion fÃ¼r Spieler durchgefÃ¼hrt wird
 Cooldown von 0,1-0,2 Sekunden
-Wird in dieser Zeit zweite Aktion durchgeführt und ist selbe Aktion wie erste
+Wird in dieser Zeit zweite Aktion durchgefÃ¼hrt und ist selbe Aktion wie erste
 als "gleichzeitig" verbuchen
 
 ----------------------------------------
 
-NETTE FEATURE IDEE für "=" auf Page 2
+NETTE FEATURE IDEE fÃ¼r "=" auf Page 2
 Idee
-Möchten zwei Spieler anderen LP Startwert, z.B. 16000
-müssen sie zwei mal 16000 und dann "=" eingeben
+MÃ¶chten zwei Spieler anderen LP Startwert, z.B. 16000
+mÃ¼ssen sie zwei mal 16000 und dann "=" eingeben
 Was wenn das auch gleichzeitig geht?
-Mögliche Umsetzung
+127 Zeilen? Not bad :[
+MÃ¶gliche Umsetzung
 Nach "=" Cooldown von 0,2-0,5 Sekunden
-wird anderes "=" auch gedrückt --> beide
+wird anderes "=" auch gedrÃ¼ckt --> beide
 
 ----------------------------------------
 
