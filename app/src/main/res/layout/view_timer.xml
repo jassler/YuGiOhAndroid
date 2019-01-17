@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:focusableInTouchMode="true">
 
     <ImageButton
         android:id="@+id/timerPlayPauseButton"
@@ -21,14 +22,18 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/timerText" />
 
-    <TextView
+    <EditText
         android:id="@+id/timerText"
         android:layout_width="90dp"
         android:layout_height="0dp"
         android:ems="10"
+        android:inputType="time"
+        android:selectAllOnFocus="false"
+        android:singleLine="true"
         android:textAlignment="center"
         android:textColor="#ffffff"
         android:textSize="24sp"
+        android:imeOptions="actionDone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/timerResetButton"
         app:layout_constraintHorizontal_bias="0.5"
@@ -48,5 +53,6 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/timerText"
         app:layout_constraintTop_toTopOf="@+id/timerText" />
+
 
 </android.support.constraint.ConstraintLayout>

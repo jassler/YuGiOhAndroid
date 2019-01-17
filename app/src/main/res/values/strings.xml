@@ -1,12 +1,15 @@
 <resources>
-    <string name="app_name">BoehlersYuGiOhApp</string>
-    <string name="version">v0.3</string>
+    <string name="app_name" translatable="false">YuGiCalc</string>
+    <string name="version" translatable="false">v0.3</string>
 
-    <string name="button_add">0</string>
-    <string name="button_sub">1</string>
-    <string name="button_div">2</string>
-    <string name="button_neutral">3</string>
+    <string name="button_add" translatable="false">0</string>
+    <string name="button_sub" translatable="false">1</string>
+    <string name="button_div" translatable="false">2</string>
+    <string name="button_neutral" translatable="false">3</string>
 
     <string name="show_timer">Show timer</string>
     <string name="hide_timer">Hide timer</string>
+    <string name="timer_err_too_many_columns">Invalid time input: too many columns</string>
+    <string name="timer_err_invalid_symbol">Invalid time input: unknown symbols</string>
+    <string name="timer_err_max_exceeded">Timer cannot exceed 10 hours</string>
 </resources>

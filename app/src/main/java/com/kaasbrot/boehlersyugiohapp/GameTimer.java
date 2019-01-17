@@ -30,7 +30,10 @@ public class GameTimer {
     private Runnable repeatingCall = new Runnable() {
         @Override
         public void run() {
-            long secondsPassed = getSecondsPassed();
+            // make sure timer doesn't pass 9:59:59
+            if (getSecondsPassed() > 9 * 60 * 60 + 59 * 60 + 59)
+                return;
+
             updateTimerText();
 
             // call function again in a quarter of a second second
@@ -70,6 +73,9 @@ public class GameTimer {
         if (paused > 0) {
             return paused / 1000;
         }
+        if (started == 0) {
+            return 0;
+        }
         return (System.currentTimeMillis() - started) / 1000;
     }
 
@@ -81,6 +87,12 @@ public class GameTimer {
         return running;
     }
 
+    /**
+     * Turn amount of seconds in MM:SS or H:MM:SS format
+     *
+     * @param seconds Passed seconds
+     * @return String of Minutes:Seconds or Hours:Minutes:Seconds
+     */
     public static String formatSeconds(long seconds) {
         if(seconds < 60*60) {
             return String.format("%02d:%02d", seconds / 60, seconds % 60);
@@ -90,6 +102,13 @@ public class GameTimer {
 
     private void updateTimerText() {
         textTimer.setText(formatSeconds(getSecondsPassed()));
+    }
+
+    public void setSecondsPassed(int seconds) {
+        paused = (1000 * (long) seconds);
+        if (seconds == 0)
+            this.started = 0;
+        updateTimerText();
     }
 
     /**
@@ -188,8 +207,14 @@ public class GameTimer {
         return timerVisible;
     }
 
-    public interface GameTimerUpdateListener {
-        void timerUpdate(String newValue);
+    public interface GameTimerToggleListener {
+        /**
+         * Call toggling before toggling timer.
+         *
+         * @param willBeRunning Is timer about to start or not
+         * @return false if toggling should be prevented, true if everything should continue as expected
+         */
+        boolean toggling(boolean willBeRunning);
     }
 
 }

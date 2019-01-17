@@ -1,18 +1,28 @@
 package com.kaasbrot.boehlersyugiohapp;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import java.security.Key;
 import java.util.Random;
 
 import static com.kaasbrot.boehlersyugiohapp.GameInformation.history;
@@ -29,6 +39,8 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
     int currentMenu;
 
     Toolbar toolbar;
+
+    EditText timerText;
 
     // counts seconds passed since game started
     GameTimer gameTimer;
@@ -53,15 +65,19 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
         updateComponentActivities();
     }
 
+    /**
+     * When loading view for the first time or switching views, make sure
+     * all components points to the correct view elements on screen.
+     */
     private void updateComponentActivities() {
         p1.updateActivity(
-                (TextView) findViewById(R.id.pointsPlayer1),
-                (TextView) findViewById(R.id.tmpText1),
+                findViewById(R.id.pointsPlayer1),
+                findViewById(R.id.tmpText1),
                 this
         );
         p2.updateActivity(
-                (TextView) findViewById(R.id.pointsPlayer2),
-                (TextView) findViewById(R.id.tmpText2),
+                findViewById(R.id.pointsPlayer2),
+                findViewById(R.id.tmpText2),
                 this
         );
         gameTimer.updateActivity(
@@ -69,6 +85,74 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
                 findViewById(R.id.timerText),
                 findViewById(R.id.timerPlayPauseButton)
         );
+
+
+        // don't show title "YuGiCalc" in the title bar
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+
+
+        // when editing time counter, make sure it behaves correctly
+        // - no invalid input
+        timerText = findViewById(R.id.timerText);
+        timerText.setOnFocusChangeListener((view, hasFocus) -> {
+            if (hasFocus) {
+                if (gameTimer.isRunning()) {
+                    gameTimer.toggleTimer();
+                }
+            }
+        });
+
+        timerText.setOnEditorActionListener((v, actionId, event) -> {
+            if ((event != null && (event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) || (actionId == EditorInfo.IME_ACTION_DONE)) {
+                clearTimerTextFocus();
+            }
+
+            return true;
+        });
+
+    }
+
+    /**
+     * Clear focus from timer text, hide keyboard.
+     * Update time to the one the user has typed in.
+     */
+    private void clearTimerTextFocus() {
+        timerText.clearFocus();
+        InputMethodManager imm = (InputMethodManager) getSystemService(
+                Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(timerText.getApplicationWindowToken(), 0);
+
+        // hours:minutes:seconds
+        String[] times = timerText.getText().toString().split(":");
+
+        // for error messages
+        Toast toast = Toast.makeText(getApplicationContext(), "", Toast.LENGTH_LONG);
+        toast.setGravity(Gravity.TOP, 0, 10);
+
+        if (times.length > 3) {
+            toast.setText(R.string.timer_err_too_many_columns);
+            toast.show();
+            return;
+        }
+
+        int seconds = 0;
+        for (String time : times) {
+            try {
+                seconds *= 60;
+                seconds += Integer.parseInt(time);
+            } catch (NumberFormatException e) {
+                toast.setText(R.string.timer_err_invalid_symbol);
+                toast.show();
+                return;
+            }
+        }
+
+        if (seconds > 9 * 60 * 60 + 59 * 60 + 59) {
+            toast.setText(R.string.timer_err_max_exceeded);
+            toast.show();
+            return;
+        }
+        gameTimer.setSecondsPassed(seconds);
     }
 
     @Override
@@ -142,6 +226,13 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
         return super.onPrepareOptionsMenu(menu);
     }
 
+    /**
+     * From button press, determine in which player-constraint-layout this button resides.
+     * If button is inside viewPlayer1, return p1 object, else p2.
+     *
+     * @param v Button or view inside constraint layout
+     * @return p1 or p2 object
+     */
     private Player playerFromView(View v) {
         if(((ConstraintLayout) v.getParent()).getId() == R.id.viewPlayer1) {
             return p1;
@@ -250,6 +341,12 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
         }
     }
 
+    /**
+     * Called from View 2
+     * Set points of players to points currently in text field.
+     *
+     * @param v Set points for player in view v
+     */
     public void customInputSet(View v) {
         TextView inputField = findViewById(R.id.customInput);
         if(inputField == null)
@@ -334,6 +431,10 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
     }
 
     public void toggleTimer(View v) {
+        // hide keyboard when user is editing time
+        if (timerText.isFocused()) {
+            clearTimerTextFocus();
+        }
         gameTimer.toggleTimer();
     }
 
