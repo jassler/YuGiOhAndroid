@@ -1,0 +1,145 @@
+Warum Name Lloyd L doppelt
+
+----------------------------------------
+
+Wüfel und Münze, wie?
+
+Eigenes xml Fenster
+Öffnen durch Icon in Toolbar
+Icon: (casino)
+Rausgehen durch selbes Icon in Toolbar
+und fetter Raus-Knopf (Exit, oder X) unten
+
+ODER
+Mini-Fenster über aktuellem xml-Fenster
+bisschen weniger hoch und aber dünner
+(so, dass LP nicht sichtbar/ nicht nur halb sichtbar)
+öffnen durch Icon in Toolbar
+Icon: (casino)
+Rausgehen durch irgendwo außerhalb klicken
+[Toolbar trotzdem noch aktiv, z.B. auch zwischen Ansichten wechseln]
+
+Nach Öffnen
+1 Quadrat eher oben
+1 Kreis eher unten
+In beiden steht "?"
+Durch drauf klicken taucht 1,2,3,4,5 oder 6 auf
+Durch drauf klicken taucht "Heads" oder "Tails" auf
+(Fancy Bilder mit Würfelaugen oder Kopf/Zahl Repräsentation niedrige Priorität, später)
+(?, damit man beim Öffnen nicht verwirrt ist "zählt das schon als mein erster Wurf?")
+
+----------------------------------------
+Log, wie genau, machen?
+
+Eigenes xml Fenster
+Öffnen durch Icon in Toolbar
+Icon: (insert_drive oder format_list)
+Rausgehen durch selbes Icon in Toolbar
+und fetter Raus-Knopf (Exit, oder X) unten
+
+ODER
+Mini-Fenster über aktuellem xml-Fenster
+bisschen weniger hoch, aber dünner 
+(so, dass LP nicht sichtbar/ nicht nur halb sichtbar)
+öffnen durch Icon in Toolbar
+Icon: (insert_drive oder format_list)
+Rausgehen durch irgendwo außerhalb klicken
+[Toolbar trotzdem noch aktiv, z.B. auch zwischen Ansichten wechseln]
+
+Scrollable
+
+1. Priorität (Beim Öffnen)
+letzte Aktion sichtbar
+2. Priorität (Beim Öffnen)
+Ganz oben: aktuellster Reset
+
+Left Player Shit linke Seite
+Right Player Shit rechte Seite
+Aktuelle Lebenspunkte ganz oben sichtbar
+Aktuelle Lebenspunkte in Extra Box
+(stilistisch klar vom Log abgetrennt)
+
++500 grün
+-1000 rot
+halbieren weiß
+Würfel landet auf 6 weiß
+
+8000
+-800
+7200
++500
+7700
++300
+8000
+/2 (-4000)
+4000
+
+Optimal:
+3 Spalten
+linke: Linke Lebenspunkte Stand
+rechte: Rechte Lebenspunkte Stand
+Mittlere Spalte ist um eine halbe Zeile nach unten versetzt.
+jeweilige Aktion entweder
+- linksbündig (-200 für links z.B)
+- rechtsbündig (+500 für rechts z.B.)
+- linksbündig (/2 (-??) für links z.B.)
+zentriert: "Die landed on 4."
+zentriert: "Coin landed on Heads/Tails."
+
+Mittlere Priorität:
+Vor und Zurück-Button + Reset Button oben an der Leiste können 
+während der Log-Ansicht verwendet werden mit Live Update
+ZurückButton + neuer Eintrag soll weiterhin die 
+rückgängig gemachten löschen bzw. vergessen
+
+Optimal: drückt man rückgängig, werden Aktionen grau, sobald neuer Eintrag/Neue Aktion 
+(mit Lebenspunkten, nicht z.B. würfeln) die grauen Aktionen löschen
+Optimal: Würfelwurf und Münzwurf bei rückgängig nicht löschen
+
+
+Niedrige Priorität:
+Einzelne Schritte ausklammern
+draufklicken --> Aktion und Resultat wird grau (nur noch ganz leich erkennbar)
+Nachfolgende Aktionen werden neu gerechnet
+/2 (-????) wird aktualisiert
+
+OBERCOOLSTES FEATURE ÜBERHAUPT
+Idee
+Ring der Zerstörung sollte beiden gleichzeitig LP abziehen
+Alex kann das mit seiner 2 Fingermethode "gleichzeitig" umsetzen
+App registriert es trotzdem hintereinander
+Was wenn App es als gleichzeitig wahrnimmt?
+zentriert in die Mitte schreiben, bei beiden abziehen
+
+Mögliche Umsetzung
+Wenn selbe Aktion für Spieler durchgeführt wird
+Cooldown von 0,1-0,2 Sekunden
+Wird in dieser Zeit zweite Aktion durchgeführt und ist selbe Aktion wie erste
+als "gleichzeitig" verbuchen
+
+----------------------------------------
+
+NETTE FEATURE IDEE für "=" auf Page 2
+Idee
+Möchten zwei Spieler anderen LP Startwert, z.B. 16000
+müssen sie zwei mal 16000 und dann "=" eingeben
+Was wenn das auch gleichzeitig geht?
+127 Zeilen? Not bad :[
+Mögliche Umsetzung
+Nach "=" Cooldown von 0,2-0,5 Sekunden
+wird anderes "=" auch gedrückt --> beide
+
+----------------------------------------
+
+Hallo ich bin Felix' Klient
+wie geht es Ihnen?
+Ausgezeichnet
+Nein, mein Name ist nicht Felix
+Ich habe das Icon erstellt.
+Nennen Sie mich Klient
+
+
+
+
+
+
