@@ -1,5 +1,6 @@
 package com.kaasbrot.boehlersyugiohapp;
 
+import android.app.TimePickerDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
@@ -20,9 +21,11 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import java.security.Key;
+import java.util.Calendar;
 import java.util.Random;
 
 import static com.kaasbrot.boehlersyugiohapp.GameInformation.history;
@@ -94,6 +97,7 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
         // when editing time counter, make sure it behaves correctly
         // - no invalid input
         timerText = findViewById(R.id.timerText);
+        timerText.setSelectAllOnFocus(true);
         timerText.setOnFocusChangeListener((view, hasFocus) -> {
             if (hasFocus) {
                 if (gameTimer.isRunning()) {
@@ -147,7 +151,8 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
             }
         }
 
-        if (seconds > 9 * 60 * 60 + 59 * 60 + 59) {
+        // no more than 5 hours!
+        if (seconds > 5 * 60 * 60) {
             toast.setText(R.string.timer_err_max_exceeded);
             toast.show();
             return;
@@ -427,6 +432,9 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
      * @param item Timer menu item. Text is updated whether timer is shown or not.
      */
     public void toggleTimerVisibility(MenuItem item) {
+        if (gameTimer.isTimerVisible()) {
+            clearTimerTextFocus();
+        }
         gameTimer.toggleTimerVisibility(item);
     }
 
@@ -475,6 +483,9 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
                 y2 = (int) event.getY();
                 deltaY = y2 - y1;
                 if (Math.abs(deltaY) > MIN_DISTANCE) {
+                    if (gameTimer.isTimerVisible()) {
+                        clearTimerTextFocus();
+                    }
                     gameTimer.toggleTimerVisibility(timerShowButton);
                 } else {
                     View v = findViewById(R.id.viewTimer);
