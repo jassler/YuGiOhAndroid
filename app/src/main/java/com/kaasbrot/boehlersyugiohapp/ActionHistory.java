@@ -13,12 +13,21 @@ public class ActionHistory {
     private int index;
     private List<Points> history;
 
-    public class Points {
-        int p1, p2;
+    public static class Points {
+        final int p1, p2;
 
         Points(int p1, int p2) {
             this.p1 = p1;
             this.p2 = p2;
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (obj instanceof Points) {
+                Points p = (Points) obj;
+                return p.p1 == this.p1 && p.p2 == this.p2;
+            }
+            return obj.equals(this);
         }
     }
 
@@ -27,6 +36,7 @@ public class ActionHistory {
         history.add(new Points(startP1, startP2));
         index = 0;
         lastEntry = 0;
+        lastEntryPlayer = 0;
     }
 
     public void add(int p1, int p2) {
@@ -42,8 +52,7 @@ public class ActionHistory {
                         ((p1 != current.p1 && p2 == current.p2 && lastEntryPlayer == 2) ||
                                 (p1 == current.p1 && p2 != current.p2 && lastEntryPlayer == 1))
         ) {
-            current.p1 = p1;
-            current.p2 = p2;
+            history.set(index, new Points(p1, p2));
             lastEntryPlayer = 0;
 
         } else {
@@ -68,14 +77,18 @@ public class ActionHistory {
     }
 
     public Points undo() {
-        if(canUndo())
+        if (canUndo()) {
             index--;
+            lastEntryPlayer = 0;
+        }
         return history.get(index);
     }
 
     public Points redo() {
-        if(canRedo())
+        if (canRedo()) {
             index++;
+            lastEntryPlayer = 0;
+        }
         return history.get(index);
     }
 
@@ -85,5 +98,9 @@ public class ActionHistory {
 
     public boolean canRedo() {
         return index < history.size() - 1;
+    }
+
+    public Points getCurrentEntry() {
+        return history.get(index);
     }
 }

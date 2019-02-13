@@ -1,5 +1,6 @@
 package com.kaasbrot.boehlersyugiohapp;
 
+import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.os.Bundle;
@@ -520,6 +521,21 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
      */
     public void determineButtonEnable() {
         runOnUiThread(() -> invalidateOptionsMenu());
+    }
+
+    /**
+     * Called from Toolbar
+     * Show game history in dialog
+     *
+     * @param item Menu Item
+     */
+    public void showHistory(MenuItem item) {
+        // custom dialog
+        final Dialog dialog = new Dialog(this);
+        dialog.setContentView(R.layout.dialog_history);
+        dialog.setTitle(R.string.show_history);
+
+        dialog.show();
     }
 
     /**
