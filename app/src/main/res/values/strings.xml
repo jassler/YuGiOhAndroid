@@ -12,4 +12,5 @@
     <string name="timer_err_too_many_columns">Invalid time input: too many columns</string>
     <string name="timer_err_invalid_symbol">Invalid time input: unknown symbols</string>
     <string name="timer_err_max_exceeded">Timer cannot exceed 10 hours</string>
+    <string name="show_history">History</string>
 </resources>
