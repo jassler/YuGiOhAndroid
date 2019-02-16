@@ -537,7 +537,7 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
      * @param item Menu Item
      */
     public void showHistory(MenuItem item) {
-        historyDialog.show(getSupportFragmentManager(), "Hisory Dialog");
+        historyDialog.show(getSupportFragmentManager(), "History Dialog");
     }
 
     /**

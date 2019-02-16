@@ -3,4 +3,9 @@
     <string name="show_timer">Timer anzeigen</string>
     <string name="hide_timer">Timer verstecken</string>
     <string name="show_history">Spielverlauf</string>
+    <string name="timer_err_too_many_columns">Ungültige Eingabe: Zu viele Doppelpunkte</string>
+    <string name="timer_err_invalid_symbol">Unbekannte Symbole bei der Zeitangabe</string>
+    <string name="timer_err_max_exceeded">Timer kann nicht länger als 10 Stunden sein</string>
+    <string name="ok">ok</string>
+    <string name="cancel">Abbrechen</string>
 </resources>
