@@ -6,9 +6,15 @@
     android:layout_height="match_parent">
 
     <ScrollView
-        android:id="@+id/historyScroll"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_width="395dp"
+        android:layout_height="680dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:fillViewport="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -20,21 +26,21 @@
                 android:layout_height="match_parent">
 
                 <TextView
-                    android:id="@+id/historyTextP1"
+                    android:id="@+id/historyPointsP1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
+                    android:layout_marginStart="32dp"
                     android:layout_marginTop="16dp"
                     android:text="8000"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/historyTextP2"
+                    android:id="@+id/historyPointsP2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
-                    android:layout_marginEnd="16dp"
+                    android:layout_marginEnd="32dp"
                     android:text="8000"
                     android:textAlignment="textEnd"
                     app:layout_constraintEnd_toEndOf="parent"

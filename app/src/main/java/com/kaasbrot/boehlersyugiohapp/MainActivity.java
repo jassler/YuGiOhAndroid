@@ -3,6 +3,7 @@ package com.kaasbrot.boehlersyugiohapp;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AlertDialog;
@@ -12,6 +13,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -50,6 +52,8 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
     GameTimer gameTimer;
     Random rand;
 
+    ActionHistoryDialog historyDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,6 +71,9 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
         gameTimer = new GameTimer();
         rand = new Random();
         updateComponentActivities();
+
+        historyDialog = new ActionHistoryDialog();
+        historyDialog.setHistory(history);
     }
 
     /**
@@ -530,12 +537,7 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
      * @param item Menu Item
      */
     public void showHistory(MenuItem item) {
-        // custom dialog
-        final Dialog dialog = new Dialog(this);
-        dialog.setContentView(R.layout.dialog_history);
-        dialog.setTitle(R.string.show_history);
-
-        dialog.show();
+        historyDialog.show(getSupportFragmentManager(), "History Dialog");
     }
 
     /**

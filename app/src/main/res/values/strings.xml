@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name" translatable="false">YuGiCalc</string>
-    <string name="version" translatable="false">v0.3</string>
+    <string name="version" translatable="false">v0.3.3</string>
 
     <string name="button_add" translatable="false">0</string>
     <string name="button_sub" translatable="false">1</string>
@@ -13,4 +13,6 @@
     <string name="timer_err_invalid_symbol">Invalid time input: unknown symbols</string>
     <string name="timer_err_max_exceeded">Timer cannot exceed 10 hours</string>
     <string name="show_history">History</string>
+    <string name="ok">ok</string>
+    <string name="cancel">cancel</string>
 </resources>

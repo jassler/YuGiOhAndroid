@@ -103,4 +103,8 @@ public class ActionHistory {
     public Points getCurrentEntry() {
         return history.get(index);
     }
+
+    public List<Points> getHistory() {
+        return history;
+    }
 }
