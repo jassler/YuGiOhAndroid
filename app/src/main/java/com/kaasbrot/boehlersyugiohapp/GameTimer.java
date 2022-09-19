@@ -33,7 +33,6 @@ public class GameTimer {
             // make sure timer doesn't pass 9:59:59
             if (getSecondsPassed() > 9 * 60 * 60 + 59 * 60 + 59)
                 return;
-
             updateTimerText();
 
             // call function again in a quarter of a second second
@@ -151,8 +150,9 @@ public class GameTimer {
             marginTop = textTimer.getHeight() + 8;
             animateTimerMovement(layout.topMargin, marginTop, layout);
 
-            if(running)
+            if(running) {
                 repeatingCall.run();
+            }
         } else {
             // hide timer
             item.setTitle(R.string.show_timer);
