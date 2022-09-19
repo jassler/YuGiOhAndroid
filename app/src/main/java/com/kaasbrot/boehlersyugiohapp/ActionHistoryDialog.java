@@ -22,9 +22,11 @@ public class ActionHistoryDialog extends AppCompatDialogFragment {
 
     private final String FONT_NEGATIVE = "<font color=\"#CC0000\"><i>";
     private final String FONT_POSITIVE = "<font color=\"#00AA00\"><i>";
+    private final String FONT_EMPTY = "<font color=\"#FFFFFF\"><i>";
 
     private static final String FONT_NEGATIVE_END = "</i></font>";
     private static final String FONT_POSITIVE_END = "</i></font>";
+    private static final String FONT_EMPTY_END = "</i></font>";
 
     public void setHistory(ActionHistory history) {
         this.history = history;
@@ -47,7 +49,11 @@ public class ActionHistoryDialog extends AppCompatDialogFragment {
                     .append("<br>");
 
         } else {
-            sb.append("<br><br><br>");
+            sb.append("<br><br>")
+                    .append(FONT_EMPTY)
+                    .append("empty")
+                    .append(FONT_EMPTY_END)
+                    .append("<br>");
         }
     }
 

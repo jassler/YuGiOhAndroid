@@ -13,11 +13,11 @@
         app:showAsAction="always"/>
     <item
         android:id="@+id/action_redo"
-        android:orderInCategory="200"
-        android:title="Redo"
         android:icon="@drawable/ic_baseline_redo_24px"
         android:onClick="redo"
-        app:showAsAction="always"/>
+        android:orderInCategory="200"
+        android:title="Redo"
+        app:showAsAction="always" />
     <item
         android:id="@+id/action_reset"
         android:orderInCategory="300"
@@ -31,6 +31,13 @@
         android:title="@string/show_history"
         android:icon="@drawable/ic_baseline_assignment_24px"
         android:onClick="showHistory"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/action_show_casino"
+        android:icon="@drawable/ic_dice"
+        android:onClick="showCasino"
+        android:orderInCategory="400"
+        android:title="Casino"
         app:showAsAction="always" />
     <item
         android:id="@+id/action_custom"

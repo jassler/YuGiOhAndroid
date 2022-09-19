@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
+import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -30,6 +31,8 @@ import android.widget.Toast;
 import java.security.Key;
 import java.util.Calendar;
 import java.util.Random;
+import java.util.Timer; //made this
+import android.os.*; //and this
 
 import static com.kaasbrot.boehlersyugiohapp.GameInformation.history;
 import static com.kaasbrot.boehlersyugiohapp.GameInformation.p1;
@@ -59,6 +62,9 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
         super.onCreate(savedInstanceState);
 
         currentContentView = R.layout.activity_main;
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
+            getWindow().setNavigationBarColor(ResourcesCompat.getColor(getResources(), R.color.colorPrimary,null));
+        }
         setContentView(currentContentView);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
@@ -290,7 +296,14 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
 
         int amount = Integer.parseInt(inputField.getText().toString());
         p.calculate(factor * amount, false);
-        inputField.setText("0");
+        new Handler().postDelayed(new Runnable(){
+            @Override
+                    public void run() {
+            inputField.setText("0");
+            }
+        },200);
+
+
     }
 
     /**
@@ -471,6 +484,21 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
         String kopf = (rand.nextInt(2) == 0 ? "Kopf" : "Zahl");
         builder.setMessage("Die gewürfelte Zahl ist " + zahl + "\nKopf oder Zahl? -> " + kopf)
                 .setTitle("Krass richtige Einstellungen!");
+
+        // 3. Get the <code><a href="/reference/android/app/AlertDialog.html">AlertDialog</a></code> from <code><a href="/reference/android/app/AlertDialog.Builder.html#create()">create()</a></code>
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    public void showCasino(MenuItem item) {
+        // 1. Instantiate an <code><a href="/reference/android/app/AlertDialog.Builder.html">AlertDialog.Builder</a></code> with its constructor
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        // 2. Chain together various setter methods to set the dialog characteristics
+        int zahl = rand.nextInt(6) + 1;
+        String kopf = (rand.nextInt(2) == 0 ? "Kopf" : "Zahl");
+        builder.setMessage("Die gewürfelte Zahl ist " + zahl + "\n\nKopf oder Zahl? -> " + kopf)
+                .setTitle("Würfel und Münze");
 
         // 3. Get the <code><a href="/reference/android/app/AlertDialog.html">AlertDialog</a></code> from <code><a href="/reference/android/app/AlertDialog.Builder.html#create()">create()</a></code>
         AlertDialog dialog = builder.create();
