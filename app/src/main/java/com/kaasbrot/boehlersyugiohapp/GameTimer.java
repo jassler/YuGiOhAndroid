@@ -150,9 +150,9 @@ public class GameTimer {
             marginTop = textTimer.getHeight() + 8;
             animateTimerMovement(layout.topMargin, marginTop, layout);
 
-            if(running) {
-                repeatingCall.run();
-            }
+            //if(running) { repeatingCall.run(); }
+            toggleTimer();
+            toggleTimer();
         } else {
             // hide timer
             item.setTitle(R.string.show_timer);
