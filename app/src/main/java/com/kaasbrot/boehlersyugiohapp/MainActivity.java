@@ -4,10 +4,8 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.content.res.ResourcesCompat;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.Html;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -30,10 +28,8 @@ import static com.kaasbrot.boehlersyugiohapp.GameInformation.history;
 import static com.kaasbrot.boehlersyugiohapp.GameInformation.p1;
 import static com.kaasbrot.boehlersyugiohapp.GameInformation.p2;
 
-import com.kaasbrot.boehlersyugiohapp.dialog.ActionHistoryDialog;
+import com.kaasbrot.boehlersyugiohapp.dialog.HistoryDialog;
 import com.kaasbrot.boehlersyugiohapp.dialog.CasinoDialog;
-import com.kaasbrot.boehlersyugiohapp.history.Coin;
-import com.kaasbrot.boehlersyugiohapp.history.Dice;
 import com.kaasbrot.boehlersyugiohapp.history.Points;
 
 public class MainActivity extends AppCompatActivity implements ButtonDeterminer {
@@ -53,7 +49,7 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
     GameTimer gameTimer;
     Random rand;
 
-    ActionHistoryDialog historyDialog;
+    HistoryDialog historyDialog;
     CasinoDialog casinoDialog;
 
     @Override
@@ -75,7 +71,7 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
         rand = new Random();
         updateComponentActivities();
 
-        historyDialog = new ActionHistoryDialog();
+        historyDialog = new HistoryDialog();
         historyDialog.setHistory(history);
 
         casinoDialog = new CasinoDialog();
