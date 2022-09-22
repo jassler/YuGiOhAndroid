@@ -1,4 +1,4 @@
-package com.kaasbrot.boehlersyugiohapp;
+package com.kaasbrot.boehlersyugiohapp.dialog;
 
 import android.app.Dialog;
 import android.content.DialogInterface;

@@ -1,20 +1,15 @@
 package com.kaasbrot.boehlersyugiohapp;
 
-import android.app.Dialog;
-import android.app.TimePickerDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.Editable;
-import android.text.TextWatcher;
+import android.text.Html;
 import android.view.Gravity;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -25,18 +20,21 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.TimePicker;
 import android.widget.Toast;
 
-import java.security.Key;
-import java.util.Calendar;
 import java.util.Random;
-import java.util.Timer; //made this
+
 import android.os.*; //and this
 
 import static com.kaasbrot.boehlersyugiohapp.GameInformation.history;
 import static com.kaasbrot.boehlersyugiohapp.GameInformation.p1;
 import static com.kaasbrot.boehlersyugiohapp.GameInformation.p2;
+
+import com.kaasbrot.boehlersyugiohapp.dialog.ActionHistoryDialog;
+import com.kaasbrot.boehlersyugiohapp.dialog.CasinoDialog;
+import com.kaasbrot.boehlersyugiohapp.history.Coin;
+import com.kaasbrot.boehlersyugiohapp.history.Dice;
+import com.kaasbrot.boehlersyugiohapp.history.Points;
 
 public class MainActivity extends AppCompatActivity implements ButtonDeterminer {
 
@@ -56,15 +54,14 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
     Random rand;
 
     ActionHistoryDialog historyDialog;
+    CasinoDialog casinoDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         currentContentView = R.layout.activity_main;
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
-            getWindow().setNavigationBarColor(ResourcesCompat.getColor(getResources(), R.color.colorPrimary,null));
-        }
+        getWindow().setNavigationBarColor(ResourcesCompat.getColor(getResources(), R.color.colorPrimary,null));
         setContentView(currentContentView);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
@@ -80,6 +77,9 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
 
         historyDialog = new ActionHistoryDialog();
         historyDialog.setHistory(history);
+
+        casinoDialog = new CasinoDialog();
+        casinoDialog.setHistory(history);
     }
 
     /**
@@ -416,7 +416,7 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
      * Undo or Redo button pressed -> update player's points text field
      * @param newPoints
      */
-    private void historyAction(ActionHistory.Points newPoints) {
+    private void historyAction(Points newPoints) {
         p1.points = newPoints.p1;
         p2.points = newPoints.p2;
 
@@ -476,35 +476,14 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
      * @param item Clicked menu item (unimportant)
      */
     public void showSettings(MenuItem item) {
-        // 1. Instantiate an <code><a href="/reference/android/app/AlertDialog.Builder.html">AlertDialog.Builder</a></code> with its constructor
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-
-        // 2. Chain together various setter methods to set the dialog characteristics
-        int zahl = rand.nextInt(6) + 1;
-        String kopf = (rand.nextInt(2) == 0 ? "Kopf" : "Zahl");
-        builder.setMessage("Die gewürfelte Zahl ist " + zahl + "\nKopf oder Zahl? -> " + kopf)
-                .setTitle("Krass richtige Einstellungen!");
-
-        // 3. Get the <code><a href="/reference/android/app/AlertDialog.html">AlertDialog</a></code> from <code><a href="/reference/android/app/AlertDialog.Builder.html#create()">create()</a></code>
-        AlertDialog dialog = builder.create();
-        dialog.show();
+        // save some space
     }
 
     public void showCasino(MenuItem item) {
-        // 1. Instantiate an <code><a href="/reference/android/app/AlertDialog.Builder.html">AlertDialog.Builder</a></code> with its constructor
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-
-        // 2. Chain together various setter methods to set the dialog characteristics
-        int zahl = rand.nextInt(6) + 1;
-        String kopf = (rand.nextInt(2) == 0 ? "Kopf" : "Zahl");
-        builder.setMessage("Die gewürfelte Zahl ist " + zahl + "\n\nKopf oder Zahl? -> " + kopf)
-                .setTitle("Würfel und Münze");
-
-        // 3. Get the <code><a href="/reference/android/app/AlertDialog.html">AlertDialog</a></code> from <code><a href="/reference/android/app/AlertDialog.Builder.html#create()">create()</a></code>
-        AlertDialog dialog = builder.create();
-        dialog.show();
+        casinoDialog.show(getSupportFragmentManager(), "Casino");
     }
 
+    // Equipment for drag queens
     private int y1, y2;
     static final int MIN_DISTANCE = 50;
 
@@ -555,7 +534,7 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
      * By invalidating the options menu, {@link #onPrepareOptionsMenu(Menu)} is called.
      */
     public void determineButtonEnable() {
-        runOnUiThread(() -> invalidateOptionsMenu());
+        runOnUiThread(this::invalidateOptionsMenu);
     }
 
     /**
