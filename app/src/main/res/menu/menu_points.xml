@@ -43,7 +43,7 @@
         android:id="@+id/action_show_coin"
         android:icon="@drawable/ic_coin"
         android:onClick="showCoin"
-        android:orderInCategory="400"
+        android:orderInCategory="450"
         android:title="Coin"
         app:showAsAction="always" />
     <item

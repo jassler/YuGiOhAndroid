@@ -77,10 +77,14 @@ public class History {
     public void add(Coin c) {
         addToIndex(c);
     }
-
     public void add(Dice d) {
         addToIndex(d);
     }
+    public void add(Coins cs) {
+        addToIndex(cs);
+    }
+
+    //public void add(Reset r) {addToIndex(r);}
 
     public Points lastPoints() {
         int i = index;

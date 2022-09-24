@@ -43,7 +43,7 @@
         android:id="@+id/action_show_coin"
         android:icon="@drawable/ic_coin"
         android:onClick="showCoin"
-        android:orderInCategory="400"
+        android:orderInCategory="450"
         android:title="Coin"
         app:showAsAction="always" />
     <item
@@ -54,18 +54,26 @@
         android:onClick="changeView"
         app:showAsAction="always" />
     <item
-        android:id="@+id/action_start_timer"
+        android:id="@+id/action_3coins"
         android:orderInCategory="600"
-        android:title="@string/show_timer"
+        android:title="Drei Münzen"
+        android:icon="@drawable/ic_launcher_background"
+        android:onClick="threecoins"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_start_timer"
+        android:orderInCategory="700"
+        android:title="Timer anzeigen"
         android:icon="@drawable/ic_baseline_add_circle_outline_24px"
         android:onClick="toggleTimerVisibility"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/action_settings"
-        android:orderInCategory="700"
-        android:title="Settings"
+        android:orderInCategory="800"
+        android:title="Einstellungen"
         android:icon="@drawable/ic_launcher_background"
         android:onClick="showSettings"
         app:showAsAction="never" />
+
 
 </menu>

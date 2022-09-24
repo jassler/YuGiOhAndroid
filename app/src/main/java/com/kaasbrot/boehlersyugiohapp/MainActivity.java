@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.content.res.ResourcesCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
@@ -29,6 +30,7 @@ import static com.kaasbrot.boehlersyugiohapp.GameInformation.p1;
 import static com.kaasbrot.boehlersyugiohapp.GameInformation.p2;
 
 import com.kaasbrot.boehlersyugiohapp.dialog.CoinDialog;
+import com.kaasbrot.boehlersyugiohapp.dialog.CoinsDialog;
 import com.kaasbrot.boehlersyugiohapp.dialog.HistoryDialog;
 import com.kaasbrot.boehlersyugiohapp.dialog.CasinoDialog;
 import com.kaasbrot.boehlersyugiohapp.history.Points;
@@ -53,6 +55,7 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
     HistoryDialog historyDialog;
     CasinoDialog casinoDialog;
     CoinDialog coinDialog;
+    CoinsDialog coinsDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,6 +84,9 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
 
         coinDialog = new CoinDialog();
         coinDialog.setHistory(history);
+
+        coinsDialog = new CoinsDialog();
+        coinsDialog.setHistory(history);
     }
 
     /**
@@ -477,7 +483,20 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
      * @param item Clicked menu item (unimportant)
      */
     public void showSettings(MenuItem item) {
-        // save some space
+        // 1. Instantiate an <code><a href="/reference/android/app/AlertDialog.Builder.html">AlertDialog.Builder</a></code> with its constructor
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        // 2. Chain together various setter methods to set the dialog characteristics
+        builder.setMessage("...sind leider eingestellt worden.")
+                .setTitle("Einstellungen");
+
+        // 3. Get the <code><a href="/reference/android/app/AlertDialog.html">AlertDialog</a></code> from <code><a href="/reference/android/app/AlertDialog.Builder.html#create()">create()</a></code>
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+    public void threecoins(MenuItem item) {
+        //historyDialog.show(getSupportFragmentManager(), "History Dialog");
+        coinsDialog.show(getSupportFragmentManager(), "Coins");
     }
 
     public void showCasino(MenuItem item) {
