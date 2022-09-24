@@ -390,7 +390,12 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
             Player p = playerFromView(v);
             int diff = newAmount - p.points;
             p.calculate(diff, false);
-            inputField.setText("0");
+            new Handler().postDelayed(new Runnable(){
+                @Override
+                public void run() {
+                    inputField.setText("0");
+                }
+            },200);
 
         } catch(NumberFormatException e) {
             /* Probably a button is pressed that doesn't contain a number */
