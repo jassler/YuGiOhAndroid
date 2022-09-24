@@ -37,13 +37,11 @@ public class History {
         // if index is in the middle of the list (which happens after undo),
         // remove everything after index
         index++;
-        if (index > history.size()) {
-            throw new RuntimeException("index=" + index + " but history size=" + history.size() + ", index should not be higher");
-        }
         if (index < history.size()) {
             history.subList(index, history.size()).clear();
         }
         history.add(element);
+        index = history.size() - 1;
     }
 
     public void add(int p1, int p2) {
