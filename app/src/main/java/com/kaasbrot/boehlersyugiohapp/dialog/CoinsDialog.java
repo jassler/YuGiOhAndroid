@@ -57,14 +57,6 @@ public class CoinsDialog extends AppCompatDialogFragment {
         this.cs = cs;
     }
 
-    /* public Coin getCoin() {
-        return c;
-    }
-
-    public void setCoin(Coin c) {
-        this.c = c;
-    }
-        */
     public void setHistory(History history) {
         this.history = history;
     }

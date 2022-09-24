@@ -12,21 +12,23 @@ public class History {
     private int lastEntryPlayer;
 
     private int index;
-    private List<HistoryElement> history;
+    private final List<HistoryElement> history;
 
     public History(int startP1, int startP2) {
         history = new ArrayList<>();
-        history.add(new Points(startP1, startP2, this::nextPointsFrom));
+        history.add(new Points(startP1, startP2, this::prevPointsFrom));
         index = 0;
         lastEntry = 0;
         lastEntryPlayer = 0;
     }
 
-    public Points nextPointsFrom(Points p) {
-        for (int i = history.indexOf(p) + 1; i < history.size(); i++) {
+    public Points prevPointsFrom(Points p) {
+        for (int i = history.indexOf(p) - 1; i >= 0; i--) {
             HistoryElement element = history.get(i);
             if(element instanceof Points)
                 return (Points) element;
+            if(element instanceof NewGame)
+                return null;
         }
         return null;
     }
@@ -57,7 +59,7 @@ public class History {
                 (p1 != current.p1 && p2 == current.p2 && lastEntryPlayer == 2) ||
                 (p1 == current.p1 && p2 != current.p2 && lastEntryPlayer == 1)
         )) {
-            history.set(index, new Points(p1, p2, this::nextPointsFrom));
+            history.set(index, new Points(p1, p2, this::prevPointsFrom));
             lastEntryPlayer = 0;
 
         } else {
@@ -70,21 +72,13 @@ public class History {
             else
                 lastEntryPlayer = 0;
 
-            addToIndex(new Points(p1, p2, this::nextPointsFrom));
+            addToIndex(new Points(p1, p2, this::prevPointsFrom));
         }
     }
 
-    public void add(Coin c) {
-        addToIndex(c);
+    public void add(HistoryElement e) {
+        addToIndex(e);
     }
-    public void add(Dice d) {
-        addToIndex(d);
-    }
-    public void add(Coins cs) {
-        addToIndex(cs);
-    }
-
-    //public void add(Reset r) {addToIndex(r);}
 
     public Points lastPoints() {
         int i = index;

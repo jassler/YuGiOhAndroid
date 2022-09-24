@@ -33,6 +33,7 @@ import com.kaasbrot.boehlersyugiohapp.dialog.CoinDialog;
 import com.kaasbrot.boehlersyugiohapp.dialog.CoinsDialog;
 import com.kaasbrot.boehlersyugiohapp.dialog.HistoryDialog;
 import com.kaasbrot.boehlersyugiohapp.dialog.CasinoDialog;
+import com.kaasbrot.boehlersyugiohapp.history.NewGame;
 import com.kaasbrot.boehlersyugiohapp.history.Points;
 
 public class MainActivity extends AppCompatActivity implements ButtonDeterminer {
@@ -303,12 +304,7 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
 
         int amount = Integer.parseInt(inputField.getText().toString());
         p.calculate(factor * amount, false);
-        new Handler().postDelayed(new Runnable(){
-            @Override
-                    public void run() {
-            inputField.setText("0");
-            }
-        },200);
+        new Handler().postDelayed(() -> inputField.setText("0"),200);
 
 
     }
@@ -421,6 +417,7 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
         p1.reset(8000);
         p2.reset(8000);
         //Dialog "Neues Duell" hinzufügen
+        history.add(new NewGame());
         history.add(p1.points, p2.points);
     }
 
