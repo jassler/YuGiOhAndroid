@@ -420,7 +420,7 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
     public void reset(MenuItem item) {
         p1.reset(8000);
         p2.reset(8000);
-
+        //Dialog "Neues Duell" hinzufügen
         history.add(p1.points, p2.points);
     }
 
@@ -504,11 +504,37 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
         coinsDialog.show(getSupportFragmentManager(), "Coins");
     }
 
+    //cooldown for dice
+    private int dicecooldown = 0;
+
     public void showCasino(MenuItem item) {
-        casinoDialog.show(getSupportFragmentManager(), "Casino");
+        if(dicecooldown==1) { } else
+        {
+            dicecooldown=1;
+            new Handler().postDelayed(new Runnable(){
+                @Override
+                public void run() {
+                    dicecooldown=0;
+                }
+            },1500);
+        //actual Casino
+        casinoDialog.show(getSupportFragmentManager(), "Casino");}
     }
+
+    private int coincooldown = 0;
+
     public void showCoin(MenuItem item) {
-        coinDialog.show(getSupportFragmentManager(), "Coin");
+            if(coincooldown==1) { } else
+            {
+                coincooldown=1;
+                new Handler().postDelayed(new Runnable(){
+                    @Override
+                    public void run() {
+                        coincooldown=0;
+                    }
+                },1500);
+        //actual Coin
+        coinDialog.show(getSupportFragmentManager(), "Coin");}
     }
     // Equipment for drag queens
     private int y1, y2;
@@ -564,6 +590,9 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
         runOnUiThread(this::invalidateOptionsMenu);
     }
 
+    //cooldown variable for history button overflow
+    private int historycooldown = 0;
+
     /**
      * Called from Toolbar
      * Show game history in dialog
@@ -571,7 +600,19 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
      * @param item Menu Item
      */
     public void showHistory(MenuItem item) {
-        historyDialog.show(getSupportFragmentManager(), "History Dialog");
+        //if cooldown on, do nothing, else set cooldown, then unset after x time
+
+        if(historycooldown==1) { } else
+        {
+            historycooldown=1;
+            new Handler().postDelayed(new Runnable(){
+                @Override
+                public void run() {
+                    historycooldown=0;
+                }
+            },1500);
+            historyDialog.show(getSupportFragmentManager(), "History Dialog");
+        }
     }
 
     /**
