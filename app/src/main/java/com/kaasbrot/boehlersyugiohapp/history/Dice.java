@@ -34,8 +34,9 @@ public class Dice implements HistoryElement {
     public View render(LayoutInflater inflater, ViewGroup parent) {
         View view = inflater.inflate(R.layout.dialog_history_element, parent, false);
         TextView text = view.findViewById(R.id.info);
-        text.setText(asUnicode());
-        text.setTextSize(32);
+        //text.setText(asUnicode());
+        //text.setTextSize(32);
+        text.setText("Würfel landete auf "+roll+".");
 
         return view;
     }

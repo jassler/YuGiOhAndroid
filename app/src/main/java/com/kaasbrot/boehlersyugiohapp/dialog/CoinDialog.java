@@ -16,28 +16,30 @@ import com.kaasbrot.boehlersyugiohapp.history.History;
 
 import java.util.Random;
 
-public class CasinoDialog extends AppCompatDialogFragment {
+public class CoinDialog extends AppCompatDialogFragment {
 
     private final Random rand = new Random();
 
     private History history;
 
-    //private Coin c;
-    private Dice d;
+    private Coin c;
+    //private Dice d;
 
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext(), R.style.MyDialogTheme);
-        //c = new Coin(rand.nextBoolean() ? Coin.Toss.HEADS : Coin.Toss.TAILS);
-        d = new Dice(rand.nextInt(6) + 1);
+        //new AlertDialog.Builder(getActivity());
+        c = new Coin(rand.nextBoolean() ? Coin.Toss.HEADS : Coin.Toss.TAILS);
+        //d = new Dice(rand.nextInt(6) + 1);
 
-        builder.setMessage(Html.fromHtml(d.asHtml(), Html.FROM_HTML_MODE_COMPACT))
-                .setTitle("Würfel");
+        builder.setMessage(Html.fromHtml(c.toss.html, Html.FROM_HTML_MODE_COMPACT))
+                .setTitle("Münze");
+
         if(history != null) {
-            //history.add(c);
-            history.add(d);
-            }
+            history.add(c);
+        //    history.add(d);
+        }
         builder.setPositiveButton("ok", (dialogInterface, i) -> {});
         return builder.create();
     }
@@ -50,22 +52,15 @@ public class CasinoDialog extends AppCompatDialogFragment {
         texts.setTextSize(144);
         texts.setGravity(Gravity.CENTER);
     }
-    public Dice getDice() {
-        return d;
-    }
 
-    public void setDice(Dice d) {
-        this.d = d;
-    }
-
-    /* public Coin getCoin() {
+    public Coin getCoin() {
         return c;
     }
 
     public void setCoin(Coin c) {
         this.c = c;
     }
-        */
+
     public void setHistory(History history) {
         this.history = history;
     }

@@ -20,7 +20,8 @@
             android:gravity="top|end"
             android:minEms="3"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            android:textColor="@color/dialog_text" />
 
         <TextView
             android:id="@+id/p2"
@@ -31,7 +32,8 @@
             android:minEms="3"
             android:textAlignment="textEnd"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            android:textColor="@color/dialog_text" />
 
         <TextView
             android:id="@+id/info"
@@ -42,7 +44,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/p2"
             app:layout_constraintStart_toEndOf="@+id/p1"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            android:textColor="@color/dialog_text"/>
     </android.support.constraint.ConstraintLayout>
 
 </android.support.constraint.ConstraintLayout>

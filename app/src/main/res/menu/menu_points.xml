@@ -40,6 +40,13 @@
         android:title="Casino"
         app:showAsAction="always" />
     <item
+        android:id="@+id/action_show_coin"
+        android:icon="@drawable/ic_coin"
+        android:onClick="showCoin"
+        android:orderInCategory="400"
+        android:title="Coin"
+        app:showAsAction="always" />
+    <item
         android:id="@+id/action_default"
         android:orderInCategory="500"
         android:title="Default view"

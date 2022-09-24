@@ -28,6 +28,7 @@ import static com.kaasbrot.boehlersyugiohapp.GameInformation.history;
 import static com.kaasbrot.boehlersyugiohapp.GameInformation.p1;
 import static com.kaasbrot.boehlersyugiohapp.GameInformation.p2;
 
+import com.kaasbrot.boehlersyugiohapp.dialog.CoinDialog;
 import com.kaasbrot.boehlersyugiohapp.dialog.HistoryDialog;
 import com.kaasbrot.boehlersyugiohapp.dialog.CasinoDialog;
 import com.kaasbrot.boehlersyugiohapp.history.Points;
@@ -51,6 +52,7 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
 
     HistoryDialog historyDialog;
     CasinoDialog casinoDialog;
+    CoinDialog coinDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,6 +78,9 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
 
         casinoDialog = new CasinoDialog();
         casinoDialog.setHistory(history);
+
+        coinDialog = new CoinDialog();
+        coinDialog.setHistory(history);
     }
 
     /**
@@ -478,7 +483,9 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
     public void showCasino(MenuItem item) {
         casinoDialog.show(getSupportFragmentManager(), "Casino");
     }
-
+    public void showCoin(MenuItem item) {
+        coinDialog.show(getSupportFragmentManager(), "Coin");
+    }
     // Equipment for drag queens
     private int y1, y2;
     static final int MIN_DISTANCE = 50;
