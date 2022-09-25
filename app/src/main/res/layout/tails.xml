@@ -9,8 +9,8 @@
         android:id="@+id/heads_aa"
         android:layout_width="150dp"
         android:layout_height="150dp"
-        android:background="@drawable/heads_aa"
+        android:background="@drawable/tails_aa"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         tools:layout_editor_absoluteY="0dp" />
-</android.support.constraint.ConstraintLayout>
+</android.support.constraint.ConstraintLayout>ayout>

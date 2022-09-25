@@ -7,6 +7,8 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatDialogFragment;
 import android.text.Html;
 import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -24,15 +26,21 @@ public class CoinDialog extends AppCompatDialogFragment {
     private History history;
 
     private Coin c;
-    //private Dice d;
+
 
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext(), R.style.MyDialogTheme);
         //new AlertDialog.Builder(getActivity());
+
         c = new Coin(rand.nextBoolean() ? Coin.Toss.HEADS : Coin.Toss.TAILS);
-        
+        if(c == c) {
+            //the following includes the heads picture
+            LayoutInflater factory = LayoutInflater.from(getContext());
+            final View view = factory.inflate(R.layout.tails, null);
+            builder.setView(view);
+        }
 
         builder.setMessage(Html.fromHtml(c.toss.html, Html.FROM_HTML_MODE_COMPACT))
                 .setTitle("Münze");
