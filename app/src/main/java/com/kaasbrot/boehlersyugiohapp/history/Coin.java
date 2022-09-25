@@ -10,8 +10,8 @@ import com.kaasbrot.boehlersyugiohapp.R;
 public class Coin implements HistoryElement {
 
     public enum Toss {
-        HEADS('\u2461', "&#x24DA;"),
-        TAILS('\u24D7', "&#x24E9;");
+        HEADS('\u2461', "Kopf"), //&#x24DA;
+        TAILS('\u24D7', "Zahl"); //&#x24E9;
 
         public final char unicode;
         public final String html;

@@ -35,15 +35,19 @@ public class CoinDialog extends AppCompatDialogFragment {
         //new AlertDialog.Builder(getActivity());
 
         c = new Coin(rand.nextBoolean() ? Coin.Toss.HEADS : Coin.Toss.TAILS);
-        if(c == c) {
-            //the following includes the heads picture
-            LayoutInflater factory = LayoutInflater.from(getContext());
+
+        //the following includes the heads picture
+        LayoutInflater factory = LayoutInflater.from(getContext());
+        if(c.toss == Coin.Toss.HEADS) {
+            final View view = factory.inflate(R.layout.heads, null);
+            builder.setView(view);
+        } else {
             final View view = factory.inflate(R.layout.tails, null);
             builder.setView(view);
         }
 
-        builder.setMessage(Html.fromHtml(c.toss.html, Html.FROM_HTML_MODE_COMPACT))
-                .setTitle("Münze");
+        builder.setMessage(Html.fromHtml(c.toss.html, Html.FROM_HTML_MODE_COMPACT));
+                //.setTitle("Münze");
 
         if(history != null) {
             history.add(c);
@@ -58,7 +62,7 @@ public class CoinDialog extends AppCompatDialogFragment {
         // once the dialog is built and shown, we can adjust text size and font alignment
         super.onStart();
         TextView texts = this.getDialog().findViewById(android.R.id.message);
-        texts.setTextSize(144);
+        texts.setTextSize(30); //144
         texts.setGravity(Gravity.CENTER);
     }
 
