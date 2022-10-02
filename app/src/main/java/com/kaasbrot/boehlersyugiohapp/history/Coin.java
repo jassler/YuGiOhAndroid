@@ -10,8 +10,8 @@ import com.kaasbrot.boehlersyugiohapp.R;
 public class Coin implements HistoryElement {
 
     public enum Toss {
-        HEADS('\u2461', "Kopf"), //&#x24DA;
-        TAILS('\u24D7', "Zahl"); //&#x24E9;
+        HEADS('\u2461', "Heads" ), //&#x24DA;
+        TAILS('\u24D7', "Tails" ); //&#x24E9;
 
         public final char unicode;
         public final String html;
@@ -39,7 +39,7 @@ public class Coin implements HistoryElement {
         View view = inflater.inflate(R.layout.dialog_history_element, parent, false);
         TextView text = view.findViewById(R.id.info);
         //text.setText(String.valueOf(toss.unicode));
-        text.setText("Münze landete auf " + (toss==Toss.HEADS ?"Kopf":"Zahl")+".");
+        text.setText(R.string.coin_lands_on + (toss==Toss.HEADS ? R.string.result_heads : R.string.result_tails )+".");
         //text.setTextSize(32);
 
         return view;

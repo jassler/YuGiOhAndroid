@@ -14,7 +14,7 @@ public class NewGame implements HistoryElement {
         View view = inflater.inflate(R.layout.dialog_history_element, parent, false);
         TextView text = view.findViewById(R.id.info);
         //text.setText(String.valueOf(toss.unicode));
-        text.setText("Neues Spiel");
+        text.setText(R.string.new_game);
         text.setFontFeatureSettings("Italics");
         //text.setTextSize(32);
 

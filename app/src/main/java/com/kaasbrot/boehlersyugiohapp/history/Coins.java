@@ -49,6 +49,7 @@ public class Coins implements HistoryElement {
         return view;
     }
 
+    //not used at the moment
     public static String getCoinsHtml(int roll) {
         switch (roll) {
             case 1: return "&#x24DA;"+"<br>"+"&#x24DA;"+"<br>"+"&#x24DA;";
@@ -65,7 +66,17 @@ public class Coins implements HistoryElement {
 
     public static String getCoinsWords(int roll) {
         switch (roll) {
-            case 1: return "Kopf, Kopf, Kopf";
+            case 1: return R.string.result_heads + "," +  R.string.result_heads + "," +  R.string.result_heads;
+            case 2: return R.string.result_heads + "," +  R.string.result_heads + "," +  R.string.result_tails;
+            case 3: return R.string.result_heads + "," +  R.string.result_tails + "," +  R.string.result_heads;
+            case 4: return R.string.result_heads + "," +  R.string.result_tails + "," +  R.string.result_tails;
+            case 5: return R.string.result_tails + "," +  R.string.result_heads + "," +  R.string.result_heads;
+            case 6: return R.string.result_tails + "," +  R.string.result_heads + "," +  R.string.result_tails;
+            case 7: return R.string.result_tails + "," +  R.string.result_tails + "," +  R.string.result_heads;
+            case 8: return R.string.result_tails + "," +  R.string.result_tails + "," +  R.string.result_tails;
+            default: return "Unknown Unicode for " + roll;
+
+          /*  case 1: return R.string.result_heads + "," + " Kopf, Kopf";
             case 2: return "Kopf, Kopf, Zahl";
             case 3: return "Kopf, Zahl, Kopf";
             case 4: return "Kopf, Zahl, Zahl";
@@ -73,7 +84,7 @@ public class Coins implements HistoryElement {
             case 6: return "Zahl, Kopf, Zahl";
             case 7: return "Zahl, Zahl, Kopf";
             case 8: return "Zahl, Zahl, Zahl";
-            default: return "Unknown Unicode for " + roll;
+            default: return "Unknown Unicode for " + roll; */
         }
     }
 }

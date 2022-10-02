@@ -8,4 +8,11 @@
     <string name="timer_err_max_exceeded">Timer kann nicht länger als 10 Stunden sein</string>
     <string name="ok">ok</string>
     <string name="cancel">Abbrechen</string>
+    <string name="coin_lands_on">"Münze landete auf "</string>
+    <string name="result_heads">Kopf</string>
+    <string name="result_tails">Zahl</string>
+    <string name="dice_lands_on">"Würfel landete auf "</string>
+    <string name="new_game">Neues Spiel</string>
+    <string name="three_coins">Drei Münzen</string>
+    <string name="settings">Einstellungen</string>
 </resources>

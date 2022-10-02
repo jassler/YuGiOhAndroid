@@ -47,7 +47,6 @@ public class CoinDialog extends AppCompatDialogFragment {
         }
 
         builder.setMessage(Html.fromHtml(c.toss.html, Html.FROM_HTML_MODE_COMPACT));
-                //.setTitle("Münze");
 
         if(history != null) {
             history.add(c);

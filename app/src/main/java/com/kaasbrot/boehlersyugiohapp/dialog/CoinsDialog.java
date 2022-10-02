@@ -7,6 +7,8 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatDialogFragment;
 import android.text.Html;
 import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.TextView;
 
 import com.kaasbrot.boehlersyugiohapp.R;
@@ -33,6 +35,7 @@ public class CoinsDialog extends AppCompatDialogFragment {
 
         builder.setMessage(Html.fromHtml(cs.asHtml(), Html.FROM_HTML_MODE_COMPACT))
                 .setTitle("Drei Münzen");
+
         if(history != null) {
             //history.add(c);
             history.add(cs);

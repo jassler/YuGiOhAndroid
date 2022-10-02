@@ -1,5 +1,6 @@
 package com.kaasbrot.boehlersyugiohapp.history;
 
+import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,7 +37,7 @@ public class Dice implements HistoryElement {
         TextView text = view.findViewById(R.id.info);
         //text.setText(asUnicode());
         //text.setTextSize(32);
-        text.setText("Würfel landete auf "+roll+".");
+        text.setText(R.string.dice_lands_on +roll+".");
 
         return view;
     }
