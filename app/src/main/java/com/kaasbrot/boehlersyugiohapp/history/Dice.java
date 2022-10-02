@@ -37,7 +37,8 @@ public class Dice implements HistoryElement {
         TextView text = view.findViewById(R.id.info);
         //text.setText(asUnicode());
         //text.setTextSize(32);
-        text.setText(R.string.dice_lands_on +roll+".");
+        text.setText((R.string.dice_lands_on));
+                text.append(" "+roll+".");
 
         return view;
     }

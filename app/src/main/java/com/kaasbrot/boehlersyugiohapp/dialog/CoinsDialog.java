@@ -34,7 +34,7 @@ public class CoinsDialog extends AppCompatDialogFragment {
         cs = new Coins(rand.nextInt(7) + 1);
 
         builder.setMessage(Html.fromHtml(cs.asHtml(), Html.FROM_HTML_MODE_COMPACT))
-                .setTitle("Drei Münzen");
+                .setTitle(R.string.three_coins);
 
         if(history != null) {
             //history.add(c);

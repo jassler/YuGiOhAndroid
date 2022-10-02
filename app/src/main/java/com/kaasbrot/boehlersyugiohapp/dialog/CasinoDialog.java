@@ -33,7 +33,7 @@ public class CasinoDialog extends AppCompatDialogFragment {
         d = new Dice(rand.nextInt(6) + 1);
 
         builder.setMessage(Html.fromHtml(d.asHtml(), Html.FROM_HTML_MODE_COMPACT))
-                .setTitle("Würfel");
+                .setTitle(R.string.dice_title);
         if(history != null) {
             //history.add(c);
             history.add(d);

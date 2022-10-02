@@ -8,7 +8,12 @@
         <item name="colorAccent">@color/colorAccent</item>
 
         <item name="actionOverflowButtonStyle">@style/DotsDarkTheme</item>
+        <item name="android:itemBackground">@color/colorPrimary</item>
+        <item name="android:itemTextAppearance">@style/ChangeTextColor</item>
+    </style>
 
+    <style name="ChangeTextColor" parent="@android:style/TextAppearance.Widget.IconMenu.Item">
+        <item name="android:textColor">@color/colorAccent</item>
     </style>
 
     <style name="DotsDarkTheme" parent="@style/Widget.AppCompat.ActionButton.Overflow" >
@@ -21,4 +26,5 @@
         <item name="android:textColor">@color/dialog_text</item>
         <item name="android:textColorPrimary">@color/dialog_text</item>
     </style>
+
 </resources>
