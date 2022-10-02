@@ -24,21 +24,11 @@ public class Dice implements HistoryElement {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Dice dice = (Dice) o;
-        return roll == dice.roll;
-    }
-
-    @Override
     public View render(LayoutInflater inflater, ViewGroup parent) {
         View view = inflater.inflate(R.layout.dialog_history_element, parent, false);
         TextView text = view.findViewById(R.id.info);
-        //text.setText(asUnicode());
-        //text.setTextSize(32);
-        text.setText((R.string.dice_lands_on));
-                text.append(" "+roll+".");
+        text.setText(R.string.dice_lands_on);
+        text.append(" "+roll+".");
 
         return view;
     }

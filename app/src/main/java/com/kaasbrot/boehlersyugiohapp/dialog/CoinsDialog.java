@@ -31,7 +31,7 @@ public class CoinsDialog extends AppCompatDialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext(), R.style.MyDialogTheme);
         //c = new Coin(rand.nextBoolean() ? Coin.Toss.HEADS : Coin.Toss.TAILS);
-        cs = new Coins(rand.nextInt(7) + 1);
+        cs = new Coins();
 
         builder.setMessage(Html.fromHtml(cs.asHtml(), Html.FROM_HTML_MODE_COMPACT))
                 .setTitle(R.string.three_coins);

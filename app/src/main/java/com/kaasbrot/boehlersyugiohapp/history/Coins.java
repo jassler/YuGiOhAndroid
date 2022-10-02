@@ -1,5 +1,6 @@
 package com.kaasbrot.boehlersyugiohapp.history;
 
+import android.content.res.Resources;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -7,84 +8,51 @@ import android.widget.TextView;
 
 import com.kaasbrot.boehlersyugiohapp.R;
 
-public class Coins implements HistoryElement {
-    public final int roll;
+import java.util.Arrays;
+import java.util.Random;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
-    public Coins(int roll) {
-        this.roll = roll;
+public class Coins implements HistoryElement {
+    private final Coin[] coins;
+
+    public Coins() {
+        Random rand = new Random();
+        this.coins = new Coin[] {
+                new Coin(rand.nextBoolean()),
+                new Coin(rand.nextBoolean()),
+                new Coin(rand.nextBoolean())
+        };
     }
 
     public String asHtml() {
-        return getCoinsHtml(roll);
-    }
-
-    public String words() {
-        return getCoinsWords(roll);
-    }
-
-    public String k() {
-        return "K";
-    }
-
-    public String z() {
-        return "Z";
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Coins coins = (Coins) o;
-        return roll == coins.roll;
+        return getCoinsHtml(coins);
     }
 
     @Override
     public View render(LayoutInflater inflater, ViewGroup parent) {
         View view = inflater.inflate(R.layout.dialog_history_element, parent, false);
         TextView text = view.findViewById(R.id.info);
-        //text.setText(asUnicode());
-        //text.setTextSize(32);
-        text.setText(words());
-
+        Resources res =  text.getResources();
+        text.setText(getCoinsWords(
+                coins,
+                res.getString(R.string.result_heads),
+                res.getString(R.string.result_tails)
+        ));
         return view;
     }
 
-    //not used at the moment
-    public static String getCoinsHtml(int roll) {
-        switch (roll) {
-            case 1: return "&#x24DA;"+"<br>"+"&#x24DA;"+"<br>"+"&#x24DA;";
-            case 2: return "&#x24DA;"+"<br>"+"&#x24DA;"+"<br>"+"&#x24E9;";
-            case 3: return "&#x24DA;"+"<br>"+"&#x24E9;"+"<br>"+"&#x24DA;";
-            case 4: return "&#x24DA;"+"<br>"+"&#x24E9;"+"<br>"+"&#x24E9;";
-            case 5: return "&#x24E9;"+"<br>"+"&#x24DA;"+"<br>"+"&#x24DA;";
-            case 6: return "&#x24E9;"+"<br>"+"&#x24DA;"+"<br>"+"&#x24E9;";
-            case 7: return "&#x24E9;"+"<br>"+"&#x24E9;"+"<br>"+"&#x24DA;";
-            case 8: return "&#x24E9;"+"<br>"+"&#x24E9;"+"<br>"+"&#x24E9;";
-            default: return "Unknown Unicode for " + roll;
-        }
+    public static String getCoinsHtml(Coin[] coins) {
+        String sequence = Arrays.stream(coins)
+                .map(coin -> coin.toss.html)
+                .collect(Collectors.joining("<br>"));
+        return sequence;
     }
 
-    public static String getCoinsWords(int roll) {
-        switch (roll) {
-            case 1: return R.string.result_heads + "," +  R.string.result_heads + "," +  R.string.result_heads;
-            case 2: return R.string.result_heads + "," +  R.string.result_heads + "," +  R.string.result_tails;
-            case 3: return R.string.result_heads + "," +  R.string.result_tails + "," +  R.string.result_heads;
-            case 4: return R.string.result_heads + "," +  R.string.result_tails + "," +  R.string.result_tails;
-            case 5: return R.string.result_tails + "," +  R.string.result_heads + "," +  R.string.result_heads;
-            case 6: return R.string.result_tails + "," +  R.string.result_heads + "," +  R.string.result_tails;
-            case 7: return R.string.result_tails + "," +  R.string.result_tails + "," +  R.string.result_heads;
-            case 8: return R.string.result_tails + "," +  R.string.result_tails + "," +  R.string.result_tails;
-            default: return "Unknown Unicode for " + roll;
-
-          /*  case 1: return R.string.result_heads + "," + " Kopf, Kopf";
-            case 2: return "Kopf, Kopf, Zahl";
-            case 3: return "Kopf, Zahl, Kopf";
-            case 4: return "Kopf, Zahl, Zahl";
-            case 5: return "Zahl, Kopf, Kopf";
-            case 6: return "Zahl, Kopf, Zahl";
-            case 7: return "Zahl, Zahl, Kopf";
-            case 8: return "Zahl, Zahl, Zahl";
-            default: return "Unknown Unicode for " + roll; */
-        }
+    public static String getCoinsWords(Coin[] coins, String headStr, String tailStr) {
+        String sequence = Arrays.stream(coins)
+                .map(coin -> coin.toss == Coin.Toss.HEADS ? headStr : tailStr)
+                .collect(Collectors.joining(", "));
+        return sequence;
     }
 }
