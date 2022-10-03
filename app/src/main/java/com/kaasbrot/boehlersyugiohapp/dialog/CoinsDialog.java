@@ -35,37 +35,27 @@ public class CoinsDialog extends AppCompatDialogFragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext(), R.style.MyDialogTheme);
         //c = new Coin(rand.nextBoolean() ? Coin.Toss.HEADS : Coin.Toss.TAILS);
         cs = new Coins();
-        ImageView image1;
-        ImageView image2;
-        ImageView image3;
 
         builder.setMessage(R.string.three_coins);
 
         LayoutInflater factory = LayoutInflater.from(getContext());
 
-            View view = factory.inflate(R.layout.threecoins_layout, null);
-            image1 = view.findViewById(R.id.tci1);
-            image2 = view.findViewById(R.id.tci2);
-            image3 = view.findViewById(R.id.tci3);
+        View view = factory.inflate(R.layout.threecoins_layout, null);
+        ImageView[] imgViews = new ImageView[] {
+                view.findViewById(R.id.tci1),
+                view.findViewById(R.id.tci2),
+                view.findViewById(R.id.tci3)
+        };
 
-            if(cs.coins[0].toss== Coin.Toss.HEADS){
-                image1.setImageResource(R.drawable.heads_aa);
+        for (int i = 0; i < imgViews.length; i++) {
+            if(cs.coins[i].toss == Coin.Toss.HEADS) {
+                imgViews[i].setImageResource(R.drawable.heads_aa);
             } else {
-                image1.setImageResource(R.drawable.tails_aa);
+                imgViews[i].setImageResource(R.drawable.tails_aa);
             }
+        }
 
-            if(cs.coins[1].toss== Coin.Toss.HEADS){
-                image2.setImageResource(R.drawable.heads_aa);
-            } else {
-                image2.setImageResource(R.drawable.tails_aa);
-            }
-
-            if(cs.coins[2].toss== Coin.Toss.HEADS){
-                image3.setImageResource(R.drawable.heads_aa);
-            } else {
-                image3.setImageResource(R.drawable.tails_aa);
-            }
-            builder.setView(view);
+        builder.setView(view);
 
 
         if(history != null) {
