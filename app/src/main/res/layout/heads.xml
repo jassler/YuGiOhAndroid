@@ -5,6 +5,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <TextView
+        android:id="@+id/ht1"
+        android:text=""
+        android:layout_width="20dp"
+        android:layout_height="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
     <ImageView
         android:id="@+id/heads_aa"
         android:layout_width="150dp"
@@ -12,5 +21,6 @@
         android:background="@drawable/heads_aa"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ht1"
         tools:layout_editor_absoluteY="0dp" />
 </android.support.constraint.ConstraintLayout>

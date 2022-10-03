@@ -4,52 +4,57 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="600dp">
-
+    <TextView
+        android:id="@+id/tct1"
+        android:text=""
+        android:layout_width="20dp"
+        android:layout_height="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
     <ImageView
-        android:id="@+id/heads_htt1"
+        android:id="@+id/tci1"
         android:layout_width="150dp"
         android:layout_height="150dp"
 
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tct1"
         tools:layout_editor_absoluteY="0dp" />
     <TextView
-        android:id="@+id/text_htt1"
+        android:id="@+id/tct2"
         android:text=""
         android:layout_width="20dp"
         android:layout_height="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/heads_hth1"/>
+        app:layout_constraintTop_toBottomOf="@id/tci1"/>
 
     <ImageView
-        android:id="@+id/heads_htt2"
+        android:id="@+id/tci2"
         android:layout_width="150dp"
         android:layout_height="150dp"
-        android:background="@drawable/tails_aa"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/text_hth1"
+        app:layout_constraintTop_toBottomOf="@id/tct2"
 
         tools:layout_editor_absoluteY="160dp" />
 
     <TextView
-        android:id="@+id/text_htt2"
+        android:id="@+id/tct3"
         android:text=""
         android:layout_width="20dp"
         android:layout_height="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/heads_hth2"/>
+        app:layout_constraintTop_toBottomOf="@id/tci2"/>
 
     <ImageView
-        android:id="@+id/heads_htt3"
+        android:id="@+id/tci3"
         android:layout_width="150dp"
         android:layout_height="150dp"
-        android:background="@drawable/heads_aa"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/text_hth2"
+        app:layout_constraintTop_toBottomOf="@id/tct3"
         tools:layout_editor_absoluteY="320dp" />
 </android.support.constraint.ConstraintLayout>

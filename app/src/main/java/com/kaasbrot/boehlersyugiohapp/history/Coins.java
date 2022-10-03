@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class Coins implements HistoryElement {
-    private final Coin[] coins;
+    public final Coin[] coins;
 
     public Coins() {
         Random rand = new Random();
