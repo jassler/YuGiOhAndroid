@@ -1,6 +1,7 @@
 package com.kaasbrot.boehlersyugiohapp.dialog;
 
 import android.app.Dialog;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
@@ -39,14 +40,16 @@ public class CoinDialog extends AppCompatDialogFragment {
         //the following includes the heads picture
         LayoutInflater factory = LayoutInflater.from(getContext());
         if(c.toss == Coin.Toss.HEADS) {
-            final View view = factory.inflate(R.layout.heads, null);
+            View view = factory.inflate(R.layout.heads, null);
             builder.setView(view);
+            builder.setMessage(R.string.result_Heads);
         } else {
             final View view = factory.inflate(R.layout.tails, null);
             builder.setView(view);
+            builder.setMessage(R.string.result_Tails);
         }
 
-        builder.setMessage(Html.fromHtml(c.toss.html, Html.FROM_HTML_MODE_COMPACT));
+        //builder.setMessage(Html.fromHtml(c.toss.html, Html.FROM_HTML_MODE_COMPACT));
 
         if(history != null) {
             history.add(c);

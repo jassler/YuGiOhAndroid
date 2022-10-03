@@ -16,9 +16,12 @@
         tools:layout_editor_absoluteY="0dp" />
     <TextView
     android:id="@+id/text_hth1"
-
+    android:text=""
     android:layout_width="20dp"
-    android:layout_height="20dp"/>
+    android:layout_height="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/heads_hth1"/>
 
     <ImageView
         android:id="@+id/heads_hth2"
@@ -27,9 +30,18 @@
         android:background="@drawable/tails_aa"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/heads_hth1"
+        app:layout_constraintTop_toBottomOf="@id/text_hth1"
 
         tools:layout_editor_absoluteY="160dp" />
+
+    <TextView
+        android:id="@+id/text_hth2"
+        android:text=""
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/heads_hth2"/>
 
     <ImageView
         android:id="@+id/heads_hth3"
@@ -38,6 +50,6 @@
         android:background="@drawable/heads_aa"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/heads_hth2"
+        app:layout_constraintTop_toBottomOf="@id/text_hth2"
         tools:layout_editor_absoluteY="320dp" />
 </android.support.constraint.ConstraintLayout>

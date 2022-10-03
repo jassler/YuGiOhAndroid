@@ -17,4 +17,6 @@
     <string name="settings">Einstellungen</string>
     <string name="dice_title">Würfel</string>
     <string name="coin_title">Münze</string>
+    <string name="result_Heads">Kopf</string>
+    <string name="result_Tails">Zahl</string>
 </resources>
