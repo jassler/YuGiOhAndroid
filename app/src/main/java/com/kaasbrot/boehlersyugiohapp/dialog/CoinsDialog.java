@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatDialogFragment;
-import android.text.Html;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,8 +16,6 @@ import com.kaasbrot.boehlersyugiohapp.history.Coin;
 import com.kaasbrot.boehlersyugiohapp.history.Coins;
 import com.kaasbrot.boehlersyugiohapp.history.History;
 
-import java.lang.reflect.Array;
-import java.util.Arrays;
 import java.util.Random;
 
 public class CoinsDialog extends AppCompatDialogFragment {
