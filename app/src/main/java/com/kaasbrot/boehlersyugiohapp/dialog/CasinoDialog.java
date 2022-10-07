@@ -60,30 +60,38 @@ public class CasinoDialog extends AppCompatDialogFragment {
         textd2 = view.findViewById(R.id.dicet2);
         builder.setView(view);
 
-        //2 delays at the moment, will need for loop that does this x times
         //textd1 and textd2 size should always add to the same number
         //should read size out of dice_layout, add them and use that number
-        new Handler().postDelayed(new Runnable(){
-            @Override
-            public void run() {
-                imaged.setImageResource(imgPaths[4]);
-                textd1.setTextSize(10);
-                textd2.setTextSize(40);
-                builder.setView(view);
-            }
-        },500);
-        new Handler().postDelayed(new Runnable(){
-            @Override
-            public void run() {
-                imaged.setImageResource(imgPaths[d.roll-1]); //final roll is correct
-                textd1.setTextSize(40);
-                textd2.setTextSize(10);
-                builder.setView(view);
-            }
-        },1000);
+        for (int i = 0; i < 35; i++)
+        {
+            int finalI = i;
+            new Handler().postDelayed(new Runnable(){
+                @Override
+                public void run() {
+                    //complicated formula designed to imitate gravity with 40ms delay
+                    //Math.abs is there because without it won't work
+                    float textd1size = (float) Math.abs(-(-218 * (0.86 / 35 * finalI - 0.42)) * (0.86 / 35 * finalI - 0.42));
+                    float textd2size = (float) Math.abs(50+(-218 * (0.86 / 35 * finalI - 0.42) * (0.86 / 35 * finalI - 0.42)));
+                    float imod = finalI%6; //every 6th loop it will change the dice pic
+                    if(imod==0) {
+                        int[] newdicenum = {
+                                1,
+                                2,
+                                3,
+                                4,
+                                (d.roll==5) ? 1:5,
+                                d.roll-1    //poor way of doing "random" dice roll in air,
+                                            //will fail if loop number bigger than 35...
+                        };
+                        imaged.setImageResource(imgPaths[newdicenum[finalI/6]]);
+                    }
+                    textd1.setTextSize(textd1size);
+                    textd2.setTextSize(textd2size);
+                }
+            },32*i); //how fast will it update height and pic
+        }
+        builder.setView(view);
 
-        /*builder.setMessage(Html.fromHtml(d.asHtml(), Html.FROM_HTML_MODE_COMPACT))
-                .setTitle(R.string.dice_title);*/
         if(history != null) {
             //history.add(c);
             history.add(d);
