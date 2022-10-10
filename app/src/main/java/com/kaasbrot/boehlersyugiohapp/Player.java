@@ -35,15 +35,8 @@ public class Player {
         this.animator = new ValueAnimator();
         animator.setInterpolator(new DecelerateInterpolator(2));
 
-        // it tells me that I could use a lambda here, such as this:
-        // animator.setEvaluator(((fraction, startValue, endValue) -> Math.round(startValue + (endValue - startValue) * fraction)));
-
-        // ... but I can't. LIAR!
-        animator.setEvaluator(new TypeEvaluator<Integer>() {
-            public Integer evaluate(float fraction, Integer startValue, Integer endValue) {
-                return Math.round(startValue + (endValue - startValue) * fraction);
-            }
-        });
+        animator.setEvaluator((TypeEvaluator<Integer>) (fraction, startValue, endValue) ->
+                Math.round(startValue + (endValue - startValue) * fraction));
 
         this.pointsView = null;
         this.tmpView = null;
@@ -73,14 +66,16 @@ public class Player {
     }
 
     void updateTmpText() {
-        // negative sign is automatically shown, but no + sign :(
-        // added space at the end so it appears centered
-        String content = (tmpCalc > 0 ? "+" : "") + tmpCalc + " ";
-        tmpView.setText(content);
+        setTmpText(tmpCalc);
     }
 
-    void setTmpText(String text) {
-        tmpView.setText(text);
+    void setTmpText(int value) {
+        if(value == 0) {
+            tmpView.setText("");
+        } else {
+            String content = (value > 0 ? "+" : "") + value + " ";
+            tmpView.setText(content);
+        }
     }
 
     /**
@@ -110,7 +105,7 @@ public class Player {
         this.tmpCalc = 0;
         this.points = points;
 
-        setTmpText("");
+        tmpView.setText("");
         updatePointsText();
     }
 
@@ -128,13 +123,9 @@ public class Player {
             // if tmpText should be updated as well, use pre
             final String pre = (added > 0) ? "+" : "";
             animator.addUpdateListener(animation -> {
-                String strValue = String.valueOf(animation.getAnimatedValue());
-                int value = Integer.parseInt(strValue);
-                if(strValue.equals("0"))
-                    setTmpText("");
-                //else
-                //    setTmpText(pre + strValue + " ");
+                int value = (int) animation.getAnimatedValue();
                 setPointsText(String.valueOf(points + added - value));
+                setTmpText(value);
             });
 
             // animation duration, at least 0.5sec, at most 2sec
@@ -154,8 +145,6 @@ public class Player {
      */
     public void divide() {
         cancelTimer();
-
-        setTmpText("\u00F7 2");
 
         // subtract half of the player's points
         // since it's an integer, it's automatically rounded down.
@@ -196,7 +185,7 @@ public class Player {
             @Override
             public void run() {
                 if(tmpCalc == 0) {
-                    setTmpText("");
+                    tmpView.setText("");
                     return;
                 }
 
