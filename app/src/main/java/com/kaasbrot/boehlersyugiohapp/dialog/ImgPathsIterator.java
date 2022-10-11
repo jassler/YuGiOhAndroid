@@ -10,17 +10,15 @@ import java.util.List;
 
 public class ImgPathsIterator implements Iterator<Integer> {
     private int i = 0;
-    private final List<Integer> imgPaths = Arrays.asList(
-            R.drawable.d1,
-            R.drawable.d2,
-            R.drawable.d3,
-            R.drawable.d4,
-            R.drawable.d5,
-            R.drawable.d6
-    );
+    private boolean random;
+    private final List<Integer> imgPaths;
 
-    public ImgPathsIterator() {
-        Collections.shuffle(this.imgPaths);
+    public ImgPathsIterator(boolean random, Integer... paths) {
+        this.imgPaths = Arrays.asList(paths);
+        this.random = random;
+        if(random) {
+            Collections.shuffle(this.imgPaths);
+        }
     }
 
     @Override
@@ -33,7 +31,8 @@ public class ImgPathsIterator implements Iterator<Integer> {
         i += 1;
         if(i >= imgPaths.size()) {
             i = 0;
-            Collections.shuffle(imgPaths);
+            if(random)
+                Collections.shuffle(imgPaths);
         }
         return imgPaths.get(i);
     }

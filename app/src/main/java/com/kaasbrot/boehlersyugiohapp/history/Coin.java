@@ -10,6 +10,8 @@ import android.widget.TextView;
 
 import com.kaasbrot.boehlersyugiohapp.R;
 
+import java.util.Random;
+
 public class Coin implements HistoryElement {
     public enum Toss {
         HEADS('\u2461', "&#x24DA;" ),
@@ -24,12 +26,21 @@ public class Coin implements HistoryElement {
     }
 
     public final Toss toss;
+
     public Coin(Toss toss) {
         this.toss = toss;
     }
 
     public Coin(boolean isHeads) {
         this(isHeads ? Toss.HEADS : Toss.TAILS);
+    }
+
+    public int tossDrawable() {
+        switch(toss) {
+            case HEADS: return R.drawable.heads_aa;
+            case TAILS: return R.drawable.tails_aa;
+            default: throw new RuntimeException("Unknown Toss value " + toss);
+        }
     }
 
     @Override

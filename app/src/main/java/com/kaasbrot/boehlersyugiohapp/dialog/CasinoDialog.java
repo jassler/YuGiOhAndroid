@@ -41,7 +41,7 @@ import java.util.Random;
 public class CasinoDialog extends AppCompatDialogFragment {
 
     private History history;
-    private ImgPathsIterator imgPathsIterator = new ImgPathsIterator();
+    private final ImgPathsIterator imgPathsIterator = new ImgPathsIterator(true);
 
     AnimatorSet animatorSet;
 
