@@ -116,11 +116,14 @@ public class CoinDialog extends AppCompatDialogFragment {
         this.animator.addListener(new Animator.AnimatorListener() {
             public void onAnimationStart(Animator animator) {}
             public void onAnimationEnd(Animator animator) {
+                TextView title = getDialog().findViewById(android.R.id.message);
                 c = new Coin(rand.nextBoolean());
                 if(c.toss == Coin.Toss.HEADS) {
                     imaged.setImageResource(R.drawable.heads_aa);
+                    title.setText(R.string.result_Heads);
                 } else {
                     imaged.setImageResource(R.drawable.tails_aa);
+                    title.setText(R.string.result_Tails);
                 }
                 if(history != null)
                     history.add(c);
