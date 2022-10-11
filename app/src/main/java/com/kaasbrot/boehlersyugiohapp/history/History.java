@@ -1,5 +1,7 @@
 package com.kaasbrot.boehlersyugiohapp.history;
 
+import com.kaasbrot.boehlersyugiohapp.GameInformation;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -88,13 +90,12 @@ public class History {
     }
 
     public void clearHistory() {
-        int lastPoints = history.indexOf(lastPoints());
-        if(history.size() > 1 && lastPoints > 0) {
-            history.subList(0, lastPoints).clear();
-            index = history.size() - 1;
-            lastEntryPlayer = 0;
-            lastEntry = 0;
-        }
+        Points p = lastPoints();
+        history.clear();
+        history.add(p);
+        index = 0;
+        lastEntryPlayer = 0;
+        lastEntry = 0;
     }
 
     public Points undo() {
