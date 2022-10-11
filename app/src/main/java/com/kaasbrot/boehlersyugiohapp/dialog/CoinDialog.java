@@ -43,16 +43,16 @@ public class CoinDialog extends AppCompatDialogFragment {
     private History history;
 
     private Coin c;
+    private TextView titleView;
     private AnimatorSet animation;
     private Animator animator;
 
-    private void play3dAnimation(ImageView imaged, TextView title) {
+    private void play3dAnimation(ImageView imaged) {
         if(animation != null && animation.isRunning()) {
             return;
         }
 
-        Handler handler = new Handler();
-
+        imaged.setImageResource(android.R.color.transparent);
         imaged.setBackgroundResource(R.drawable.coinframes);
         Drawable rocketAnimation = imaged.getBackground();
         if (rocketAnimation instanceof Animatable) {
@@ -61,46 +61,32 @@ public class CoinDialog extends AppCompatDialogFragment {
 
         this.animation = (AnimatorSet) AnimatorInflater.loadAnimator(getActivity(), R.anim.grow);
         this.animation.addListener(new Animator.AnimatorListener() {
-            @Override
-            public void onAnimationStart(Animator animator) {
-
-            }
-
-            @Override
+            public void onAnimationStart(Animator animator) {}
             public void onAnimationEnd(Animator animator) {
-                // remove all callbacks
-                System.out.println("Done");
-                handler.removeCallbacksAndMessages(null);
+                if (rocketAnimation instanceof Animatable) {
+                    ((Animatable)rocketAnimation).stop();
+                }
+                imaged.setBackgroundResource(android.R.color.transparent);
 
                 c = new Coin(rand.nextBoolean());
                 if(c.toss == Coin.Toss.HEADS) {
-                    title.setText(R.string.result_Heads);
-                    // imaged.setImageResource(R.drawable.heads_aa);
+                    if(titleView != null) titleView.setText(R.string.result_Heads);
+                     imaged.setImageResource(R.drawable.heads_aa);
                 } else {
-                    title.setText(R.string.result_Tails);
-                    // imaged.setImageResource(R.drawable.tails_aa);
+                    if(titleView != null) titleView.setText(R.string.result_Tails);
+                     imaged.setImageResource(R.drawable.tails_aa);
                 }
                 if(history != null)
                     history.add(c);
             }
-
-            @Override
-            public void onAnimationCancel(Animator animator) {
-
-            }
-
-            @Override
-            public void onAnimationRepeat(Animator animator) {
-
-            }
+            public void onAnimationCancel(Animator animator) {}
+            public void onAnimationRepeat(Animator animator) {}
         });
         animation.setTarget(imaged);
         animation.start();
-        // Handler handler = new Handler();
-        // updateImage(imaged, handler);
     }
 
-    private void playAnimation(ImageView imaged, TextView title) {
+    private void playAnimation(ImageView imaged) {
         if(animator != null && animator.isRunning()) {
             return;
         }
@@ -150,12 +136,12 @@ public class CoinDialog extends AppCompatDialogFragment {
         view.setClipToOutline(false);
 
         ImageView imaged = view.findViewById(R.id.coinImage);
-        TextView title = view.findViewById(R.id.coinTitle);
         imaged.setScaleX(0.9f);
         imaged.setScaleY(0.9f);
-        imaged.setOnClickListener(view1 -> playAnimation(imaged, title));
 
-        playAnimation(imaged, title);
+        imaged.setOnClickListener(view1 -> playAnimation(imaged));
+        playAnimation(imaged);
+
         builder.setPositiveButton("ok", (dialogInterface, i) -> {});
         return builder.create();
     }
@@ -167,6 +153,13 @@ public class CoinDialog extends AppCompatDialogFragment {
         TextView texts = this.getDialog().findViewById(android.R.id.message);
         texts.setTextSize(30); //144
         texts.setGravity(Gravity.CENTER);
+        this.titleView = texts;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        this.titleView = null;
     }
 
     public Coin getCoin() {
