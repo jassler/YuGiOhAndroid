@@ -87,6 +87,16 @@ public class History {
         return (Points) history.get(i);
     }
 
+    public void clearHistory() {
+        int lastPoints = history.indexOf(lastPoints());
+        if(history.size() > 1 && lastPoints > 0) {
+            history.subList(0, lastPoints).clear();
+            index = history.size() - 1;
+            lastEntryPlayer = 0;
+            lastEntry = 0;
+        }
+    }
+
     public Points undo() {
         if (!canUndo()) {
             return lastPoints();

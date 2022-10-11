@@ -13,6 +13,8 @@ import com.kaasbrot.boehlersyugiohapp.R;
 import com.kaasbrot.boehlersyugiohapp.history.History;
 import com.kaasbrot.boehlersyugiohapp.history.HistoryElement;
 
+import java.util.List;
+
 public class HistoryDialog extends AppCompatDialogFragment {
 
     History history;
@@ -38,7 +40,12 @@ public class HistoryDialog extends AppCompatDialogFragment {
             scroll.fullScroll(View.FOCUS_DOWN);
         });
 
-        builder.setView(parentView).setTitle(R.string.show_history).setPositiveButton("ok", (dialogInterface, i) -> {});
+        builder
+                .setView(parentView)
+                .setTitle(R.string.show_history)
+                .setPositiveButton("ok", (dialogInterface, i) -> {})
+                .setNegativeButton("Clear", ((dialogInterface, i) -> history.clearHistory()))
+        ;
         return builder.create();
     }
 
