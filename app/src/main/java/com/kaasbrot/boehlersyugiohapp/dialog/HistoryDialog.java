@@ -37,7 +37,9 @@ public class HistoryDialog extends AppCompatDialogFragment {
 
         ScrollView scroll = parentView.findViewById(R.id.historyScroll);
         scroll.post(() -> {
+            scroll.setSmoothScrollingEnabled(false);
             scroll.fullScroll(View.FOCUS_DOWN);
+            scroll.setSmoothScrollingEnabled(true);
         });
 
         builder
