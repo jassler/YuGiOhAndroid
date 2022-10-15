@@ -8,6 +8,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
+//retired :')
 public class ImgPathsIterator implements Iterator<Integer> {
     private int i = 0;
     private boolean random;
@@ -50,5 +51,6 @@ public class ImgPathsIterator implements Iterator<Integer> {
         else if(r == R.drawable.d5) return new Dice(5);
         else if(r == R.drawable.d6) return new Dice(6);
         else throw new RuntimeException("Bizarre dice value");
+
     }
 }

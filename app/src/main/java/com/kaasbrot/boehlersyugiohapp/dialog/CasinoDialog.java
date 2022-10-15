@@ -40,36 +40,46 @@ import java.util.Random;
 
 public class CasinoDialog extends AppCompatDialogFragment {
 
+    private final Random rand = new Random();
+
     private History history;
-    private final ImgPathsIterator imgPathsIterator;
+    private Dice d;
+    private Dice scaped;
+    private final int imgtime=120; //100
+    private final int animationtime=350; //300
 
     AnimatorSet animatorSet;
 
-    public CasinoDialog() {
-        this.imgPathsIterator = new ImgPathsIterator(
-                true,
-                R.drawable.d1,
-                R.drawable.d2,
-                R.drawable.d3,
-                R.drawable.d4,
-                R.drawable.d5,
-                R.drawable.d6
-        );
-    }
+    //public CasinoDialog() {}
 
-    private void updateImage(ImageView img) {
+    int numfaces = (int)(Math.ceil((float)animationtime/imgtime));
+    int[] dicesequence = {
+            2,
+            3,
+            0,
+            1,
+            4,
+            5
+    };
+    int[] imgPaths;
+
+    private void updateImage(ImageView img, int i) {
         if(!animatorSet.isRunning()) return;
-        img.setImageResource(imgPathsIterator.next());
-        new Handler().postDelayed(() -> updateImage(img), 100);
+        img.setImageResource(imgPaths[dicesequence[i]]);
+        new Handler().postDelayed(() -> updateImage(img, (i+1)%6), imgtime);
     }
 
     private void playAnimation(View view) {
         if(animatorSet != null && animatorSet.isRunning()) {
             return;
         }
+        d = new Dice(rand.nextInt(6) + 1);
+        //wo d in dicesequence
+        int sequencegoal = Arrays.asList(dicesequence).indexOf(d.roll-1);
+        int sequencestart = (sequencegoal-numfaces+600)%6;
 
-        Animator upup = ObjectAnimator.ofFloat(view, View.TRANSLATION_Y, 0f, -100f).setDuration(300);
-        Animator down = ObjectAnimator.ofFloat(view, View.TRANSLATION_Y, -100f, 0f).setDuration(300);
+        Animator upup = ObjectAnimator.ofFloat(view, View.TRANSLATION_Y, 0f, -120f).setDuration(animationtime);
+        Animator down = ObjectAnimator.ofFloat(view, View.TRANSLATION_Y, -120f, 0f).setDuration(animationtime);
 
         upup.setInterpolator(new DecelerateInterpolator());
         down.setInterpolator(new AccelerateInterpolator());
@@ -82,7 +92,9 @@ public class CasinoDialog extends AppCompatDialogFragment {
 
             @Override
             public void onAnimationEnd(Animator animator) {
-                if(history != null) history.add(imgPathsIterator.generateDiceValue());
+                        if(history != null) history.add(d);
+                        ImageView endpic = view.findViewById(R.id.dicep);
+                        endpic.setImageResource(imgPaths[d.roll-1]);
             }
 
             @Override
@@ -92,20 +104,43 @@ public class CasinoDialog extends AppCompatDialogFragment {
             public void onAnimationRepeat(Animator animator) {}
         });
         animatorSet.start();
-        updateImage(view.findViewById(R.id.dicep));
+        updateImage(view.findViewById(R.id.dicep),sequencestart);
     }
 
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext(), R.style.MyDialogTheme);
+        //d = new Dice(rand.nextInt(6) + 1);
+        scaped = new Dice(rand.nextInt(20) + 1);
         builder.setMessage(R.string.dice_title); //centered title with bigger font than default title
+        //if scape d = 1/20 then different images
+        if(scaped.roll==1){
+            imgPaths = new int[] {
+                    R.drawable.ds1,
+                    R.drawable.ds2,
+                    R.drawable.ds3,
+                    R.drawable.ds4,
+                    R.drawable.ds5,
+                    R.drawable.ds6
+            };}
+        else{
+        imgPaths = new int[] {
+                R.drawable.d1,
+                R.drawable.d2,
+                R.drawable.d3,
+                R.drawable.d4,
+                R.drawable.d5,
+                R.drawable.d6
+        };}
+
 
         LayoutInflater factory = LayoutInflater.from(getContext());
         View view = factory.inflate(R.layout.dice_layout, null);
         builder.setView(view);
 
         ImageView imaged = view.findViewById(R.id.dicep);
+        imaged.setImageResource(imgPaths[1]);
         imaged.setOnClickListener(view1 -> playAnimation(view));
         playAnimation(view);
         builder.setPositiveButton("ok", (dialogInterface, i) -> {});
