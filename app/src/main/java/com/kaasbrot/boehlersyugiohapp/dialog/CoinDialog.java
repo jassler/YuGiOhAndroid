@@ -86,24 +86,40 @@ public class CoinDialog extends AppCompatDialogFragment {
         animation.start();
     }
 
+    String last;
     private void playAnimation(ImageView imaged) {
         if(animator != null && animator.isRunning()) {
             return;
         }
-
+        if(c == null){last="h";}else if(c.toss == Coin.Toss.HEADS) {
+            last="h";
+        } else {
+            last="t";
+        };
+        c = new Coin(rand.nextBoolean());
         // need to set transparent first, otherwise circle with transparent background
         // is just printed on top of other image
         imaged.setImageResource(android.R.color.transparent);
-        imaged.setImageResource(R.drawable.circle);
+        //imaged.setImageResource(R.drawable.heails);
+        if(last.equals("h")) {
+            imaged.setImageResource(R.drawable.heads_aa);
+        } else {
+            imaged.setImageResource(R.drawable.tails_aa);
+        }
 
-        this.animator = ObjectAnimator.ofFloat(imaged, View.ROTATION_Y, 0, 8*180);
+
+        this.animator = ObjectAnimator.ofFloat(imaged, View.ROTATION_Y, 0, 6*180);
         this.animator.setInterpolator(new AccelerateDecelerateInterpolator());
-        this.animator.setDuration(1000);
+        this.animator.setDuration(1080);
         this.animator.addListener(new Animator.AnimatorListener() {
-            public void onAnimationStart(Animator animator) {}
+            public void onAnimationStart(Animator animator) {
+                if(getDialog()!= null){
+                    TextView title = getDialog().findViewById(android.R.id.message);
+                    title.setText("...");
+                }
+            }
             public void onAnimationEnd(Animator animator) {
                 TextView title = getDialog().findViewById(android.R.id.message);
-                c = new Coin(rand.nextBoolean());
                 if(c.toss == Coin.Toss.HEADS) {
                     imaged.setImageResource(R.drawable.heads_aa);
                     title.setText(R.string.result_Heads);
@@ -119,6 +135,25 @@ public class CoinDialog extends AppCompatDialogFragment {
         });
 
         this.animator.start();
+        new Handler().postDelayed(new Runnable(){
+            @Override
+            public void run() {
+                imaged.setImageResource(R.drawable.heails);
+            }
+        },125);
+        new Handler().postDelayed(new Runnable(){
+            @Override
+            public void run() {
+                if(c.toss == Coin.Toss.HEADS) {
+                    imaged.setImageResource(R.drawable.heads_aa);
+                } else {
+                    imaged.setImageResource(R.drawable.tails_aa);
+                }
+            }
+        },875);
+
+
+
     }
 
 
@@ -130,7 +165,7 @@ public class CoinDialog extends AppCompatDialogFragment {
         LayoutInflater factory = LayoutInflater.from(getContext());
         View view = factory.inflate(R.layout.coin, null);
         builder.setView(view);
-        builder.setMessage("");
+        builder.setMessage("...");
 
         // make sure coin is not cut off at the top and bottom
         view.setClipToOutline(false);
