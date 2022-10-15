@@ -47,6 +47,21 @@ public class CoinDialog extends AppCompatDialogFragment {
     private AnimatorSet animation;
     private Animator animator;
 
+    private Animation coinAnimation;
+
+    private void playOtherAnimation(ImageView imaged) {
+        if(coinAnimation != null && !coinAnimation.hasEnded()) {
+            return;
+        }
+
+        imaged.setImageResource(R.drawable.heads_aa);
+        coinAnimation = new CoinAnimation(imaged, R.drawable.heads_aa, R.drawable.tails_aa, 0, 0, 0,0, 0, 0);
+        coinAnimation.setRepeatCount(5);
+        coinAnimation.setDuration(350);
+        coinAnimation.setInterpolator(new LinearInterpolator());
+        imaged.startAnimation(coinAnimation);
+    }
+
     private void play3dAnimation(ImageView imaged) {
         if(animation != null && animation.isRunning()) {
             return;
@@ -96,6 +111,8 @@ public class CoinDialog extends AppCompatDialogFragment {
         imaged.setImageResource(android.R.color.transparent);
         imaged.setImageResource(R.drawable.circle);
 
+
+
         this.animator = ObjectAnimator.ofFloat(imaged, View.ROTATION_Y, 0, 8*180);
         this.animator.setInterpolator(new AccelerateDecelerateInterpolator());
         this.animator.setDuration(1000);
@@ -136,11 +153,11 @@ public class CoinDialog extends AppCompatDialogFragment {
         view.setClipToOutline(false);
 
         ImageView imaged = view.findViewById(R.id.coinImage);
-        imaged.setScaleX(0.9f);
-        imaged.setScaleY(0.9f);
+        imaged.setScaleX(0.5f);
+        imaged.setScaleY(0.5f);
 
-        imaged.setOnClickListener(view1 -> playAnimation(imaged));
-        playAnimation(imaged);
+        imaged.setOnClickListener(view1 -> playOtherAnimation(imaged));
+        playOtherAnimation(imaged);
 
         builder.setPositiveButton("ok", (dialogInterface, i) -> {});
         return builder.create();
