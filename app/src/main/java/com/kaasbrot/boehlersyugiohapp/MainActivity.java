@@ -21,6 +21,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.List;
 import java.util.Random;
 
 import android.os.*; //and this
@@ -33,6 +34,7 @@ import com.kaasbrot.boehlersyugiohapp.dialog.CoinDialog;
 import com.kaasbrot.boehlersyugiohapp.dialog.CoinsDialog;
 import com.kaasbrot.boehlersyugiohapp.dialog.HistoryDialog;
 import com.kaasbrot.boehlersyugiohapp.dialog.CasinoDialog;
+import com.kaasbrot.boehlersyugiohapp.history.HistoryElement;
 import com.kaasbrot.boehlersyugiohapp.history.NewGame;
 import com.kaasbrot.boehlersyugiohapp.history.Points;
 
@@ -418,9 +420,9 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
         p2.reset(8000);
         //Dialog "Neues Duell" hinzufügen
 
-        if(history.getHistory().get(history.getHistory().size() - 1) instanceof NewGame) {
+        List<HistoryElement> h = history.getHistory();
+        if(h.size() <= 1 || h.get(h.size()-2) instanceof NewGame)
             return;
-        }
 
         history.add(new NewGame());
         history.add(p1.points, p2.points);
