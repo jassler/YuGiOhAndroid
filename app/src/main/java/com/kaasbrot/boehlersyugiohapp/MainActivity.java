@@ -417,6 +417,11 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
         p1.reset(8000);
         p2.reset(8000);
         //Dialog "Neues Duell" hinzufügen
+
+        if(history.getHistory().get(history.getHistory().size() - 1) instanceof NewGame) {
+            return;
+        }
+
         history.add(new NewGame());
         history.add(p1.points, p2.points);
     }

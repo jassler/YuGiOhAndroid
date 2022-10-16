@@ -78,7 +78,7 @@ public class CoinDialog extends AppCompatDialogFragment {
             last="t";
         };
         c = new Coin(rand.nextBoolean());
-        timerotation = 80*2; //should be even
+        timerotation = 100*2; //should be even
         numrotation = 6;
         Double[] timingsrotation = { //timings for 6 rotations
                 1.1,
@@ -133,13 +133,17 @@ public class CoinDialog extends AppCompatDialogFragment {
                 new Handler().postDelayed(new Runnable(){
                     @Override
                     public void run() {
-                        if(getDialog()!= null){
+                        if(getDialog() != null) {
                             TextView title = getDialog().findViewById(android.R.id.message);
-                        title.setText("...");}
+                            title.setText("...");
+                        }
                     }
                 },(long)(timerotation*numrotation/2));
             }
             public void onAnimationEnd(Animator animator) {
+                if(getDialog() == null) {
+                    return;
+                }
                 TextView title = getDialog().findViewById(android.R.id.message);
                 if(c.toss == Coin.Toss.HEADS) {
                     //imaged.setImageResource(R.drawable.heads_aa);
