@@ -43,7 +43,11 @@ public class CoinDialog extends AppCompatDialogFragment {
     private History history;
 
     private Coin c;
+    //used in playAnimation
+    private int timerotation;
+    private int numrotation;
     private TextView titleView;
+    //used in playOtherAnimation
     private AnimatorSet animation;
     private Animator animator;
 
@@ -62,44 +66,6 @@ public class CoinDialog extends AppCompatDialogFragment {
         imaged.startAnimation(coinAnimation);
     }
 
-    private void play3dAnimation(ImageView imaged) {
-        if(animation != null && animation.isRunning()) {
-            return;
-        }
-
-        imaged.setImageResource(android.R.color.transparent);
-        imaged.setBackgroundResource(R.drawable.coinframes);
-        Drawable rocketAnimation = imaged.getBackground();
-        if (rocketAnimation instanceof Animatable) {
-            ((Animatable)rocketAnimation).start();
-        }
-
-        this.animation = (AnimatorSet) AnimatorInflater.loadAnimator(getActivity(), R.anim.grow);
-        this.animation.addListener(new Animator.AnimatorListener() {
-            public void onAnimationStart(Animator animator) {}
-            public void onAnimationEnd(Animator animator) {
-                if (rocketAnimation instanceof Animatable) {
-                    ((Animatable)rocketAnimation).stop();
-                }
-                imaged.setBackgroundResource(android.R.color.transparent);
-
-                c = new Coin(rand.nextBoolean());
-                if(c.toss == Coin.Toss.HEADS) {
-                    if(titleView != null) titleView.setText(R.string.result_Heads);
-                     imaged.setImageResource(R.drawable.heads_aa);
-                } else {
-                    if(titleView != null) titleView.setText(R.string.result_Tails);
-                     imaged.setImageResource(R.drawable.tails_aa);
-                }
-                if(history != null)
-                    history.add(c);
-            }
-            public void onAnimationCancel(Animator animator) {}
-            public void onAnimationRepeat(Animator animator) {}
-        });
-        animation.setTarget(imaged);
-        animation.start();
-    }
 
     String last;
     private void playAnimation(ImageView imaged) {
@@ -112,6 +78,38 @@ public class CoinDialog extends AppCompatDialogFragment {
             last="t";
         };
         c = new Coin(rand.nextBoolean());
+        timerotation = 80*2; //should be even
+        numrotation = 6;
+        Double[] timingsrotation = { //timings for 6 rotations
+                1.1,
+                2.0,
+                2.78,
+                3.39,
+                4.0,
+                4.96
+        };
+        /*Double[] timingsrotation = {
+                1.3,
+                2.3,
+                3.1,
+                3.70,
+                4.3,
+                4.95,
+                5.75,
+                6.65
+        };*/ //timings for 8 rotations
+        /*Double[] timingsrotation = {
+                1.43,
+                2.48,
+                3.18,
+                3.88,
+                4.47,
+                5.19,
+                5.81,
+                6.59,
+                7.56
+        };*/ //timings for 9 rotations
+
         // need to set transparent first, otherwise circle with transparent background
         // is just printed on top of other image
         imaged.setImageResource(android.R.color.transparent);
@@ -122,24 +120,32 @@ public class CoinDialog extends AppCompatDialogFragment {
             imaged.setImageResource(R.drawable.tails_aa);
         }
 
-        this.animator = ObjectAnimator.ofFloat(imaged, View.ROTATION_Y, 0, 8*180);
-        this.animator = ObjectAnimator.ofFloat(imaged, View.ROTATION_Y, 0, 6*180);
+        this.animator = ObjectAnimator.ofFloat(imaged, View.ROTATION_Y, 0, 180*numrotation);
         this.animator.setInterpolator(new AccelerateDecelerateInterpolator());
-        this.animator.setDuration(1080);
+        this.animator.setDuration(timerotation*numrotation);
         this.animator.addListener(new Animator.AnimatorListener() {
             public void onAnimationStart(Animator animator) {
                 if(getDialog()!= null){
                     TextView title = getDialog().findViewById(android.R.id.message);
-                    title.setText("...");
+                    title.setText("..");
+
                 }
+                new Handler().postDelayed(new Runnable(){
+                    @Override
+                    public void run() {
+                        if(getDialog()!= null){
+                            TextView title = getDialog().findViewById(android.R.id.message);
+                        title.setText("...");}
+                    }
+                },(long)(timerotation*numrotation/2));
             }
             public void onAnimationEnd(Animator animator) {
                 TextView title = getDialog().findViewById(android.R.id.message);
                 if(c.toss == Coin.Toss.HEADS) {
-                    imaged.setImageResource(R.drawable.heads_aa);
+                    //imaged.setImageResource(R.drawable.heads_aa);
                     title.setText(R.string.result_Heads);
                 } else {
-                    imaged.setImageResource(R.drawable.tails_aa);
+                    //imaged.setImageResource(R.drawable.tails_aa);
                     title.setText(R.string.result_Tails);
                 }
                 if(history != null)
@@ -149,13 +155,24 @@ public class CoinDialog extends AppCompatDialogFragment {
             public void onAnimationRepeat(Animator animator) {}
         });
 
-        this.animator.start();
-        new Handler().postDelayed(new Runnable(){
-            @Override
-            public void run() {
-                imaged.setImageResource(R.drawable.heails);
+        for (int i = 1; i < numrotation; i++) {
+            if((i %2)==1){
+                new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    imaged.setImageResource(R.drawable.heailsm);
+                }
+            }, (long)(timerotation* timingsrotation[i-1]));
+            }else{
+                new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    imaged.setImageResource(R.drawable.heails);
+                }
+            }, (long)(timerotation* timingsrotation[i-1]));
             }
-        },125);
+        }
+
         new Handler().postDelayed(new Runnable(){
             @Override
             public void run() {
@@ -165,10 +182,9 @@ public class CoinDialog extends AppCompatDialogFragment {
                     imaged.setImageResource(R.drawable.tails_aa);
                 }
             }
-        },875);
+        },(long)(timerotation*timingsrotation[timingsrotation.length-1]));
 
-
-
+        this.animator.start();
     }
 
 
@@ -180,20 +196,21 @@ public class CoinDialog extends AppCompatDialogFragment {
         LayoutInflater factory = LayoutInflater.from(getContext());
         View view = factory.inflate(R.layout.coin, null);
         builder.setView(view);
-        builder.setMessage("...");
+        builder.setMessage("..");
 
         // make sure coin is not cut off at the top and bottom
         view.setClipToOutline(false);
 
         ImageView imaged = view.findViewById(R.id.coinImage);
-        imaged.setScaleX(0.5f);
-        imaged.setScaleY(0.5f);
+        imaged.setScaleX(1f);
+        imaged.setScaleY(1f);
 
-        imaged.setOnClickListener(view1 -> playOtherAnimation(imaged));
-        playOtherAnimation(imaged);
+        imaged.setOnClickListener(view1 -> playAnimation(imaged));
+        playAnimation(imaged);
 
         builder.setPositiveButton("ok", (dialogInterface, i) -> {});
         return builder.create();
+
     }
 
     @Override
