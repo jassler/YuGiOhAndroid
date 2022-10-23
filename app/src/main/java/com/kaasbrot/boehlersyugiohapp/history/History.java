@@ -1,7 +1,5 @@
 package com.kaasbrot.boehlersyugiohapp.history;
 
-import com.kaasbrot.boehlersyugiohapp.GameInformation;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,22 +16,12 @@ public class History {
 
     public History(int startP1, int startP2) {
         history = new ArrayList<>();
-        history.add(new Points(startP1, startP2, this::prevPointsFrom));
+        history.add(new Points(startP1, startP2));
         index = 0;
         lastEntry = 0;
         lastEntryPlayer = 0;
     }
 
-    public Points prevPointsFrom(Points p) {
-        for (int i = history.indexOf(p) - 1; i >= 0; i--) {
-            HistoryElement element = history.get(i);
-            if(element instanceof Points)
-                return (Points) element;
-            if(element instanceof NewGame)
-                return null;
-        }
-        return null;
-    }
 
     private void addToIndex(HistoryElement element) {
         // if index is in the middle of the list (which happens after undo),
@@ -46,8 +34,32 @@ public class History {
         index = history.size() - 1;
     }
 
+    /**
+     * Find last points object in History. If there is a NewGame element in the way,
+     * it returns null to signalize: "Yo, this is the first points element of the game."
+     *
+     * @return Last points object in history, or null if it's the first points object after a
+     * NewGame.
+     */
+    private Points prevPointsForDiff() {
+        for (int i = index; i >= 0; i--) {
+            HistoryElement element = history.get(i);
+            if(element instanceof Points)
+                return (Points) element;
+            if(element instanceof NewGame)
+                return null;
+        }
+        return null;
+    }
+
+    /**
+     * Add new points object to game.
+     *
+     * @param p1 Current life points of player 1
+     * @param p2 Current life points of player 2
+     */
     public void add(int p1, int p2) {
-        Points current = lastPoints();
+        Points current = getLastPoints();
 
         // if points are the same as before, ignore
         if(p1 == current.p1 && p2 == current.p2)
@@ -59,7 +71,7 @@ public class History {
                 (p1 != current.p1 && p2 == current.p2 && lastEntryPlayer == 2) ||
                 (p1 == current.p1 && p2 != current.p2 && lastEntryPlayer == 1)
         )) {
-            history.set(index, new Points(p1, p2, this::prevPointsFrom));
+            history.set(index, new Points(p1, p2, prevPointsForDiff()));
             lastEntryPlayer = 0;
 
         } else {
@@ -72,15 +84,32 @@ public class History {
             else
                 lastEntryPlayer = 0;
 
-            addToIndex(new Points(p1, p2, this::prevPointsFrom));
+            addToIndex(new Points(p1, p2, prevPointsForDiff()));
         }
     }
 
+    /**
+     * Add arbitrary HistoryElement object.
+     *
+     * NOTE: for Point objects, it is strongly advised
+     * to call {@link #add(int p1, int p2)} instead.
+     *
+     * @param e History element
+     */
     public void add(HistoryElement e) {
         addToIndex(e);
     }
 
-    public Points lastPoints() {
+    /**
+     * Get the most current Point object in history.
+     *
+     * History may be muddied with NewGame, Coin, Dice
+     * or other HistoryElement objects, so to easily access the current life points for each
+     * player, this method may be called.
+     *
+     * @return Most current Point object
+     */
+    public Points getLastPoints() {
         int i = index;
         while (!(history.get(i) instanceof Points)) {
             i--;
@@ -89,8 +118,11 @@ public class History {
         return (Points) history.get(i);
     }
 
+    /**
+     * Deletes everything in history, only keeps the most current points (see {@link #getLastPoints()}.
+     */
     public void clearHistory() {
-        Points p = lastPoints();
+        Points p = getLastPoints();
         history.clear();
         history.add(p);
         index = 0;
@@ -100,7 +132,7 @@ public class History {
 
     public Points undo() {
         if (!canUndo()) {
-            return lastPoints();
+            return getLastPoints();
         }
 
         lastEntryPlayer = 0;
@@ -113,7 +145,7 @@ public class History {
 
     public Points redo() {
         if (!canRedo()) {
-            return lastPoints();
+            return getLastPoints();
         }
 
         lastEntryPlayer = 0;
@@ -121,7 +153,7 @@ public class History {
             index++;
         } while (canRedo() && !(history.get(index) instanceof Points));
 
-        return lastPoints();
+        return getLastPoints();
     }
 
     public boolean canUndo() {
@@ -129,7 +161,7 @@ public class History {
     }
 
     public boolean canRedo() {
-        return index < history.size() - 1;
+        return index < history.indexOf(getLastPoints());
     }
 
     public HistoryElement getCurrentEntry() {
