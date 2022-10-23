@@ -106,8 +106,8 @@ public class GameTimer {
 
     public void setSecondsPassed(int seconds) {
         paused = (1000 * (long) seconds);
-        //if (seconds == 0) //these two lines caused some issues if you restart and hide
-        //    this.started = 0; //while still 00:00, might cause issues.
+        if (seconds == 0 && !isRunning()) //these two lines caused some issues if you restart and hide
+            this.started = 0; //while still 00:00, might cause issues.
         updateTimerText();
     }
 
