@@ -59,6 +59,8 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
     CasinoDialog casinoDialog;
     CoinDialog coinDialog;
     CoinsDialog coinsDialog;
+    TextView abovetimertext;
+    int abovetimersize = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,6 +92,9 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
 
         coinsDialog = new CoinsDialog();
         coinsDialog.setHistory(history);
+
+        abovetimertext = findViewById(R.id.AboveTimer);
+        abovetimertext.setTextSize(abovetimersize);
     }
 
     /**
@@ -189,9 +194,11 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
 
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(currentMenu, menu);
-        redoButton = menu.findItem(R.id.action_redo);
+
+         redoButton = menu.findItem(R.id.action_redo);
         undoButton = menu.findItem(R.id.action_undo);
-        timerShowButton = menu.findItem(R.id.action_start_timer);
+
+       timerShowButton = menu.findItem(R.id.action_start_timer);
 
         MenuItem timerButton = menu.findItem(R.id.action_start_timer);
         if(gameTimer.isTimerVisible()) {
@@ -204,7 +211,7 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
         // setTitle("⏰");
 
         // check if undo/redo Buttons should be enabled
-        determineButtonEnable();
+        // determineButtonEnable();
 
         return true;
     }
@@ -221,7 +228,11 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         // int id = item.getItemId();
-
+            switch (item.getItemId()) {
+                case R.id.action_show_casino:
+                    showCasino();
+                    return true;
+            }
         return super.onOptionsItemSelected(item);
     }
 
@@ -462,6 +473,11 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
         historyAction(history.redo());
     }
 
+    private int toggletimercooldown;
+    private int toggletimermin = 0;
+    private int toggletimermax = 60;
+    private int toggletimertime = 480;
+    private int toggletimerfrequency = 30;
     /**
      * Called from Toolbar
      * If timer is running, stop and hide timer.
@@ -469,11 +485,42 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
      * @param item Timer menu item. Text is updated whether timer is shown or not.
      */
     public void toggleTimerVisibility(MenuItem item) {
+        if (toggletimercooldown == 1) {
+        } else {
+            toggletimercooldown = 1;
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    toggletimercooldown = 0;
+                }
+            }, 500);
+
         if (gameTimer.isTimerVisible()) {
             clearTimerTextFocus();
+            abovetimersize = toggletimermax;
+            for (int i = 0; i < toggletimerfrequency; i++){
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        abovetimersize = abovetimersize-(toggletimermax-toggletimermin)/(toggletimerfrequency);
+                        abovetimertext.setTextSize(abovetimersize);
+                    }
+                }, (toggletimertime/toggletimerfrequency)*i);
+            }
+        } else {
+            abovetimersize = toggletimermin;
+            for (int i = 0; i < toggletimerfrequency; i++){
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        abovetimersize = abovetimersize+(toggletimermax-toggletimermin)/(toggletimerfrequency);
+                        abovetimertext.setTextSize(abovetimersize);
+                    }
+                }, (toggletimertime/toggletimerfrequency)*i);
         }
-        gameTimer.toggleTimerVisibility(item);
-    }
+        }
+            gameTimer.toggleTimerVisibility(item);
+    }}
 
     public void toggleTimer(View v) {
         // hide keyboard when user is editing time
@@ -497,7 +544,7 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
 
         // 2. Chain together various setter methods to set the dialog characteristics
         builder.setMessage("...sind leider eingestellt worden.")
-                .setTitle("Einstellungen");
+                .setTitle(R.string.settings);
 
         // 3. Get the <code><a href="/reference/android/app/AlertDialog.html">AlertDialog</a></code> from <code><a href="/reference/android/app/AlertDialog.Builder.html#create()">create()</a></code>
         AlertDialog dialog = builder.create();
@@ -511,7 +558,7 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
     //cooldown for dice
     private int dicecooldown = 0;
 
-    public void showCasino(MenuItem item) {
+    public void showCasino() {
         if(dicecooldown==1) { } else
         {
             dicecooldown=1;
@@ -551,6 +598,27 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
             case MotionEvent.ACTION_DOWN:
                 y1 = (int) event.getY();
                 break;
+            case MotionEvent.ACTION_MOVE:
+                y2 = (int) event.getY();
+                deltaY = y2 - y1;
+                if (Math.abs(deltaY) > MIN_DISTANCE) {
+
+
+                    if (deltaY > 0 && !gameTimer.isTimerVisible()) {
+                        // down gesture, show timer
+                       toggleTimerVisibility(timerShowButton);
+                    } else if (deltaY < 0 && gameTimer.isTimerVisible()) {
+                        // up gesture, hide timer
+                       toggleTimerVisibility(timerShowButton);
+                    }}
+                break;
+        }
+
+        /*int deltaY;
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                y1 = (int) event.getY();
+                break;
             case MotionEvent.ACTION_UP:
                 y2 = (int) event.getY();
                 deltaY = y2 - y1;
@@ -582,7 +650,7 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
                         layout.setMargins(left, deltaY + MIN_DISTANCE + gameTimer.getCurrentMarginTop(), right, bottom);
                     }
                 }
-        }
+        }*/ //old drag down stuff
         return super.onTouchEvent(event);
     }
 
@@ -648,7 +716,8 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
 
         toolbar = findViewById(toolbar_id);
         setSupportActionBar(toolbar);
-
+        abovetimertext = findViewById(R.id.AboveTimer);
+        abovetimertext.setTextSize(abovetimersize);
         updateComponentActivities();
     }
 }

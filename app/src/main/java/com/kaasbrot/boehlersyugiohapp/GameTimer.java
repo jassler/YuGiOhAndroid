@@ -22,6 +22,7 @@ public class GameTimer {
     private ValueAnimator animator;
 
     private View viewTimer;
+    private View activity_main;
     private TextView textTimer;
     private ImageButton startStopButton;
 
@@ -147,8 +148,8 @@ public class GameTimer {
         if(timerVisible) {
             // show timer
             item.setTitle(R.string.hide_timer);
-            marginTop = textTimer.getHeight() + 8;
-            animateTimerMovement(layout.topMargin, marginTop, layout);
+            //marginTop = textTimer.getHeight() + 8; //old animation
+            //animateTimerMovement(layout.topMargin, marginTop, layout);
 
             //if(running) { repeatingCall.run(); }
             toggleTimer();
@@ -156,8 +157,8 @@ public class GameTimer {
         } else {
             // hide timer
             item.setTitle(R.string.show_timer);
-            marginTop = 0;
-            animateTimerMovement(layout.topMargin, marginTop, layout);
+            //marginTop = 0; //old animation
+            //animateTimerMovement(layout.topMargin, marginTop, layout);
 
             // don't have to update timer every second
             handler.removeCallbacks(repeatingCall);
