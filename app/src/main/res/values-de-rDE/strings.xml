@@ -19,4 +19,5 @@
     <string name="coin_title">Münze</string>
     <string name="result_Heads">Kopf</string>
     <string name="result_Tails">Zahl</string>
+    <string name="clear_text">Löschen</string>
 </resources>

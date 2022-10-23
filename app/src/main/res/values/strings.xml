@@ -26,4 +26,5 @@
     <string name="result_tails">tails</string>
     <string name="result_Heads">Heads</string>
     <string name="result_Tails">Tails</string>
+    <string name="clear_text">Clear</string>
 </resources>

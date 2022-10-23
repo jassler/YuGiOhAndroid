@@ -46,7 +46,7 @@ public class HistoryDialog extends AppCompatDialogFragment {
                 .setView(parentView)
                 .setTitle(R.string.show_history)
                 .setPositiveButton("ok", (dialogInterface, i) -> {})
-                .setNegativeButton("Clear", ((dialogInterface, i) -> history.clearHistory()))
+                .setNegativeButton(R.string.clear_text, ((dialogInterface, i) -> history.clearHistory()))
         ;
         return builder.create();
     }
