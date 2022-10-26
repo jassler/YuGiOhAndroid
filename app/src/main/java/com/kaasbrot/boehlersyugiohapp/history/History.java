@@ -35,6 +35,15 @@ public class History {
         this.editor = editor;
     }
 
+    private void updateLocalStorage() {
+        if(editor != null) {
+            editor.putString("history", new Gson().toJson(this.history));
+            // apply called asynchronously, calling commit would be done synchronously.
+            // From my understanding, a second commit will wait for the first apply to finish.
+            editor.apply();
+        }
+    }
+
     private void addToIndex(HistoryElement element) {
         // if index is in the middle of the list (which happens after undo),
         // remove everything after index
@@ -45,12 +54,7 @@ public class History {
         history.add(element);
         index = history.size() - 1;
 
-        if(editor != null) {
-            editor.putString("history", new Gson().toJson(this.history));
-            // apply called asynchronously, calling commit would be done synchronously.
-            // From my understanding, a second commit will wait for the first apply to finish.
-            editor.apply();
-        }
+        updateLocalStorage();
     }
 
     /**
@@ -147,6 +151,8 @@ public class History {
         index = 0;
         lastEntryPlayer = 0;
         lastEntry = 0;
+
+        updateLocalStorage();
     }
 
     public Points undo() {
