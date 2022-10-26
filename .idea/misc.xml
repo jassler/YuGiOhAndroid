@@ -3,6 +3,9 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/bluem/StudioProjects/YuGiOhAndroid/app/src/main/res/drawable/add_button.xml" value="0.169" />
+        <entry key="..\:/Users/bluem/StudioProjects/YuGiOhAndroid/app/src/main/res/drawable/add_button_pressed.xml" value="0.169" />
+        <entry key="..\:/Users/bluem/StudioProjects/YuGiOhAndroid/app/src/main/res/drawable/add_button_released.xml" value="0.169" />
         <entry key="..\:/Users/bluem/StudioProjects/YuGiOhAndroid/app/src/main/res/drawable/border_bottom.xml" value="0.2595" />
         <entry key="..\:/Users/bluem/StudioProjects/YuGiOhAndroid/app/src/main/res/drawable/coinframes.xml" value="0.102" />
         <entry key="..\:/Users/bluem/StudioProjects/YuGiOhAndroid/app/src/main/res/drawable/d1.xml" value="0.167" />
@@ -11,6 +14,8 @@
         <entry key="..\:/Users/bluem/StudioProjects/YuGiOhAndroid/app/src/main/res/drawable/d4.xml" value="0.167" />
         <entry key="..\:/Users/bluem/StudioProjects/YuGiOhAndroid/app/src/main/res/drawable/d5.xml" value="0.167" />
         <entry key="..\:/Users/bluem/StudioProjects/YuGiOhAndroid/app/src/main/res/drawable/d6.xml" value="0.167" />
+        <entry key="..\:/Users/bluem/StudioProjects/YuGiOhAndroid/app/src/main/res/drawable/dial_button_released.xml" value="0.169" />
+        <entry key="..\:/Users/bluem/StudioProjects/YuGiOhAndroid/app/src/main/res/drawable/div_button.xml" value="0.169" />
         <entry key="..\:/Users/bluem/StudioProjects/YuGiOhAndroid/app/src/main/res/drawable/ds1.xml" value="0.167" />
         <entry key="..\:/Users/bluem/StudioProjects/YuGiOhAndroid/app/src/main/res/drawable/ds2.xml" value="0.167" />
         <entry key="..\:/Users/bluem/StudioProjects/YuGiOhAndroid/app/src/main/res/drawable/ds3.xml" value="0.167" />
@@ -20,12 +25,12 @@
         <entry key="..\:/Users/bluem/StudioProjects/YuGiOhAndroid/app/src/main/res/drawable/ic_baseline_dialpad_24px.xml" value="0.1005" />
         <entry key="..\:/Users/bluem/StudioProjects/YuGiOhAndroid/app/src/main/res/drawable/ic_baseline_exposure_24px.xml" value="0.1005" />
         <entry key="..\:/Users/bluem/StudioProjects/YuGiOhAndroid/app/src/main/res/drawable/ic_baseline_redo_24px.xml" value="0.1005" />
-        <entry key="..\:/Users/bluem/StudioProjects/YuGiOhAndroid/app/src/main/res/drawable/ic_baseline_undo_24px.xml" value="0.1005" />
+        <entry key="..\:/Users/bluem/StudioProjects/YuGiOhAndroid/app/src/main/res/drawable/ic_baseline_undo_24px.xml" value="0.10400000000000001" />
         <entry key="..\:/Users/bluem/StudioProjects/YuGiOhAndroid/app/src/main/res/drawable/ic_coin.xml" value="0.1005" />
         <entry key="..\:/Users/bluem/StudioProjects/YuGiOhAndroid/app/src/main/res/drawable/ic_dice.xml" value="0.1005" />
         <entry key="..\:/Users/bluem/StudioProjects/YuGiOhAndroid/app/src/main/res/drawable/ic_ds1.xml" value="0.167" />
         <entry key="..\:/Users/bluem/StudioProjects/YuGiOhAndroid/app/src/main/res/drawable/ic_launcher_background.xml" value="0.1005" />
-        <entry key="..\:/Users/bluem/StudioProjects/YuGiOhAndroid/app/src/main/res/layout/activity_main.xml" value="0.2" />
+        <entry key="..\:/Users/bluem/StudioProjects/YuGiOhAndroid/app/src/main/res/layout/activity_main.xml" value="0.264" />
         <entry key="..\:/Users/bluem/StudioProjects/YuGiOhAndroid/app/src/main/res/layout/activity_points.xml" value="0.2246153846153846" />
         <entry key="..\:/Users/bluem/StudioProjects/YuGiOhAndroid/app/src/main/res/layout/coin.xml" value="0.2" />
         <entry key="..\:/Users/bluem/StudioProjects/YuGiOhAndroid/app/src/main/res/layout/coin2.xml" value="0.245018115942029" />

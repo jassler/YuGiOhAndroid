@@ -2,7 +2,11 @@ package com.kaasbrot.boehlersyugiohapp;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
 import android.graphics.Point;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.constraint.ConstraintSet;
@@ -34,6 +38,7 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.Vector;
 
 import android.os.*; //and this
 
@@ -65,6 +70,9 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
     int screen_height;
     int screen_width;
     int screen_ratio;
+    int screen_height_sp;
+    int screen_width_sp;
+
     int toggletimermax;
     int toggletimerfrequency;
     int actionbar_height;
@@ -165,17 +173,20 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
         screen_width = m_size.x;
         screen_height = m_size.y;
         screen_ratio = screen_height/screen_width;
+        screen_width_sp = (int)(screen_width / getResources().getDisplayMetrics().scaledDensity);
+        screen_height_sp = (int)(screen_height / getResources().getDisplayMetrics().scaledDensity);
+
         if(screen_ratio > 2){belowtimersize = 30;} else {belowtimersize = 0;}
-        if(screen_height > 1200){
+        if(screen_height_sp > 650){
             toggletimermax=60;
             toggletimerfrequency = 30;
             lifetextsize=30;
             numberbuttontextsize=32;
             timertextsize=24;
-        }else{if(screen_height > 900){
+        }else{if(screen_height_sp > 580){
             toggletimermax=55;
             toggletimerfrequency = 20;
-            lifetextsize=24;
+            lifetextsize=20;
             numberbuttontextsize=26;
             timertextsize=20;
         }else{
@@ -190,6 +201,13 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
     public void getActionBarHeight() {
         actionbar_height = toolbar.getLayoutParams().height;
         actionbar_width = toolbar.getLayoutParams().width;
+
+    }
+
+    public static float pixelsToSp(Context context, float px) {
+        float scaledDensity = context.getResources().getDisplayMetrics().scaledDensity;
+        return px/scaledDensity;
+        //pixelsToSp(getActivity(), number);
     }
 
     public void AdjustToScreen() {
@@ -332,10 +350,10 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
         // check if undo/redo Buttons should be enabled
         // determineButtonEnable();
         mOptionsMenu = menu;
-        if(screen_width < 1000) {
+        if(screen_width_sp < 380) {
             mOptionsMenu.getItem(6).setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
         }
-        if(screen_width < 600) {
+        if(screen_width_sp < 320) {
             mOptionsMenu.getItem(3).setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
         }
         AdjustToScreen();
@@ -622,29 +640,43 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
                 }
             }, 500);
 
-        if (gameTimer.isTimerVisible()) {
-            clearTimerTextFocus();
-            abovetimersize = toggletimermax;
-            for (int i = 0; i < toggletimerfrequency; i++){
+            if (gameTimer.isTimerVisible()) {
+                clearTimerTextFocus();
+                for (int i = 1; i < toggletimerfrequency; i++){
+                    int finalI = i;
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            abovetimersize = toggletimermax-(toggletimermax-toggletimermin)/(toggletimerfrequency)* finalI;
+                            abovetimertext.setTextSize(abovetimersize);
+                        }
+                    }, (toggletimertime/toggletimerfrequency)*finalI);
+
+                }
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        abovetimersize = abovetimersize-(toggletimermax-toggletimermin)/(toggletimerfrequency);
-                        abovetimertext.setTextSize(abovetimersize);
+                        abovetimertext.setTextSize(toggletimermin);
                     }
-                }, (toggletimertime/toggletimerfrequency)*i);
-            }
+                },toggletimertime);
         } else {
             abovetimersize = toggletimermin;
-            for (int i = 0; i < toggletimerfrequency; i++){
+            for (int i = 1; i < toggletimerfrequency; i++){
+                int finalI = i;
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        abovetimersize = abovetimersize+(toggletimermax-toggletimermin)/(toggletimerfrequency);
+                        abovetimersize = toggletimermin+(toggletimermax-toggletimermin)/(toggletimerfrequency)* finalI;
                         abovetimertext.setTextSize(abovetimersize);
                     }
                 }, (toggletimertime/toggletimerfrequency)*i);
         }
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        abovetimertext.setTextSize(toggletimermax);
+                    }
+                },toggletimertime);
         }
             gameTimer.toggleTimerVisibility(item);
     }}
@@ -670,7 +702,8 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
         // 2. Chain together various setter methods to set the dialog characteristics
-        builder.setMessage("...sind leider eingestellt worden."+screen_width+" "+actionbar_width)
+        builder.setMessage(screen_height_sp+" "+screen_height+" "
+                        +"...sind leider eingestellt worden."+screen_width+" "+actionbar_width+" "+screen_width_sp)
                 .setTitle(R.string.settings);
 
         // 3. Get the <code><a href="/reference/android/app/AlertDialog.html">AlertDialog</a></code> from <code><a href="/reference/android/app/AlertDialog.Builder.html#create()">create()</a></code>
