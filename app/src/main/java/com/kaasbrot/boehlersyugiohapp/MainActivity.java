@@ -1,6 +1,7 @@
 package com.kaasbrot.boehlersyugiohapp;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
@@ -29,6 +30,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -38,11 +41,15 @@ import static com.kaasbrot.boehlersyugiohapp.GameInformation.history;
 import static com.kaasbrot.boehlersyugiohapp.GameInformation.p1;
 import static com.kaasbrot.boehlersyugiohapp.GameInformation.p2;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.kaasbrot.boehlersyugiohapp.dialog.CoinDialog;
 import com.kaasbrot.boehlersyugiohapp.dialog.CoinsDialog;
 import com.kaasbrot.boehlersyugiohapp.dialog.HistoryDialog;
 import com.kaasbrot.boehlersyugiohapp.dialog.CasinoDialog;
+import com.kaasbrot.boehlersyugiohapp.history.History;
 import com.kaasbrot.boehlersyugiohapp.history.HistoryElement;
+import com.kaasbrot.boehlersyugiohapp.history.HistoryElementParser;
 import com.kaasbrot.boehlersyugiohapp.history.NewGame;
 import com.kaasbrot.boehlersyugiohapp.history.Points;
 
@@ -90,6 +97,21 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        // load history
+        SharedPreferences sharedPreferences = getPreferences(MODE_PRIVATE);
+        String json = sharedPreferences.getString("history", "");
+        history = new History(8000, 8000);
+        if(!json.isEmpty()) {
+            Type listType = new TypeToken<ArrayList<HistoryElementParser>>(){}.getType();
+
+            HistoryElementParser.prev = history.getLastPoints();
+            ArrayList<HistoryElementParser> elements = new Gson().fromJson(json, listType);
+            elements.remove(0);
+            elements.forEach(el -> history.add(el.parse()));
+        }
+        history.setEditor(sharedPreferences.edit());
+        // hopefully done with loading
+
         currentContentView = R.layout.activity_main;
         getWindow().setNavigationBarColor(ResourcesCompat.getColor(getResources(), R.color.colorPrimary,null));
         setContentView(currentContentView);
@@ -126,6 +148,14 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
         belowtimertext.setTextSize(belowtimersize);
 
 
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Points p = history.getLastPoints();
+        p1.reset(p.p1);
+        p2.reset(p.p2);
     }
 
     public void getScreenSize() {

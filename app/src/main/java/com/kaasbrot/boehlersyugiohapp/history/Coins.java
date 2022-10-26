@@ -25,6 +25,10 @@ public class Coins implements HistoryElement {
         };
     }
 
+    public Coins(Coin[] coins) {
+        this.coins = coins;
+    }
+
     public String asHtml() {
         return getCoinsHtml(coins);
     }

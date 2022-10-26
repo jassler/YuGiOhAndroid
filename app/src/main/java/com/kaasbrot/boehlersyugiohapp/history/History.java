@@ -1,6 +1,11 @@
 package com.kaasbrot.boehlersyugiohapp.history;
 
+import android.content.SharedPreferences;
+
+import com.google.gson.Gson;
+
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class History {
@@ -13,15 +18,22 @@ public class History {
 
     private int index;
     private final List<HistoryElement> history;
+    private SharedPreferences.Editor editor = null;
 
     public History(int startP1, int startP2) {
-        history = new ArrayList<>();
-        history.add(new Points(startP1, startP2));
+        this(new ArrayList<>(Collections.singletonList(new Points(startP1, startP2))));
+    }
+
+    public History(List<HistoryElement> history) {
+        this.history = history;
         index = 0;
         lastEntry = 0;
         lastEntryPlayer = 0;
     }
 
+    public void setEditor(SharedPreferences.Editor editor) {
+        this.editor = editor;
+    }
 
     private void addToIndex(HistoryElement element) {
         // if index is in the middle of the list (which happens after undo),
@@ -32,6 +44,13 @@ public class History {
         }
         history.add(element);
         index = history.size() - 1;
+
+        if(editor != null) {
+            editor.putString("history", new Gson().toJson(this.history));
+            // apply called asynchronously, calling commit would be done synchronously.
+            // From my understanding, a second commit will wait for the first apply to finish.
+            editor.apply();
+        }
     }
 
     /**
