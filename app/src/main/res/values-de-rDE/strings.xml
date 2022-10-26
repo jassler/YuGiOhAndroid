@@ -20,4 +20,5 @@
     <string name="result_Heads">Kopf</string>
     <string name="result_Tails">Zahl</string>
     <string name="clear_text">Löschen</string>
+    <string name="change_view">Ansicht wechseln</string>
 </resources>

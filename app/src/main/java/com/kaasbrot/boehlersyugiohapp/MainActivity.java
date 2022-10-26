@@ -81,6 +81,9 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
     int numberbuttontextsize;
     int timertextsize;
 
+    int keepscreenon;
+    int deleteafter4;
+
     private Menu mOptionsMenu;
 
     Toolbar toolbar;
@@ -124,7 +127,7 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
         getWindow().setNavigationBarColor(ResourcesCompat.getColor(getResources(), R.color.colorPrimary,null));
         setContentView(currentContentView);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-
+        keepscreenon=1;
 
         currentMenu = R.menu.menu_main;
 
@@ -231,6 +234,18 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
             ((Button) findViewById(R.id.button7)).setTextSize(numberbuttontextsize);
             ((Button) findViewById(R.id.button8)).setTextSize(numberbuttontextsize);
             ((Button) findViewById(R.id.button9)).setTextSize(numberbuttontextsize);
+        }
+
+    }
+
+    public void toggleScreenAlwaysOn() {
+        if(keepscreenon==0){
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+            keepscreenon=1;
+            //local save
+        }else{
+            getWindow().clearFlags(android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+            keepscreenon=0;
         }
 
     }
@@ -867,10 +882,12 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
             currentContentView = R.layout.activity_points;
             toolbar_id = R.id.toolbar_points;
             currentMenu = R.menu.menu_points;
+            //local save
         } else {
             currentContentView = R.layout.activity_main;
             toolbar_id = R.id.toolbar_main;
             currentMenu = R.menu.menu_main;
+            //local save
         }
         setContentView(currentContentView);
 

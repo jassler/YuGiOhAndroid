@@ -56,7 +56,7 @@ public class History {
 
         updateLocalStorage();
     }
-
+    
     /**
      * Find last points object in History. If there is a NewGame element in the way,
      * it returns null to signalize: "Yo, this is the first points element of the game."

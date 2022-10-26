@@ -51,7 +51,7 @@
     <item
         android:id="@+id/action_custom"
         android:orderInCategory="500"
-        android:title="Custom view"
+        android:title="@string/change_view"
         android:icon="@drawable/ic_baseline_dialpad_24px"
         android:onClick="changeView"
         app:showAsAction="always" />

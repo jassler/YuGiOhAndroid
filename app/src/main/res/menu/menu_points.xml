@@ -48,7 +48,7 @@
     <item
         android:id="@+id/action_default"
         android:orderInCategory="500"
-        android:title="Default view"
+        android:title="@string/change_view"
         android:icon="@drawable/ic_baseline_exposure_24px"
         android:onClick="changeView"
         app:showAsAction="always" />
