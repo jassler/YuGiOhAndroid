@@ -14,7 +14,19 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <android.support.constraint.Guideline
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/MainUnderTimer"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginEnd="0dp"
+        android:layout_marginBottom="2dp"
+        app:layout_constraintBottom_toTopOf="@id/TextBelow"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/viewTimer">
+
+        <android.support.constraint.Guideline
         android:id="@+id/guidelineLeft"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -38,18 +50,19 @@
         app:layout_constraintGuide_end="8dp" />
 
 
+
     <android.support.constraint.ConstraintLayout
         android:id="@+id/viewPlayer1"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="2dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintDimensionRatio="1:2.8"
         app:layout_constraintEnd_toStartOf="@+id/guidelineCenter"
         app:layout_constraintStart_toStartOf="@+id/guidelineLeft"
-        app:layout_constraintTop_toBottomOf="@+id/viewTimer">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
 
 
         <TextView
@@ -242,10 +255,10 @@
             style="@style/Widget.AppCompat.Button.Colored"
             android:layout_width="79dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="8dp"
+            android:layout_marginStart="2dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginEnd="2dp"
+            android:layout_marginBottom="2dp"
             android:background="@drawable/div_button"
             android:onClick="div"
             android:tag="@string/button_div"
@@ -263,13 +276,13 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="2dp"
         android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintDimensionRatio="1:2.8"
         app:layout_constraintEnd_toStartOf="@+id/guidelineRight"
         app:layout_constraintStart_toStartOf="@+id/guidelineCenter"
-        app:layout_constraintTop_toBottomOf="@+id/viewTimer">
+        app:layout_constraintTop_toTopOf="parent">
 
 
         <TextView
@@ -462,10 +475,10 @@
             style="@style/Widget.AppCompat.Button.Colored"
             android:layout_width="79dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="8dp"
+            android:layout_marginStart="2dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginEnd="2dp"
+            android:layout_marginBottom="2dp"
             android:background="@drawable/div_button"
             android:onClick="div"
             android:text="\u00F7 2"
@@ -476,13 +489,22 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/p2SubLow" />
     </android.support.constraint.ConstraintLayout>
+    </android.support.constraint.ConstraintLayout>
     <include android:id="@+id/viewTimer"
         layout="@layout/view_timer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintEnd_toStartOf="@+id/guidelineRight"
-        app:layout_constraintStart_toStartOf="@+id/guidelineLeft"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-
+    <TextView
+        android:id="@+id/TextBelow"
+        android:text=""
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:textSize="30dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 </android.support.constraint.ConstraintLayout>

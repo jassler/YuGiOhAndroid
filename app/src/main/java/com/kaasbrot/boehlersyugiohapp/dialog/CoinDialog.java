@@ -78,16 +78,22 @@ public class CoinDialog extends AppCompatDialogFragment {
             last="t";
         };
         c = new Coin(rand.nextBoolean());
-        timerotation = 100*2; //should be even
-        numrotation = 6;
+        timerotation = 150*2; //should be even
+        numrotation = 4;
         Double[] timingsrotation = { //timings for 6 rotations
+                0.92,
+                1.7,
+                2.34,
+                3.1
+        };
+        /*Double[] timingsrotation = {
                 1.1,
                 2.0,
                 2.78,
                 3.39,
                 4.0,
                 4.96
-        };
+        };*/ //timings for 6 rotations
         /*Double[] timingsrotation = {
                 1.3,
                 2.3,

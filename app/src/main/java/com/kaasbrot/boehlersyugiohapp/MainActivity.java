@@ -1,15 +1,22 @@
 package com.kaasbrot.boehlersyugiohapp;
 
 import android.content.Context;
+import android.graphics.Point;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
+import android.support.constraint.ConstraintSet;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Layout;
+import android.util.Log;
+import android.util.TypedValue;
+import android.view.Display;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
@@ -18,6 +25,7 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -47,6 +55,19 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
     int currentContentView;
     int currentMenu;
 
+    int screen_height;
+    int screen_width;
+    int screen_ratio;
+    int toggletimermax;
+    int toggletimerfrequency;
+    int actionbar_height;
+    int actionbar_width;
+    int lifetextsize;
+    int numberbuttontextsize;
+    int timertextsize;
+
+    private Menu mOptionsMenu;
+
     Toolbar toolbar;
 
     EditText timerText;
@@ -60,7 +81,10 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
     CoinDialog coinDialog;
     CoinsDialog coinsDialog;
     TextView abovetimertext;
+    TextView belowtimertext;
+    EditText thetimertext;
     int abovetimersize = 1;
+    int belowtimersize;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,10 +117,75 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
         coinsDialog = new CoinsDialog();
         coinsDialog.setHistory(history);
 
+        getScreenSize();
+        getActionBarHeight();
+
         abovetimertext = findViewById(R.id.AboveTimer);
         abovetimertext.setTextSize(abovetimersize);
+        belowtimertext = findViewById(R.id.TextBelow);
+        belowtimertext.setTextSize(belowtimersize);
+
+
     }
 
+    public void getScreenSize() {
+        Display display = getWindowManager().getDefaultDisplay();
+        Point m_size = new Point();
+        display.getSize(m_size);
+        screen_width = m_size.x;
+        screen_height = m_size.y;
+        screen_ratio = screen_height/screen_width;
+        if(screen_ratio > 2){belowtimersize = 30;} else {belowtimersize = 0;}
+        if(screen_height > 1200){
+            toggletimermax=60;
+            toggletimerfrequency = 30;
+            lifetextsize=30;
+            numberbuttontextsize=32;
+            timertextsize=24;
+        }else{if(screen_height > 900){
+            toggletimermax=55;
+            toggletimerfrequency = 20;
+            lifetextsize=24;
+            numberbuttontextsize=26;
+            timertextsize=20;
+        }else{
+            toggletimermax=50;
+            toggletimerfrequency = 12;
+            lifetextsize=20;
+            numberbuttontextsize=20;
+            timertextsize=18;
+        }}
+    }
+
+    public void getActionBarHeight() {
+        actionbar_height = toolbar.getLayoutParams().height;
+        actionbar_width = toolbar.getLayoutParams().width;
+    }
+
+    public void AdjustToScreen() {
+        ((EditText) findViewById(R.id.timerText)).setTextSize(timertextsize);
+        if(currentContentView == R.layout.activity_main) {
+            ((TextView) findViewById(R.id.pointsPlayer1)).setTextSize(lifetextsize);
+            ((TextView) findViewById(R.id.pointsPlayer2)).setTextSize(lifetextsize);
+        }
+        else{
+            ((TextView) findViewById(R.id.pointsPlayer1)).setTextSize(lifetextsize);
+            ((TextView) findViewById(R.id.pointsPlayer2)).setTextSize(lifetextsize);
+            ((TextView) findViewById(R.id.customInput)).setTextSize(lifetextsize);
+            ((Button) findViewById(R.id.button00)).setTextSize(numberbuttontextsize);
+            ((Button) findViewById(R.id.button0)).setTextSize(numberbuttontextsize);
+            ((Button) findViewById(R.id.button1)).setTextSize(numberbuttontextsize);
+            ((Button) findViewById(R.id.button2)).setTextSize(numberbuttontextsize);
+            ((Button) findViewById(R.id.button3)).setTextSize(numberbuttontextsize);
+            ((Button) findViewById(R.id.button4)).setTextSize(numberbuttontextsize);
+            ((Button) findViewById(R.id.button5)).setTextSize(numberbuttontextsize);
+            ((Button) findViewById(R.id.button6)).setTextSize(numberbuttontextsize);
+            ((Button) findViewById(R.id.button7)).setTextSize(numberbuttontextsize);
+            ((Button) findViewById(R.id.button8)).setTextSize(numberbuttontextsize);
+            ((Button) findViewById(R.id.button9)).setTextSize(numberbuttontextsize);
+        }
+
+    }
     /**
      * When loading view for the first time or switching views, make sure
      * all components points to the correct view elements on screen.
@@ -212,7 +301,14 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
 
         // check if undo/redo Buttons should be enabled
         // determineButtonEnable();
-
+        mOptionsMenu = menu;
+        if(screen_width < 1000) {
+            mOptionsMenu.getItem(6).setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+        }
+        if(screen_width < 600) {
+            mOptionsMenu.getItem(3).setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+        }
+        AdjustToScreen();
         return true;
     }
 
@@ -475,9 +571,9 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
 
     private int toggletimercooldown;
     private int toggletimermin = 0;
-    private int toggletimermax = 60;
+    //private int toggletimermax = 60; //defined in getScreenSize
     private int toggletimertime = 480;
-    private int toggletimerfrequency = 30;
+    // private int toggletimerfrequency = 15; //defined in getScreenSize
     /**
      * Called from Toolbar
      * If timer is running, stop and hide timer.
@@ -488,6 +584,7 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
         if (toggletimercooldown == 1) {
         } else {
             toggletimercooldown = 1;
+
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
@@ -543,7 +640,7 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
         // 2. Chain together various setter methods to set the dialog characteristics
-        builder.setMessage("...sind leider eingestellt worden.")
+        builder.setMessage("...sind leider eingestellt worden."+screen_width+" "+actionbar_width)
                 .setTitle(R.string.settings);
 
         // 3. Get the <code><a href="/reference/android/app/AlertDialog.html">AlertDialog</a></code> from <code><a href="/reference/android/app/AlertDialog.Builder.html#create()">create()</a></code>
@@ -714,10 +811,15 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
         }
         setContentView(currentContentView);
 
+        if(currentContentView == R.layout.activity_main){
+            belowtimertext = findViewById(R.id.TextBelow);
+            belowtimertext.setTextSize(belowtimersize);}
+
         toolbar = findViewById(toolbar_id);
         setSupportActionBar(toolbar);
         abovetimertext = findViewById(R.id.AboveTimer);
         abovetimertext.setTextSize(abovetimersize);
+        AdjustToScreen();
         updateComponentActivities();
     }
 }
