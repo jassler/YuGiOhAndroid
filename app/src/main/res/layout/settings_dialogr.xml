@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:padding="10dp"
+    android:layout_centerHorizontal="true"
+    android:layout_centerInParent="true"
+    android:background="@android:color/transparent">
+    <TextView
+        android:id="@+id/emptyleft"
+        android:layout_width="10dp"
+        android:layout_height="5dp"
+        android:layout_marginTop="0dp"
+        android:padding="10dp"
+        android:text=" "
+        android:textSize="20sp"/>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
+        android:background="@color/dialog_bg">
+
+        <TextView
+            android:id="@+id/empty1"
+            android:layout_width="10dp"
+            android:layout_height="5dp"
+            android:layout_marginStart="0dp"
+            android:padding="10dp"
+            android:text=" "
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/empty4"
+            android:layout_width="10dp"
+            android:layout_height="5dp"
+            android:layout_marginStart="0dp"
+            android:padding="10dp"
+            android:text=" "
+            android:layout_below="@id/KeepHistoryText"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/middle1"
+            android:layout_width="20dp"
+            android:layout_height="5dp"
+            android:layout_marginTop="0dp"
+            android:layout_toRightOf="@id/KeepHistoryText"
+            android:padding="10dp"
+            android:text=" "
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/middle2"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginTop="0dp"
+            android:layout_toRightOf="@id/middle1"
+            android:padding="10dp"
+            android:text="           "
+            android:textSize="20dp"
+            android:layout_above="@id/KeepScreenOnText"
+            android:layout_below="@+id/empty1"/>
+        <TextView
+            android:id="@+id/right1"
+            android:layout_width="20dp"
+            android:layout_height="5dp"
+            android:layout_marginTop="0dp"
+            android:layout_toRightOf="@id/middle2"
+            android:padding="10dp"
+            android:text=" "
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/StartLifeText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/empty1"
+            android:layout_marginTop="0dp"
+            android:layout_toRightOf="@id/empty1"
+            android:padding="10dp"
+            android:text="Starting Life Points:"
+            android:textColor="@color/dialog_text"
+            android:textSize="20dp" />
+
+        <TextView
+            android:id="@+id/KeepScreenOnText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/StartLifeText"
+            android:layout_marginTop="0dp"
+            android:layout_toRightOf="@id/empty1"
+            android:padding="10dp"
+            android:text="Keep screen on:"
+            android:textColor="@color/dialog_text"
+            android:textSize="20dp" />
+
+        <TextView
+            android:id="@+id/KeepHistoryText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/KeepScreenOnText"
+            android:layout_marginTop="0dp"
+            android:layout_toRightOf="@id/empty1"
+            android:padding="10dp"
+            android:text="Only keep 4 games:"
+            android:textColor="@color/dialog_text"
+            android:textSize="20dp" />
+
+        <EditText
+            android:id="@+id/StartLifeInput"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_above="@id/KeepScreenOnText"
+            android:layout_below="@+id/empty1"
+            android:layout_toLeftOf="@id/right1"
+            android:layout_toRightOf="@+id/middle1"
+            android:backgroundTint="@color/dialog_text"
+            android:imeOptions="actionDone"
+            android:inputType="number"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:text="8000"
+            android:textAlignment="center"
+            android:textColor="@color/dialog_text"
+            android:textSize="20dp"></EditText>
+
+        <ImageView
+            android:id="@+id/tickbutton1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/KeepHistoryText"
+            android:layout_below="@id/StartLifeText"
+            android:layout_marginLeft="18dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginRight="18dp"
+            android:layout_marginBottom="4dp"
+            android:onClick="toggleScreenAlwaysOn"
+            android:layout_toLeftOf="@id/right1"
+            android:layout_toRightOf="@id/middle1" />
+
+        <ImageView
+            android:id="@+id/tickbutton2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/empty4"
+            android:layout_below="@id/KeepScreenOnText"
+            android:layout_marginLeft="18dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginRight="18dp"
+            android:layout_marginBottom="4dp"
+            android:layout_toLeftOf="@id/right1"
+            android:layout_toRightOf="@id/middle1"
+            android:background="@drawable/tick1" />
+
+
+    </RelativeLayout></RelativeLayout>

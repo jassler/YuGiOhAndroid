@@ -11,7 +11,7 @@
     <string name="hide_timer">Hide timer</string>
     <string name="timer_err_too_many_columns">Invalid time input: too many columns</string>
     <string name="timer_err_invalid_symbol">Invalid time input: unknown symbols</string>
-    <string name="timer_err_max_exceeded">Timer cannot exceed 10 hours</string>
+    <string name="timer_err_max_exceeded">Timer cannot exceed 5 hours</string>
     <string name="show_history">History</string>
     <string name="ok">ok</string>
     <string name="cancel">cancel</string>
@@ -28,4 +28,8 @@
     <string name="result_Tails">Tails</string>
     <string name="clear_text">Clear</string>
     <string name="change_view">Change View</string>
+    <string name="starting_lp">Starting Life Points:</string>
+    <string name="keep_screen_on">Keep Screen On:</string>
+    <string name="remember_games">Only keep 4 games:</string>
+    <string name="set_lifepoint_max">limit 40000</string>
 </resources>

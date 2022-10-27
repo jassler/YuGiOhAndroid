@@ -1,5 +1,6 @@
 package com.kaasbrot.boehlersyugiohapp;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
@@ -25,6 +26,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
@@ -81,6 +83,7 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
     int numberbuttontextsize;
     int timertextsize;
 
+    int startinglifepoints;
     int keepscreenon;
     int deleteafter4;
 
@@ -104,12 +107,17 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
     int abovetimersize = 1;
     int belowtimersize;
 
+    SharedPreferences.Editor edit; //shortcut
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         // load history
         SharedPreferences sharedPreferences = getPreferences(MODE_PRIVATE);
+        edit = sharedPreferences.edit();
+        startinglifepoints = sharedPreferences.getInt("startinglifepoints",8000);
+        keepscreenon = sharedPreferences.getInt("keepscreenon",0);
         String json = sharedPreferences.getString("history", "");
         history = new History(8000, 8000);
         if(!json.isEmpty()) {
@@ -120,14 +128,13 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
             elements.remove(0);
             elements.forEach(el -> history.add(el.parse()));
         }
-        history.setEditor(sharedPreferences.edit());
+        history.setEditor(edit);
         // hopefully done with loading
 
         currentContentView = R.layout.activity_main;
         getWindow().setNavigationBarColor(ResourcesCompat.getColor(getResources(), R.color.colorPrimary,null));
         setContentView(currentContentView);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-        keepscreenon=1;
 
         currentMenu = R.menu.menu_main;
 
@@ -238,15 +245,21 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
 
     }
 
-    public void toggleScreenAlwaysOn() {
+    public void toggleScreenAlwaysOn(View v) {
+        ImageView buttonimage = v.findViewById(R.id.tickbutton1);
         if(keepscreenon==0){
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
             keepscreenon=1;
+            buttonimage.setImageResource(R.drawable.tick1);
+
             //local save
         }else{
             getWindow().clearFlags(android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
             keepscreenon=0;
+            buttonimage.setImageResource(R.drawable.tick0);
         }
+        edit.putInt("keepscreenon",keepscreenon);
+        edit.apply();
 
     }
     /**
@@ -586,8 +599,8 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
      * @param item
      */
     public void reset(MenuItem item) {
-        p1.reset(8000);
-        p2.reset(8000);
+        p1.reset(startinglifepoints);
+        p2.reset(startinglifepoints);
         //Dialog "Neues Duell" hinzufügen
 
         List<HistoryElement> h = history.getHistory();
@@ -713,7 +726,7 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
      * @param item Clicked menu item (unimportant)
      */
     public void showSettings(MenuItem item) {
-        // 1. Instantiate an <code><a href="/reference/android/app/AlertDialog.Builder.html">AlertDialog.Builder</a></code> with its constructor
+        /*// 1. Instantiate an <code><a href="/reference/android/app/AlertDialog.Builder.html">AlertDialog.Builder</a></code> with its constructor
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
         // 2. Chain together various setter methods to set the dialog characteristics
@@ -723,6 +736,47 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
 
         // 3. Get the <code><a href="/reference/android/app/AlertDialog.html">AlertDialog</a></code> from <code><a href="/reference/android/app/AlertDialog.Builder.html#create()">create()</a></code>
         AlertDialog dialog = builder.create();
+        dialog.show();*/
+
+        Dialog dialog = new Dialog(MainActivity.this, R.style.MyDialogTheme);
+        dialog.setContentView(R.layout.settings_dialogr);
+        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        dialog.setCancelable(true);
+
+        dialog.getWindow().getAttributes().windowAnimations = R.style.MyDialogTheme;
+        dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        EditText startlifetext = dialog.findViewById(R.id.StartLifeInput);
+        startlifetext.setText(String.valueOf(startinglifepoints), TextView.BufferType.EDITABLE);
+        startlifetext.setSelectAllOnFocus(true);
+        startlifetext.setOnEditorActionListener((v, actionId, event) -> {
+            if ((event != null && (event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) || (actionId == EditorInfo.IME_ACTION_DONE)) {
+                startlifetext.clearFocus();
+                InputMethodManager imm = (InputMethodManager) getSystemService(
+                        Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(startlifetext.getApplicationWindowToken(), 0);
+                String startlifetemp = startlifetext.getText().toString();
+                int startlifetempint = Integer.parseInt(startlifetemp);
+                Toast toast = Toast.makeText(getApplicationContext(), "", Toast.LENGTH_LONG);
+                toast.setGravity(Gravity.TOP, 0, 10);
+                if(startlifetempint>40000){
+                    toast.setText(R.string.set_lifepoint_max);
+                    toast.show();
+                    return true;
+                } else {
+                    startinglifepoints = startlifetempint;
+                    edit.putInt("startinglifepoints",startinglifepoints);
+                    edit.apply();
+                }
+            }
+
+            return true;
+        });
+        ImageView buttonimage = dialog.findViewById(R.id.tickbutton1);
+        if(keepscreenon==0){
+            buttonimage.setImageResource(R.drawable.tick0);
+        }else{
+            buttonimage.setImageResource(R.drawable.tick1);
+        }
         dialog.show();
     }
     public void threecoins(MenuItem item) {
@@ -902,4 +956,5 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
         AdjustToScreen();
         updateComponentActivities();
     }
+
 }
