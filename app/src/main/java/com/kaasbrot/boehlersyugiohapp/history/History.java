@@ -123,6 +123,28 @@ public class History {
         addToIndex(e);
     }
 
+    public int getAmountOfNewGames() {
+        int count = 0;
+        for (int i = 0; i < history.size(); i++) {
+            if(history.get(i) instanceof NewGame) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    public void removeOldestGame() {
+        int i;
+        for (i = 1; i < history.size(); i++) {
+            if(history.get(i) instanceof NewGame)
+                break;
+        }
+        while (i --> 0) {
+            history.remove(0);
+        }
+        this.index = history.size() - 1;
+    }
+
     /**
      * Get the most current Point object in history.
      *
