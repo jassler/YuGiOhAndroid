@@ -22,11 +22,13 @@ public class History {
 
     public History(int startP1, int startP2) {
         this(new ArrayList<>(Collections.singletonList(new Points(startP1, startP2))));
+        history.add(0, new NewGame());
+        index = history.size() - 1;
     }
 
     public History(List<HistoryElement> history) {
         this.history = history;
-        index = 0;
+        index = history.size() - 1;
         lastEntry = 0;
         lastEntryPlayer = 0;
     }
@@ -168,9 +170,12 @@ public class History {
      */
     public void clearHistory() {
         Points p = getLastPoints();
+        p.diff1 = 0;
+        p.diff2 = 0;
         history.clear();
+        history.add(new NewGame());
         history.add(p);
-        index = 0;
+        index = history.size() - 1;
         lastEntryPlayer = 0;
         lastEntry = 0;
 
