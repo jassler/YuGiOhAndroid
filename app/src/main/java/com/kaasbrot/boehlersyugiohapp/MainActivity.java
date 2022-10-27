@@ -82,10 +82,14 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
     int lifetextsize;
     int numberbuttontextsize;
     int timertextsize;
+    int settingstextsize;
 
+    //data that is stored locally
     int startinglifepoints;
     int keepscreenon;
     int deleteafter4;
+    int rememberview;
+
 
     private Menu mOptionsMenu;
 
@@ -103,7 +107,6 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
     CoinsDialog coinsDialog;
     TextView abovetimertext;
     TextView belowtimertext;
-    EditText thetimertext;
     int abovetimersize = 1;
     int belowtimersize;
 
@@ -117,7 +120,10 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
         SharedPreferences sharedPreferences = getPreferences(MODE_PRIVATE);
         edit = sharedPreferences.edit();
         startinglifepoints = sharedPreferences.getInt("startinglifepoints",8000);
-        keepscreenon = sharedPreferences.getInt("keepscreenon",0);
+        keepscreenon = sharedPreferences.getInt("keepscreenon",1);
+        deleteafter4 = sharedPreferences.getInt("deleteafter4",1);
+        rememberview = sharedPreferences.getInt("rememberview",1);
+
         String json = sharedPreferences.getString("history", "");
         history = new History(8000, 8000);
         if(!json.isEmpty()) {
@@ -131,14 +137,24 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
         history.setEditor(edit);
         // hopefully done with loading
 
+        if(rememberview==1){
         currentContentView = R.layout.activity_main;
+        }else{
+        currentContentView = R.layout.activity_points;
+        }
         getWindow().setNavigationBarColor(ResourcesCompat.getColor(getResources(), R.color.colorPrimary,null));
         setContentView(currentContentView);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        if(rememberview==1){
+            currentMenu = R.menu.menu_main;
+            toolbar = (Toolbar) findViewById(R.id.toolbar_main);
+        }else{
+            currentMenu = R.menu.menu_points;
+            toolbar = (Toolbar) findViewById(R.id.toolbar_points);
+        }
 
-        currentMenu = R.menu.menu_main;
 
-        toolbar = (Toolbar) findViewById(R.id.toolbar_main);
+
         setSupportActionBar(toolbar);
 
         gameTimer = new GameTimer();
@@ -162,8 +178,9 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
 
         abovetimertext = findViewById(R.id.AboveTimer);
         abovetimertext.setTextSize(abovetimersize);
+        if(rememberview==1){
         belowtimertext = findViewById(R.id.TextBelow);
-        belowtimertext.setTextSize(belowtimersize);
+        belowtimertext.setTextSize(belowtimersize);}
 
 
     }
@@ -193,18 +210,21 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
             lifetextsize=30;
             numberbuttontextsize=32;
             timertextsize=24;
+            settingstextsize=20;
         }else{if(screen_height_sp > 580){
             toggletimermax=55;
             toggletimerfrequency = 20;
             lifetextsize=20;
             numberbuttontextsize=26;
             timertextsize=20;
+            settingstextsize=16;
         }else{
             toggletimermax=50;
             toggletimerfrequency = 12;
             lifetextsize=20;
             numberbuttontextsize=20;
             timertextsize=18;
+            settingstextsize=14;
         }}
     }
 
@@ -244,15 +264,23 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
         }
 
     }
-
+    private int toggleScreenOnCooldown = 0;
     public void toggleScreenAlwaysOn(View v) {
         ImageView buttonimage = v.findViewById(R.id.tickbutton1);
+        if (toggleScreenOnCooldown == 1) {
+        } else {
+            toggleScreenOnCooldown = 1;
+
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    toggleScreenOnCooldown = 0;
+                }
+            }, 500);
         if(keepscreenon==0){
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
             keepscreenon=1;
             buttonimage.setImageResource(R.drawable.tick1);
-
-            //local save
         }else{
             getWindow().clearFlags(android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
             keepscreenon=0;
@@ -260,8 +288,32 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
         }
         edit.putInt("keepscreenon",keepscreenon);
         edit.apply();
+    }}
 
-    }
+    private int toggleDeleteHistoryCooldown = 0;
+    public void toggleDeleteHistory(View v) {
+        ImageView buttonimage = v.findViewById(R.id.tickbutton2);
+        if (toggleDeleteHistoryCooldown == 1) {
+        } else {
+            toggleDeleteHistoryCooldown = 1;
+
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    toggleDeleteHistoryCooldown = 0;
+                }
+            }, 500);
+        if(deleteafter4==0){
+            deleteafter4=1;
+            history.removeNewGamesExcept4();
+            buttonimage.setImageResource(R.drawable.tick1);
+        }else{
+            deleteafter4=0;
+            buttonimage.setImageResource(R.drawable.tick0);
+        }
+        edit.putInt("deleteafter4",deleteafter4);
+        edit.apply();
+    }}
     /**
      * When loading view for the first time or switching views, make sure
      * all components points to the correct view elements on screen.
@@ -609,6 +661,9 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
 
         history.add(new NewGame());
         history.add(p1.points, p2.points);
+        if(deleteafter4==1){
+        history.removeNewGamesExcept4();
+        }
     }
 
     /**
@@ -745,6 +800,20 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
 
         dialog.getWindow().getAttributes().windowAnimations = R.style.MyDialogTheme;
         dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        TextView okay_text = dialog.findViewById(R.id.settingsok);
+        okay_text.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        ((TextView) dialog.findViewById(R.id.settingsok)).setTextSize(settingstextsize);
+        ((TextView) dialog.findViewById(R.id.StartLifeText)).setTextSize(settingstextsize);
+        ((TextView) dialog.findViewById(R.id.KeepScreenOnText)).setTextSize(settingstextsize);
+        ((TextView) dialog.findViewById(R.id.KeepHistoryText)).setTextSize(settingstextsize);
+        ((TextView) dialog.findViewById(R.id.BehindEdit)).setTextSize(settingstextsize);
+        ((EditText) dialog.findViewById(R.id.StartLifeInput)).setTextSize(settingstextsize);
+
         EditText startlifetext = dialog.findViewById(R.id.StartLifeInput);
         startlifetext.setText(String.valueOf(startinglifepoints), TextView.BufferType.EDITABLE);
         startlifetext.setSelectAllOnFocus(true);
@@ -771,12 +840,19 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
 
             return true;
         });
-        ImageView buttonimage = dialog.findViewById(R.id.tickbutton1);
+        ImageView buttonimage1 = dialog.findViewById(R.id.tickbutton1);
         if(keepscreenon==0){
-            buttonimage.setImageResource(R.drawable.tick0);
+            buttonimage1.setImageResource(R.drawable.tick0);
         }else{
-            buttonimage.setImageResource(R.drawable.tick1);
+            buttonimage1.setImageResource(R.drawable.tick1);
         }
+        ImageView buttonimage2 = dialog.findViewById(R.id.tickbutton2);
+        if(deleteafter4==0){
+            buttonimage2.setImageResource(R.drawable.tick0);
+        }else{
+            buttonimage2.setImageResource(R.drawable.tick1);
+        }
+
         dialog.show();
     }
     public void threecoins(MenuItem item) {
@@ -936,12 +1012,12 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
             currentContentView = R.layout.activity_points;
             toolbar_id = R.id.toolbar_points;
             currentMenu = R.menu.menu_points;
-            //local save
+            rememberview = 2;
         } else {
             currentContentView = R.layout.activity_main;
             toolbar_id = R.id.toolbar_main;
             currentMenu = R.menu.menu_main;
-            //local save
+            rememberview = 1;
         }
         setContentView(currentContentView);
 
@@ -953,6 +1029,8 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
         setSupportActionBar(toolbar);
         abovetimertext = findViewById(R.id.AboveTimer);
         abovetimertext.setTextSize(abovetimersize);
+        edit.putInt("rememberview",rememberview);
+        edit.apply();
         AdjustToScreen();
         updateComponentActivities();
     }

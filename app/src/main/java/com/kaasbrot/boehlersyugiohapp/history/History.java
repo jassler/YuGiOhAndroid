@@ -3,6 +3,7 @@ package com.kaasbrot.boehlersyugiohapp.history;
 import android.content.SharedPreferences;
 
 import com.google.gson.Gson;
+import com.kaasbrot.boehlersyugiohapp.MainActivity;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -145,6 +146,17 @@ public class History {
             history.remove(0);
         }
         this.index = history.size() - 1;
+        updateLocalStorage();
+    }
+
+    public void removeNewGamesExcept4() {
+        int ag = getAmountOfNewGames();;
+        int i;
+        if( ag > 4){
+            for(i = 0; i < ag-4; i++){
+                removeOldestGame();
+            }
+        }
     }
 
     /**
