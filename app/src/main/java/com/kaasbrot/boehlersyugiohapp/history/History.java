@@ -195,9 +195,12 @@ public class History {
     }
 
     public Points undo() {
+        Points last = getLastPoints();
         if (!canUndo()) {
-            return getLastPoints();
+            return last;
         }
+
+        index = history.indexOf(last);
 
         lastEntryPlayer = 0;
         do {
@@ -221,11 +224,19 @@ public class History {
     }
 
     public boolean canUndo() {
-        return index > 0;
+        for (int i = 0; i < index; i++) {
+            if(history.get(i) instanceof Points)
+                return true;
+        }
+        return false;
     }
 
     public boolean canRedo() {
-        return index < history.indexOf(getLastPoints());
+        for (int i = index+1; i < history.size(); i++) {
+            if(history.get(i) instanceof Points)
+                return true;
+        }
+        return false;
     }
 
     public HistoryElement getCurrentEntry() {
