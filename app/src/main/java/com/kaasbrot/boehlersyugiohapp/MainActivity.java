@@ -7,6 +7,7 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
@@ -781,25 +782,15 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
      * @param item Clicked menu item (unimportant)
      */
     public void showSettings(MenuItem item) {
-        /*// 1. Instantiate an <code><a href="/reference/android/app/AlertDialog.Builder.html">AlertDialog.Builder</a></code> with its constructor
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-
-        // 2. Chain together various setter methods to set the dialog characteristics
-        builder.setMessage(screen_height_sp+" "+screen_height+" "
-                        +"...sind leider eingestellt worden."+screen_width+" "+actionbar_width+" "+screen_width_sp)
-                .setTitle(R.string.settings);
-
-        // 3. Get the <code><a href="/reference/android/app/AlertDialog.html">AlertDialog</a></code> from <code><a href="/reference/android/app/AlertDialog.Builder.html#create()">create()</a></code>
-        AlertDialog dialog = builder.create();
-        dialog.show();*/
-
-        Dialog dialog = new Dialog(MainActivity.this, R.style.MyDialogTheme);
+        Dialog dialog = new Dialog(MainActivity.this);
         dialog.setContentView(R.layout.settings_dialogr);
         dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         dialog.setCancelable(true);
 
         dialog.getWindow().getAttributes().windowAnimations = R.style.MyDialogTheme;
         dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        dialog.getWindow().setGravity(Gravity.CENTER);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
         TextView okay_text = dialog.findViewById(R.id.settingsok);
         okay_text.setOnClickListener(new View.OnClickListener() {
             @Override
