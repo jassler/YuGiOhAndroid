@@ -224,11 +224,23 @@ public class History {
     }
 
     public boolean canUndo() {
+        boolean foundOne = false;
         for (int i = 0; i < index; i++) {
-            if(history.get(i) instanceof Points)
-                return true;
+            if(history.get(i) instanceof Points) {
+                if(foundOne)
+                    return true;
+                else
+                    foundOne = true;
+            }
         }
-        return false;
+        // scenarios:
+        // x P x x P
+        //         ^ can undo
+        //       ^ cannot undo
+        if(foundOne && history.get(index) instanceof Points)
+            return true;
+        else
+            return false;
     }
 
     public boolean canRedo() {
