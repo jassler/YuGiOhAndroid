@@ -208,14 +208,14 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
         if(screen_height_sp > 650){
             toggletimermax=60;
             toggletimerfrequency = 30;
-            lifetextsize=30;
+            lifetextsize=34;
             numberbuttontextsize=32;
             timertextsize=24;
             settingstextsize=20;
         }else{if(screen_height_sp > 580){
             toggletimermax=55;
             toggletimerfrequency = 20;
-            lifetextsize=20;
+            lifetextsize=22;
             numberbuttontextsize=26;
             timertextsize=20;
             settingstextsize=16;
@@ -383,6 +383,7 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
         if (times.length > 3) {
             toast.setText(R.string.timer_err_too_many_columns);
             toast.show();
+            gameTimer.updateTimerText();
             return;
         }
 
@@ -394,6 +395,7 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
             } catch (NumberFormatException e) {
                 toast.setText(R.string.timer_err_invalid_symbol);
                 toast.show();
+                gameTimer.updateTimerText();
                 return;
             }
         }
@@ -402,6 +404,7 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
         if (seconds > 5 * 60 * 60) {
             toast.setText(R.string.timer_err_max_exceeded);
             toast.show();
+            gameTimer.updateTimerText();
             return;
         }
         gameTimer.setSecondsPassed(seconds);
@@ -811,21 +814,33 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
         startlifetext.setOnEditorActionListener((v, actionId, event) -> {
             if ((event != null && (event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) || (actionId == EditorInfo.IME_ACTION_DONE)) {
                 startlifetext.clearFocus();
+
                 InputMethodManager imm = (InputMethodManager) getSystemService(
                         Context.INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(startlifetext.getApplicationWindowToken(), 0);
                 String startlifetemp = startlifetext.getText().toString();
+                if(!startlifetemp.isEmpty()){
                 int startlifetempint = Integer.parseInt(startlifetemp);
                 Toast toast = Toast.makeText(getApplicationContext(), "", Toast.LENGTH_LONG);
                 toast.setGravity(Gravity.TOP, 0, 10);
                 if(startlifetempint>40000){
                     toast.setText(R.string.set_lifepoint_max);
                     toast.show();
+                    startlifetext.setText(String.valueOf(startinglifepoints));
                     return true;
-                } else {
+                } else if(startlifetempint<1) {
+                    toast.setText(R.string.set_lifepoint_min);
+                    toast.show();
+                    startlifetext.setText(String.valueOf(startinglifepoints));
+                    return true;
+                }
+                else{
+
                     startinglifepoints = startlifetempint;
                     edit.putInt("startinglifepoints",startinglifepoints);
                     edit.apply();
+                }} else{
+                    startlifetext.setText(String.valueOf(startinglifepoints));
                 }
             }
 

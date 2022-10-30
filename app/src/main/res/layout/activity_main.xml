@@ -88,7 +88,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             app:layout_constraintGuide_end="0dp"
-            app:layout_constraintGuide_percent="0.47"/>
+            app:layout_constraintGuide_percent="0.475"/>
 
         <android.support.constraint.Guideline
             android:id="@+id/guidelineMainBelowLife1"
@@ -347,7 +347,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             app:layout_constraintGuide_end="0dp"
-            app:layout_constraintGuide_percent="0.47"/>
+            app:layout_constraintGuide_percent="0.475"/>
 
         <android.support.constraint.Guideline
             android:id="@+id/guidelineMainBelowLife2"

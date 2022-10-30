@@ -102,7 +102,7 @@
             android:layout_marginTop="0dp"
             android:layout_toRightOf="@id/empty1"
             android:padding="10dp"
-            android:text="Starting Life Points:"
+            android:text="@string/starting_lp"
             android:textColor="@color/dialog_text"
             android:textSize="20dp" />
 
@@ -114,7 +114,7 @@
             android:layout_marginTop="0dp"
             android:layout_toRightOf="@id/empty1"
             android:padding="10dp"
-            android:text="Keep screen on:"
+            android:text="@string/keep_screen_on"
             android:textColor="@color/dialog_text"
             android:textSize="20dp" />
 
@@ -126,7 +126,7 @@
             android:layout_marginTop="0dp"
             android:layout_toRightOf="@id/empty1"
             android:padding="10dp"
-            android:text="Only keep 4 games:"
+            android:text="@string/remember_games"
             android:textColor="@color/dialog_text"
             android:textSize="20dp" />
 
@@ -184,7 +184,7 @@
             android:layout_alignRight="@id/BehindEdit"
             android:layout_marginTop="0dp"
             android:padding="10dp"
-            android:text="ok"
+            android:text="@string/ok"
             android:textColor="@color/dialog_text"
             android:textSize="20dp" />
 

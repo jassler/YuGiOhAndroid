@@ -55,13 +55,13 @@
         android:icon="@drawable/ic_baseline_dialpad_24px"
         android:onClick="changeView"
         app:showAsAction="always" />
-    <item
+    <!--<item
         android:id="@+id/action_3coins"
         android:orderInCategory="600"
         android:title="@string/three_coins"
         android:icon="@drawable/ic_launcher_background"
         android:onClick="threecoins"
-        app:showAsAction="never" />
+        app:showAsAction="never" />-->
     <item
         android:id="@+id/action_start_timer"
         android:orderInCategory="700"

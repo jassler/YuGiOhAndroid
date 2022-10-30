@@ -100,7 +100,7 @@ public class GameTimer {
         return String.format("%d:%02d:%02d", seconds / (60*60), (seconds / 60) % 60, seconds % 60);
     }
 
-    private void updateTimerText() {
+    public void updateTimerText() {
         textTimer.setText(formatSeconds(getSecondsPassed()));
     }
 
