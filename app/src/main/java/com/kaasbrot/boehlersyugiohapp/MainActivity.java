@@ -2,6 +2,7 @@ package com.kaasbrot.boehlersyugiohapp;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -860,7 +861,27 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
         }
 
         dialog.show();
+
+        //clear focus with double back only
+        dialog.setOnKeyListener(new Dialog.OnKeyListener() {
+            @Override
+            public boolean onKey(DialogInterface dialog, int keyCode,
+                                 KeyEvent event) {
+                if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
+                    startlifetext.clearFocus();
+                }
+                return true;
+            }
+        });
+
     }
+
+    public void onBackPressed(){
+        //clear focus with double back
+        if(timerText != null) {timerText.clearFocus();}
+    }
+
+
     public void threecoins(MenuItem item) {
         //historyDialog.show(getSupportFragmentManager(), "History Dialog");
         coinsDialog.show(getSupportFragmentManager(), "Coins");

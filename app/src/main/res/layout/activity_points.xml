@@ -59,7 +59,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintGuide_percent="0.1" />
+        app:layout_constraintGuide_percent="0.12" />
 
     <android.support.constraint.Guideline
         android:id="@+id/guidelinePointsAboveLife"
@@ -67,7 +67,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintGuide_percent="0.02" />
+        app:layout_constraintGuide_percent="0.005" />
 
     <android.support.constraint.Guideline
         android:id="@+id/guidelineLeft"
@@ -118,34 +118,44 @@
         app:layout_constraintEnd_toStartOf="@+id/guidelineRight"
         app:layout_constraintStart_toStartOf="@+id/guidelineLeft"
         app:layout_constraintTop_toTopOf="@+id/guidelinePointsAboveInput" />
-
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/LifePlayer1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="0dp"
+        android:layout_marginEnd="0dp"
+        android:layout_marginBottom="0dp"
+        app:layout_constraintVertical_bias="1.2"
+        app:layout_constraintBottom_toBottomOf="@id/guidelinePointsBelowLife"
+        app:layout_constraintEnd_toEndOf="@id/guidelineCenter"
+        app:layout_constraintStart_toStartOf="@id/guidelineLeft"
+        app:layout_constraintTop_toTopOf="@id/guidelinePointsAboveLife">
     <TextView
         android:id="@+id/pointsPlayer1"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAlignment="center"
         android:textColor="#FFFFFF"
         android:textSize="30sp"
         android:text=""
-        app:layout_constraintStart_toStartOf="@id/guidelineLeft"
-        app:layout_constraintEnd_toEndOf="@id/guidelineCenter"
-        app:layout_constraintTop_toTopOf="@id/guidelinePointsAboveLife"
-        app:layout_constraintVertical_bias="0.0" />
-
-
+        android:gravity="bottom"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/tmpText1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintVertical_bias="0.95" />
     <TextView
         android:id="@+id/tmpText1"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="0dp"
         android:text=""
-        android:textAlignment="center"
+        android:gravity="top"
         android:textColor="#CCCCCC"
-        app:layout_constraintStart_toStartOf="@id/guidelineLeft"
-        app:layout_constraintEnd_toEndOf="@id/guidelineCenter"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/pointsPlayer1"
-        app:layout_constraintBottom_toBottomOf="@+id/guidelinePointsBelowLife"/>
-
+        app:layout_constraintBottom_toBottomOf="parent"/>
+    </android.support.constraint.ConstraintLayout>
     <android.support.constraint.ConstraintLayout
         android:id="@+id/viewPlayer1"
         android:layout_width="0dp"
@@ -235,30 +245,44 @@
 
 
     </android.support.constraint.ConstraintLayout>
-    <TextView
-        android:id="@+id/pointsPlayer2"
-        android:layout_width="0dp"
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/LifePlayer2"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAlignment="center"
-        android:textColor="#FFFFFF"
-        android:textSize="30sp"
+        android:layout_marginTop="0dp"
+        android:layout_marginEnd="0dp"
+        android:layout_marginBottom="0dp"
+        app:layout_constraintVertical_bias="1.2"
+        app:layout_constraintBottom_toBottomOf="@id/guidelinePointsBelowLife"
         app:layout_constraintStart_toStartOf="@id/guidelineCenter"
         app:layout_constraintEnd_toEndOf="@id/guidelineRight"
-        app:layout_constraintTop_toTopOf="@id/guidelinePointsAboveLife"
-        app:layout_constraintVertical_bias="0.0" />
-
-
-    <TextView
-        android:id="@+id/tmpText2"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="2dp"
-        android:textAlignment="center"
-        android:textColor="#CCCCCC"
-        app:layout_constraintStart_toStartOf="@id/guidelineCenter"
-        app:layout_constraintEnd_toEndOf="@id/guidelineRight"
-        app:layout_constraintTop_toBottomOf="@+id/pointsPlayer2"
-        app:layout_constraintBottom_toBottomOf="@+id/guidelinePointsBelowLife"/>
+        app:layout_constraintTop_toTopOf="@id/guidelinePointsAboveLife">
+        <TextView
+            android:id="@+id/pointsPlayer2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#FFFFFF"
+            android:textSize="30sp"
+            android:text=""
+            android:gravity="bottom"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/tmpText2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintVertical_bias="0.95" />
+        <TextView
+            android:id="@+id/tmpText2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="0dp"
+            android:text=""
+            android:gravity="top"
+            android:textColor="#CCCCCC"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/pointsPlayer2"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+    </android.support.constraint.ConstraintLayout>
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/viewPlayer2"
