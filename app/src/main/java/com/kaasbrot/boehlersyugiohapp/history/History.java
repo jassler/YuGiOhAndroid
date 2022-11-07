@@ -3,6 +3,7 @@ package com.kaasbrot.boehlersyugiohapp.history;
 import android.content.SharedPreferences;
 
 import com.google.gson.Gson;
+import com.kaasbrot.boehlersyugiohapp.GlobalOptions;
 import com.kaasbrot.boehlersyugiohapp.MainActivity;
 
 import java.util.ArrayList;
@@ -40,7 +41,7 @@ public class History {
 
     private void updateLocalStorage() {
         if(editor != null) {
-            editor.putString("history", new Gson().toJson(this.history));
+            editor.putString(GlobalOptions.HISTORY, new Gson().toJson(this.history));
             // apply called asynchronously, calling commit would be done synchronously.
             // From my understanding, a second commit will wait for the first apply to finish.
             editor.apply();

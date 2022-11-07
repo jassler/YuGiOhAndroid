@@ -4,27 +4,17 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
-import android.content.res.Resources;
-import android.graphics.Bitmap;
 import android.graphics.Point;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
-import android.support.constraint.ConstraintSet;
 import android.support.v4.content.res.ResourcesCompat;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.Layout;
-import android.util.Log;
-import android.util.TypedValue;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
@@ -42,7 +32,6 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.Vector;
 
 import android.os.*; //and this
 
@@ -56,6 +45,7 @@ import com.kaasbrot.boehlersyugiohapp.dialog.CoinDialog;
 import com.kaasbrot.boehlersyugiohapp.dialog.CoinsDialog;
 import com.kaasbrot.boehlersyugiohapp.dialog.HistoryDialog;
 import com.kaasbrot.boehlersyugiohapp.dialog.CasinoDialog;
+import com.kaasbrot.boehlersyugiohapp.dialog.SettingsDialog;
 import com.kaasbrot.boehlersyugiohapp.history.History;
 import com.kaasbrot.boehlersyugiohapp.history.HistoryElement;
 import com.kaasbrot.boehlersyugiohapp.history.HistoryElementParser;
@@ -68,7 +58,6 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
     MenuItem undoButton;
     MenuItem timerShowButton;
 
-    int currentContentView;
     int currentMenu;
 
     int screen_height;
@@ -84,16 +73,7 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
     int lifetextsize;
     int numberbuttontextsize;
     int timertextsize;
-    int settingstextsize;
 
-    //data that is stored locally
-    int startinglifepoints;
-    int keepscreenon;
-    int deleteafter4;
-    int rememberview;
-
-
-    private Menu mOptionsMenu;
 
     Toolbar toolbar;
 
@@ -107,12 +87,13 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
     CasinoDialog casinoDialog;
     CoinDialog coinDialog;
     CoinsDialog coinsDialog;
+    SettingsDialog settingsDialog;
     TextView abovetimertext;
     TextView belowtimertext;
     int abovetimersize = 1;
     int belowtimersize;
 
-    SharedPreferences.Editor edit; //shortcut
+    CooldownTracker cooldowns;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -120,15 +101,11 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
 
         // load history
         SharedPreferences sharedPreferences = getPreferences(MODE_PRIVATE);
-        edit = sharedPreferences.edit();
-        startinglifepoints = sharedPreferences.getInt("startinglifepoints",8000);
-        keepscreenon = sharedPreferences.getInt("keepscreenon",1);
-        deleteafter4 = sharedPreferences.getInt("deleteafter4",1);
-        rememberview = sharedPreferences.getInt("rememberview",1);
+        GlobalOptions.setPrefs(sharedPreferences);
 
-        String json = sharedPreferences.getString("history", "");
+        String json = sharedPreferences.getString(GlobalOptions.HISTORY, "");
         history = new History(8000, 8000);
-        if(!json.isEmpty()) {
+        if(json != null && !json.isEmpty()) {
             Type listType = new TypeToken<ArrayList<HistoryElementParser>>(){}.getType();
 
             HistoryElementParser.prev = history.getLastPoints();
@@ -136,26 +113,24 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
             elements.remove(0);
             elements.forEach(el -> history.add(el.parse()));
         }
-        history.setEditor(edit);
+        history.setEditor(sharedPreferences.edit());
         // hopefully done with loading
 
-        if(rememberview==1){
-        currentContentView = R.layout.activity_main;
-        }else{
-        currentContentView = R.layout.activity_points;
-        }
+        cooldowns = new CooldownTracker();
+
         getWindow().setNavigationBarColor(ResourcesCompat.getColor(getResources(), R.color.colorPrimary,null));
-        setContentView(currentContentView);
+        setContentView(GlobalOptions.getCurrentView().layout);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-        if(rememberview==1){
+
+        if(GlobalOptions.isFirstView()) {
             currentMenu = R.menu.menu_main;
-            toolbar = (Toolbar) findViewById(R.id.toolbar_main);
-        }else{
+            toolbar = findViewById(R.id.toolbar_main);
+            belowtimertext = findViewById(R.id.TextBelow);
+            belowtimertext.setTextSize(belowtimersize);
+        } else {
             currentMenu = R.menu.menu_points;
-            toolbar = (Toolbar) findViewById(R.id.toolbar_points);
+            toolbar = findViewById(R.id.toolbar_points);
         }
-
-
 
         setSupportActionBar(toolbar);
 
@@ -175,16 +150,13 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
         coinsDialog = new CoinsDialog();
         coinsDialog.setHistory(history);
 
+        settingsDialog = new SettingsDialog();
+
         getScreenSize();
         getActionBarHeight();
 
         abovetimertext = findViewById(R.id.AboveTimer);
         abovetimertext.setTextSize(abovetimersize);
-        if(rememberview==1){
-        belowtimertext = findViewById(R.id.TextBelow);
-        belowtimertext.setTextSize(belowtimersize);}
-
-
     }
 
     @Override
@@ -205,29 +177,30 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
         screen_width_sp = (int)(screen_width / getResources().getDisplayMetrics().scaledDensity);
         screen_height_sp = (int)(screen_height / getResources().getDisplayMetrics().scaledDensity);
 
-        if(screen_ratio > 2){belowtimersize = 30;} else {belowtimersize = 0;}
+        belowtimersize = (screen_ratio > 2) ? 30 : 0;
+
         if(screen_height_sp > 650){
             toggletimermax=60;
             toggletimerfrequency = 30;
             lifetextsize=34;
             numberbuttontextsize=32;
             timertextsize=24;
-            settingstextsize=20;
-        }else{if(screen_height_sp > 580){
+            GlobalOptions.settingstextsize=20;
+        }else if(screen_height_sp > 580){
             toggletimermax=55;
             toggletimerfrequency = 20;
             lifetextsize=22;
             numberbuttontextsize=26;
             timertextsize=20;
-            settingstextsize=16;
+            GlobalOptions.settingstextsize=16;
         }else{
             toggletimermax=50;
             toggletimerfrequency = 12;
             lifetextsize=20;
             numberbuttontextsize=20;
             timertextsize=18;
-            settingstextsize=14;
-        }}
+            GlobalOptions.settingstextsize=14;
+        }
     }
 
     public void getActionBarHeight() {
@@ -244,11 +217,10 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
 
     public void AdjustToScreen() {
         ((EditText) findViewById(R.id.timerText)).setTextSize(timertextsize);
-        if(currentContentView == R.layout.activity_main) {
+        if(GlobalOptions.isFirstView()) {
             ((TextView) findViewById(R.id.pointsPlayer1)).setTextSize(lifetextsize);
             ((TextView) findViewById(R.id.pointsPlayer2)).setTextSize(lifetextsize);
-        }
-        else{
+        } else {
             ((TextView) findViewById(R.id.pointsPlayer1)).setTextSize(lifetextsize);
             ((TextView) findViewById(R.id.pointsPlayer2)).setTextSize(lifetextsize);
             ((TextView) findViewById(R.id.customInput)).setTextSize(lifetextsize);
@@ -266,56 +238,38 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
         }
 
     }
-    private int toggleScreenOnCooldown = 0;
+
     public void toggleScreenAlwaysOn(View v) {
+        if(!cooldowns.tryAndStartTracker("screenOn"))
+            return;
+
         ImageView buttonimage = v.findViewById(R.id.tickbutton1);
-        if (toggleScreenOnCooldown == 1) {
-        } else {
-            toggleScreenOnCooldown = 1;
-
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    toggleScreenOnCooldown = 0;
-                }
-            }, 500);
-        if(keepscreenon==0){
-            getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-            keepscreenon=1;
-            buttonimage.setImageResource(R.drawable.tick1);
-        }else{
+        if(GlobalOptions.isScreenAlwaysOn()) {
+            buttonimage.setImageResource(R.drawable.tick0);
             getWindow().clearFlags(android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-            keepscreenon=0;
-            buttonimage.setImageResource(R.drawable.tick0);
-        }
-        edit.putInt("keepscreenon",keepscreenon);
-        edit.apply();
-    }}
-
-    private int toggleDeleteHistoryCooldown = 0;
-    public void toggleDeleteHistory(View v) {
-        ImageView buttonimage = v.findViewById(R.id.tickbutton2);
-        if (toggleDeleteHistoryCooldown == 1) {
+            GlobalOptions.setScreenAlwaysOn(false);
         } else {
-            toggleDeleteHistoryCooldown = 1;
-
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    toggleDeleteHistoryCooldown = 0;
-                }
-            }, 500);
-        if(deleteafter4==0){
-            deleteafter4=1;
-            history.removeNewGamesExcept4();
             buttonimage.setImageResource(R.drawable.tick1);
-        }else{
-            deleteafter4=0;
-            buttonimage.setImageResource(R.drawable.tick0);
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+            GlobalOptions.setScreenAlwaysOn(true);
         }
-        edit.putInt("deleteafter4",deleteafter4);
-        edit.apply();
-    }}
+    }
+
+    public void toggleDeleteHistory(View v) {
+        if(!cooldowns.tryAndStartTracker("deleteHistory"))
+            return;
+
+        ImageView buttonimage = v.findViewById(R.id.tickbutton2);
+        if(GlobalOptions.isDeleteAfter4()) {
+            buttonimage.setImageResource(R.drawable.tick0);
+            GlobalOptions.setDeleteAfter4(false);
+        } else {
+            buttonimage.setImageResource(R.drawable.tick1);
+            history.removeNewGamesExcept4();
+            GlobalOptions.setDeleteAfter4(true);
+        }
+    }
+
     /**
      * When loading view for the first time or switching views, make sure
      * all components points to the correct view elements on screen.
@@ -434,12 +388,11 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
 
         // check if undo/redo Buttons should be enabled
         // determineButtonEnable();
-        mOptionsMenu = menu;
         if(screen_width_sp < 380) {
-            mOptionsMenu.getItem(6).setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+            menu.getItem(6).setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
         }
         if(screen_width_sp < 320) {
-            mOptionsMenu.getItem(3).setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+            menu.getItem(3).setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
         }
         AdjustToScreen();
         return true;
@@ -448,8 +401,6 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
     /**
      * Since Toolbar buttons directly call methods, this can be ignored.
      * I just left it here IN CASE! (you never know)
-     * @param item
-     * @return
      */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -457,17 +408,16 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         // int id = item.getItemId();
-            switch (item.getItemId()) {
-                case R.id.action_show_casino:
-                    showCasino();
-                    return true;
-            }
+        if (item.getItemId() == R.id.action_show_casino) {
+            showCasino();
+            return true;
+        }
         return super.onOptionsItemSelected(item);
     }
 
     /**
      * Check if undo / redo buttons should be enabled.
-     * @param menu
+     * @param menu Menu bar
      * @return super
      */
     @Override
@@ -525,7 +475,6 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
 
     /**
      * Subtract half the points from corresponding player.
-     * @param v
      */
     public void div(View v) {
         playerFromView(v).divide();
@@ -587,7 +536,7 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
 
             // only set number if it doesn't exceed limit
             if(newAmount < 100000)
-                inputField.setText(Integer.toString(newAmount));
+                inputField.setText(String.valueOf(newAmount));
 
         } catch(NumberFormatException e) {
             /* Probably a button is pressed that doesn't contain a number */
@@ -628,12 +577,7 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
             Player p = playerFromView(v);
             int diff = newAmount - p.points;
             p.calculate(diff, false);
-            new Handler().postDelayed(new Runnable(){
-                @Override
-                public void run() {
-                    inputField.setText("0");
-                }
-            },200);
+            new Handler().postDelayed(() -> inputField.setText("0"),200);
 
         } catch(NumberFormatException e) {
             /* Probably a button is pressed that doesn't contain a number */
@@ -653,11 +597,10 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
     /**
      * Called from Toolbar
      * Cancel timers, animations. Reset points.
-     * @param item
      */
     public void reset(MenuItem item) {
-        p1.reset(startinglifepoints);
-        p2.reset(startinglifepoints);
+        p1.reset(GlobalOptions.getStartingLifePoints());
+        p2.reset(GlobalOptions.getStartingLifePoints());
         //Dialog "Neues Duell" hinzufügen
 
         List<HistoryElement> h = history.getHistory();
@@ -666,14 +609,13 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
 
         history.add(new NewGame());
         history.add(p1.points, p2.points);
-        if(deleteafter4==1){
-        history.removeNewGamesExcept4();
+        if(GlobalOptions.isDeleteAfter4()){
+            history.removeNewGamesExcept4();
         }
     }
 
     /**
      * Undo or Redo button pressed -> update player's points text field
-     * @param newPoints
      */
     private void historyAction(Points newPoints) {
         p1.points = newPoints.p1;
@@ -688,7 +630,6 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
     /**
      * Called from Toolbar
      * Undo last action. If undo's not possible (eg. at the beginning), nothing happens.
-     * @param item
      */
     public void undo(MenuItem item) {
         cancelTimers();
@@ -698,18 +639,13 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
     /**
      * Called from Toolbar
      * Redo last action (after undo). If redo's not possible, nothing happens.
-     * @param item
      */
     public void redo(MenuItem item) {
         cancelTimers();
         historyAction(history.redo());
     }
 
-    private int toggletimercooldown;
-    private int toggletimermin = 0;
-    //private int toggletimermax = 60; //defined in getScreenSize
-    private int toggletimertime = 480;
-    // private int toggletimerfrequency = 15; //defined in getScreenSize
+
     /**
      * Called from Toolbar
      * If timer is running, stop and hide timer.
@@ -717,57 +653,38 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
      * @param item Timer menu item. Text is updated whether timer is shown or not.
      */
     public void toggleTimerVisibility(MenuItem item) {
-        if (toggletimercooldown == 1) {
-        } else {
-            toggletimercooldown = 1;
+        if(!cooldowns.tryAndStartTracker("toggleTimer"))
+            return;
 
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    toggletimercooldown = 0;
-                }
-            }, 500);
+        int toggletimermin = 0;
+        int toggletimertime = 480;
+        // private int toggletimermax = 60; //defined in getScreenSize
+        // private int toggletimerfrequency = 15; //defined in getScreenSize
+        if (gameTimer.isTimerVisible()) {
+            clearTimerTextFocus();
+            for (int i = 1; i < toggletimerfrequency; i++){
+                int finalI = i;
+                new Handler().postDelayed(() -> {
+                    abovetimersize = toggletimermax-(toggletimermax-toggletimermin)/(toggletimerfrequency)* finalI;
+                    abovetimertext.setTextSize(abovetimersize);
+                }, (long) (toggletimertime / toggletimerfrequency) * finalI);
+            }
+            new Handler().postDelayed(() -> abovetimertext.setTextSize(toggletimermin),toggletimertime);
 
-            if (gameTimer.isTimerVisible()) {
-                clearTimerTextFocus();
-                for (int i = 1; i < toggletimerfrequency; i++){
-                    int finalI = i;
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            abovetimersize = toggletimermax-(toggletimermax-toggletimermin)/(toggletimerfrequency)* finalI;
-                            abovetimertext.setTextSize(abovetimersize);
-                        }
-                    }, (toggletimertime/toggletimerfrequency)*finalI);
-
-                }
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        abovetimertext.setTextSize(toggletimermin);
-                    }
-                },toggletimertime);
         } else {
             abovetimersize = toggletimermin;
             for (int i = 1; i < toggletimerfrequency; i++){
                 int finalI = i;
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        abovetimersize = toggletimermin+(toggletimermax-toggletimermin)/(toggletimerfrequency)* finalI;
-                        abovetimertext.setTextSize(abovetimersize);
-                    }
-                }, (toggletimertime/toggletimerfrequency)*i);
+                new Handler().postDelayed(() -> {
+                    abovetimersize = toggletimermin+(toggletimermax-toggletimermin)/(toggletimerfrequency)* finalI;
+                    abovetimertext.setTextSize(abovetimersize);
+                }, (long) (toggletimertime / toggletimerfrequency) *i);
+            }
+            new Handler().postDelayed(() -> abovetimertext.setTextSize(toggletimermax),toggletimertime);
         }
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        abovetimertext.setTextSize(toggletimermax);
-                    }
-                },toggletimertime);
-        }
-            gameTimer.toggleTimerVisibility(item);
-    }}
+
+        gameTimer.toggleTimerVisibility(item);
+    }
 
     public void toggleTimer(View v) {
         // hide keyboard when user is editing time
@@ -786,96 +703,102 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
      * @param item Clicked menu item (unimportant)
      */
     public void showSettings(MenuItem item) {
-        Dialog dialog = new Dialog(MainActivity.this);
-        dialog.setContentView(R.layout.settings_dialogr);
-        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        dialog.setCancelable(true);
+        if(!cooldowns.tryAndStartTracker("settings"))
+            return;
 
-        dialog.getWindow().getAttributes().windowAnimations = R.style.MyDialogTheme;
-        dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-        dialog.getWindow().setGravity(Gravity.CENTER);
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-        TextView okay_text = dialog.findViewById(R.id.settingsok);
-        okay_text.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
-        });
-        ((TextView) dialog.findViewById(R.id.settingsok)).setTextSize(settingstextsize);
-        ((TextView) dialog.findViewById(R.id.StartLifeText)).setTextSize(settingstextsize);
-        ((TextView) dialog.findViewById(R.id.KeepScreenOnText)).setTextSize(settingstextsize);
-        ((TextView) dialog.findViewById(R.id.KeepHistoryText)).setTextSize(settingstextsize);
-        ((TextView) dialog.findViewById(R.id.BehindEdit)).setTextSize(settingstextsize);
-        ((EditText) dialog.findViewById(R.id.StartLifeInput)).setTextSize(settingstextsize);
+        settingsDialog.show(getSupportFragmentManager(), "Settings");
 
-        EditText startlifetext = dialog.findViewById(R.id.StartLifeInput);
-        startlifetext.setText(String.valueOf(startinglifepoints), TextView.BufferType.EDITABLE);
-        startlifetext.setSelectAllOnFocus(true);
-        startlifetext.setOnEditorActionListener((v, actionId, event) -> {
-            if ((event != null && (event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) || (actionId == EditorInfo.IME_ACTION_DONE)) {
-                startlifetext.clearFocus();
-
-                InputMethodManager imm = (InputMethodManager) getSystemService(
-                        Context.INPUT_METHOD_SERVICE);
-                imm.hideSoftInputFromWindow(startlifetext.getApplicationWindowToken(), 0);
-                String startlifetemp = startlifetext.getText().toString();
-                if(!startlifetemp.isEmpty()){
-                int startlifetempint = Integer.parseInt(startlifetemp);
-                Toast toast = Toast.makeText(getApplicationContext(), "", Toast.LENGTH_LONG);
-                toast.setGravity(Gravity.TOP, 0, 10);
-                if(startlifetempint>40000){
-                    toast.setText(R.string.set_lifepoint_max);
-                    toast.show();
-                    startlifetext.setText(String.valueOf(startinglifepoints));
-                    return true;
-                } else if(startlifetempint<1) {
-                    toast.setText(R.string.set_lifepoint_min);
-                    toast.show();
-                    startlifetext.setText(String.valueOf(startinglifepoints));
-                    return true;
-                }
-                else{
-
-                    startinglifepoints = startlifetempint;
-                    edit.putInt("startinglifepoints",startinglifepoints);
-                    edit.apply();
-                }} else{
-                    startlifetext.setText(String.valueOf(startinglifepoints));
-                }
-            }
-
-            return true;
-        });
-        ImageView buttonimage1 = dialog.findViewById(R.id.tickbutton1);
-        if(keepscreenon==0){
-            buttonimage1.setImageResource(R.drawable.tick0);
-        }else{
-            buttonimage1.setImageResource(R.drawable.tick1);
-        }
-        ImageView buttonimage2 = dialog.findViewById(R.id.tickbutton2);
-        if(deleteafter4==0){
-            buttonimage2.setImageResource(R.drawable.tick0);
-        }else{
-            buttonimage2.setImageResource(R.drawable.tick1);
-        }
-
-        dialog.show();
-
-        //clear focus with double back only
-        dialog.setOnKeyListener(new Dialog.OnKeyListener() {
-            @Override
-            public boolean onKey(DialogInterface dialog, int keyCode,
-                                 KeyEvent event) {
-                if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
-                    startlifetext.clearFocus();
-                }
-                return true;
-            }
-        });
+//        Dialog dialog = new Dialog(MainActivity.this);
+//        dialog.setContentView(R.layout.settings_dialogr);
+//        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+//        dialog.setCancelable(true);
+//
+//        dialog.getWindow().getAttributes().windowAnimations = R.style.MyDialogTheme;
+//        dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+//        dialog.getWindow().setGravity(Gravity.CENTER);
+//        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+//        TextView okay_text = dialog.findViewById(R.id.settingsok);
+//        okay_text.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                dialog.dismiss();
+//            }
+//        });
+//        ((TextView) dialog.findViewById(R.id.settingsok)).setTextSize(GlobalOptions.settingstextsize);
+//        ((TextView) dialog.findViewById(R.id.StartLifeText)).setTextSize(GlobalOptions.settingstextsize);
+//        ((TextView) dialog.findViewById(R.id.KeepScreenOnText)).setTextSize(GlobalOptions.settingstextsize);
+//        ((TextView) dialog.findViewById(R.id.KeepHistoryText)).setTextSize(GlobalOptions.settingstextsize);
+//        ((TextView) dialog.findViewById(R.id.BehindEdit)).setTextSize(GlobalOptions.settingstextsize);
+//        ((EditText) dialog.findViewById(R.id.StartLifeInput)).setTextSize(GlobalOptions.settingstextsize);
+//
+//        EditText startlifetext = dialog.findViewById(R.id.StartLifeInput);
+//        startlifetext.setText(String.valueOf(startinglifepoints), TextView.BufferType.EDITABLE);
+//        startlifetext.setSelectAllOnFocus(true);
+//        startlifetext.setOnEditorActionListener((v, actionId, event) -> {
+//            if ((event != null && (event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) || (actionId == EditorInfo.IME_ACTION_DONE)) {
+//                startlifetext.clearFocus();
+//
+//                InputMethodManager imm = (InputMethodManager) getSystemService(
+//                        Context.INPUT_METHOD_SERVICE);
+//                imm.hideSoftInputFromWindow(startlifetext.getApplicationWindowToken(), 0);
+//                String startlifetemp = startlifetext.getText().toString();
+//                if(!startlifetemp.isEmpty()){
+//                int startlifetempint = Integer.parseInt(startlifetemp);
+//                Toast toast = Toast.makeText(getApplicationContext(), "", Toast.LENGTH_LONG);
+//                toast.setGravity(Gravity.TOP, 0, 10);
+//                if(startlifetempint>40000){
+//                    toast.setText(R.string.set_lifepoint_max);
+//                    toast.show();
+//                    startlifetext.setText(String.valueOf(startinglifepoints));
+//                    return true;
+//                } else if(startlifetempint<1) {
+//                    toast.setText(R.string.set_lifepoint_min);
+//                    toast.show();
+//                    startlifetext.setText(String.valueOf(startinglifepoints));
+//                    return true;
+//                }
+//                else{
+//
+//                    startinglifepoints = startlifetempint;
+//                    edit.putInt(GlobalOptions.STARTING_LIFE_POINTS,startinglifepoints);
+//                    edit.apply();
+//                }} else{
+//                    startlifetext.setText(String.valueOf(startinglifepoints));
+//                }
+//            }
+//
+//            return true;
+//        });
+//        ImageView buttonimage1 = dialog.findViewById(R.id.tickbutton1);
+//        if(keepscreenon==0){
+//            buttonimage1.setImageResource(R.drawable.tick0);
+//        }else{
+//            buttonimage1.setImageResource(R.drawable.tick1);
+//        }
+//        ImageView buttonimage2 = dialog.findViewById(R.id.tickbutton2);
+//        if(deleteafter4==0){
+//            buttonimage2.setImageResource(R.drawable.tick0);
+//        }else{
+//            buttonimage2.setImageResource(R.drawable.tick1);
+//        }
+//
+//        dialog.show();
+//
+//        //clear focus with double back only
+//        dialog.setOnKeyListener(new Dialog.OnKeyListener() {
+//            @Override
+//            public boolean onKey(DialogInterface dialog, int keyCode,
+//                                 KeyEvent event) {
+//                if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
+//                    startlifetext.clearFocus();
+//                }
+//                return true;
+//            }
+//        });
 
     }
 
+    @Override
     public void onBackPressed(){
         //clear focus with double back
         if(timerText != null) {timerText.clearFocus();}
@@ -887,37 +810,18 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
         coinsDialog.show(getSupportFragmentManager(), "Coins");
     }
 
-    //cooldown for dice
-    private int dicecooldown = 0;
-
     public void showCasino() {
-        if(dicecooldown==1) { } else
-        {
-            dicecooldown=1;
-            new Handler().postDelayed(new Runnable(){
-                @Override
-                public void run() {
-                    dicecooldown=0;
-                }
-            },1500);
-        //actual Casino
-        casinoDialog.show(getSupportFragmentManager(), "Casino");}
+        if(!cooldowns.tryAndStartTracker("casino"))
+            return;
+
+        casinoDialog.show(getSupportFragmentManager(), "Casino");
     }
 
-    private int coincooldown = 0;
-
     public void showCoin(MenuItem item) {
-            if(coincooldown==1) { } else
-            {
-                coincooldown=1;
-                new Handler().postDelayed(new Runnable(){
-                    @Override
-                    public void run() {
-                        coincooldown=0;
-                    }
-                },1500);
-        //actual Coin
-        coinDialog.show(getSupportFragmentManager(), "Coin");}
+        if(!cooldowns.tryAndStartTracker("coin"))
+            return;
+
+        coinDialog.show(getSupportFragmentManager(), "Coin");
     }
     // Equipment for drag queens
     private int y1, y2;
@@ -994,9 +898,6 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
         runOnUiThread(this::invalidateOptionsMenu);
     }
 
-    //cooldown variable for history button overflow
-    private int historycooldown = 0;
-
     /**
      * Called from Toolbar
      * Show game history in dialog
@@ -1005,18 +906,10 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
      */
     public void showHistory(MenuItem item) {
         //if cooldown on, do nothing, else set cooldown, then unset after x time
+        if(!cooldowns.tryAndStartTracker("history"))
+            return;
 
-        if(historycooldown==1) { } else
-        {
-            historycooldown=1;
-            new Handler().postDelayed(new Runnable(){
-                @Override
-                public void run() {
-                    historycooldown=0;
-                }
-            },1500);
-            historyDialog.show(getSupportFragmentManager(), "History Dialog");
-        }
+        historyDialog.show(getSupportFragmentManager(), "History Dialog");
     }
 
     /**
@@ -1035,29 +928,28 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
         int toolbar_id;
 
         // find values
-        if(currentContentView == R.layout.activity_main) {
-            currentContentView = R.layout.activity_points;
+        if(GlobalOptions.isFirstView()) {
+            setContentView(GlobalOptions.Views.SECOND_VIEW.layout);
+
             toolbar_id = R.id.toolbar_points;
             currentMenu = R.menu.menu_points;
-            rememberview = 2;
+            GlobalOptions.setCurrentView(GlobalOptions.Views.SECOND_VIEW);
+
+            belowtimertext = findViewById(R.id.TextBelow);
+            belowtimertext.setTextSize(belowtimersize);
+
         } else {
-            currentContentView = R.layout.activity_main;
+            setContentView(GlobalOptions.Views.FIRST_VIEW.layout);
+
             toolbar_id = R.id.toolbar_main;
             currentMenu = R.menu.menu_main;
-            rememberview = 1;
+            GlobalOptions.setCurrentView(GlobalOptions.Views.FIRST_VIEW);
         }
-        setContentView(currentContentView);
-
-        if(currentContentView == R.layout.activity_main){
-            belowtimertext = findViewById(R.id.TextBelow);
-            belowtimertext.setTextSize(belowtimersize);}
 
         toolbar = findViewById(toolbar_id);
         setSupportActionBar(toolbar);
         abovetimertext = findViewById(R.id.AboveTimer);
         abovetimertext.setTextSize(abovetimersize);
-        edit.putInt("rememberview",rememberview);
-        edit.apply();
         AdjustToScreen();
         updateComponentActivities();
     }
