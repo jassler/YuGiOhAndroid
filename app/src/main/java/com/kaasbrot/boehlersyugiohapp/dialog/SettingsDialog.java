@@ -1,15 +1,8 @@
 package com.kaasbrot.boehlersyugiohapp.dialog;
 
-import android.animation.Animator;
-import android.animation.AnimatorSet;
-import android.animation.ObjectAnimator;
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.SharedPreferences;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatDialogFragment;
@@ -17,10 +10,6 @@ import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.animation.AccelerateInterpolator;
-import android.view.animation.DecelerateInterpolator;
-import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -28,15 +17,42 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.kaasbrot.boehlersyugiohapp.GlobalOptions;
-import com.kaasbrot.boehlersyugiohapp.MainActivity;
 import com.kaasbrot.boehlersyugiohapp.R;
-import com.kaasbrot.boehlersyugiohapp.history.Dice;
-import com.kaasbrot.boehlersyugiohapp.history.History;
-
-import java.util.Arrays;
-import java.util.Random;
 
 public class SettingsDialog extends AppCompatDialogFragment {
+
+    private boolean keyEvent(EditText startLifeText) {
+        startLifeText.clearFocus();
+
+        InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(startLifeText.getApplicationWindowToken(), 0);
+
+        String startLifeTemp = startLifeText.getText().toString();
+        Toast toast = Toast.makeText(getContext(), "", Toast.LENGTH_LONG);
+
+        try {
+            int startLifetempint = Integer.parseInt(startLifeTemp);
+            toast.setGravity(Gravity.TOP, 0, 10);
+            if (startLifetempint > 40000) {
+                toast.setText(R.string.set_lifepoint_max);
+                toast.show();
+            } else if (startLifetempint < 1) {
+                toast.setText(R.string.set_lifepoint_min);
+                toast.show();
+            } else {
+                /*
+                 * Only place where startLifePoints is updated and saved in local storage
+                 */
+                GlobalOptions.setStartingLifePoints(startLifetempint);
+            }
+        } catch(NumberFormatException e) {
+            toast.setText(R.string.bad_number_format);
+        }
+
+        startLifeText.setText(String.valueOf(GlobalOptions.getStartingLifePoints()));
+
+        return true;
+    }
 
     @NonNull
     @Override
@@ -58,47 +74,10 @@ public class SettingsDialog extends AppCompatDialogFragment {
         ((TextView) view.findViewById(R.id.BehindEdit)).setTextSize(GlobalOptions.settingstextsize);
         ((EditText) view.findViewById(R.id.StartLifeInput)).setTextSize(GlobalOptions.settingstextsize);
 
-        EditText startlifetext = view.findViewById(R.id.StartLifeInput);
-        startlifetext.setText(String.valueOf(GlobalOptions.getStartingLifePoints()), TextView.BufferType.EDITABLE);
-        startlifetext.setSelectAllOnFocus(true);
-        startlifetext.setOnEditorActionListener((v, actionId, event) -> {
-            if(event != null) {
-                System.out.println(event);
-            }
-            if ((event != null && (event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) || (actionId == EditorInfo.IME_ACTION_DONE)) {
-                startlifetext.clearFocus();
-
-//                InputMethodManager imm = (InputMethodManager) getSystemService(
-//                        Context.INPUT_METHOD_SERVICE);
-//                imm.hideSoftInputFromWindow(startlifetext.getApplicationWindowToken(), 0);
-//                String startlifetemp = startlifetext.getText().toString();
-//                if(!startlifetemp.isEmpty()){
-//                    int startlifetempint = Integer.parseInt(startlifetemp);
-//                    Toast toast = Toast.makeText(getApplicationContext(), "", Toast.LENGTH_LONG);
-//                    toast.setGravity(Gravity.TOP, 0, 10);
-//                    if(startlifetempint>40000){
-//                        toast.setText(R.string.set_lifepoint_max);
-//                        toast.show();
-//                        startlifetext.setText(String.valueOf(startinglifepoints));
-//                        return true;
-//                    } else if(startlifetempint<1) {
-//                        toast.setText(R.string.set_lifepoint_min);
-//                        toast.show();
-//                        startlifetext.setText(String.valueOf(startinglifepoints));
-//                        return true;
-//                    }
-//                    else{
-//
-//                        startinglifepoints = startlifetempint;
-//                        edit.putInt("startinglifepoints",startinglifepoints);
-//                        edit.apply();
-//                    }} else{
-//                    startlifetext.setText(String.valueOf(startinglifepoints));
-//                }
-            }
-
-            return true;
-        });
+        EditText startLifeText = view.findViewById(R.id.StartLifeInput);
+        startLifeText.setText(String.valueOf(GlobalOptions.getStartingLifePoints()), TextView.BufferType.EDITABLE);
+        startLifeText.setSelectAllOnFocus(true);
+        startLifeText.setOnEditorActionListener((v, actionId, event) -> keyEvent(startLifeText));
 
         ImageView buttonImage = view.findViewById(R.id.tickbutton1);
         if(GlobalOptions.isScreenAlwaysOn()){
@@ -115,16 +94,12 @@ public class SettingsDialog extends AppCompatDialogFragment {
         }
         builder.setPositiveButton("ok", (dialogInterface, i) -> {});
 
-//        dialog.setOnKeyListener(new Dialog.OnKeyListener() {
-//            @Override
-//            public boolean onKey(DialogInterface dialog, int keyCode,
-//                                 KeyEvent event) {
-//                if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
-//                    startlifetext.clearFocus();
-//                }
-//                return true;
-//            }
-//        });
+        view.setOnKeyListener((view1, i, keyEvent) -> {
+            if (i == KeyEvent.KEYCODE_BACK && keyEvent.getAction() == KeyEvent.ACTION_UP) {
+                startLifeText.clearFocus();
+            }
+            return true;
+        });
 
         return builder.create();
     }

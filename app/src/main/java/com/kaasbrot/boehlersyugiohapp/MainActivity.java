@@ -935,9 +935,6 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
             currentMenu = R.menu.menu_points;
             GlobalOptions.setCurrentView(GlobalOptions.Views.SECOND_VIEW);
 
-            belowtimertext = findViewById(R.id.TextBelow);
-            belowtimertext.setTextSize(belowtimersize);
-
         } else {
             setContentView(GlobalOptions.Views.FIRST_VIEW.layout);
 
@@ -952,6 +949,11 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
         abovetimertext.setTextSize(abovetimersize);
         AdjustToScreen();
         updateComponentActivities();
+
+        if(GlobalOptions.isFirstView()) {
+            belowtimertext = findViewById(R.id.TextBelow);
+            belowtimertext.setTextSize(belowtimersize);
+        }
     }
 
 }
