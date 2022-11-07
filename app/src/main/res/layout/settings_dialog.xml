@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     >
-    <android.support.constraint.Guideline
+    <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guidelineSettingsL"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -14,7 +14,7 @@
         app:layout_constraintGuide_begin="0dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintGuide_percent="0.15"/>
-    <android.support.constraint.Guideline
+    <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guidelineSettingsR"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -23,7 +23,7 @@
         app:layout_constraintGuide_begin="0dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintGuide_percent="0.85"/>
-    <android.support.constraint.Guideline
+    <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guidelineSettingsD"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -32,7 +32,7 @@
         app:layout_constraintGuide_begin="0dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintGuide_percent="0.50"/>
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/settingborder"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -44,7 +44,7 @@
         app:layout_constraintStart_toStartOf="@id/guidelineSettingsL"
         app:layout_constraintTop_toTopOf="parent">
 
-        <android.support.constraint.Guideline
+        <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guidelineSettingMiddle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -53,7 +53,7 @@
             app:layout_constraintGuide_begin="0dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintGuide_percent="0.65"/>
-        <android.support.constraint.Guideline
+        <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guidelineSettings1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -62,7 +62,7 @@
             app:layout_constraintGuide_begin="0dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintGuide_percent="0.30"/>
-        <android.support.constraint.Guideline
+        <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guidelineSettings2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -71,7 +71,7 @@
             app:layout_constraintGuide_begin="0dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintGuide_percent="0.60"/>
-        <android.support.constraint.Guideline
+        <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guidelineSettings3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -182,5 +182,5 @@
             app:layout_constraintStart_toStartOf="@id/guidelineSettingMiddle"
              />
 
-    </android.support.constraint.ConstraintLayout>
-</android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
