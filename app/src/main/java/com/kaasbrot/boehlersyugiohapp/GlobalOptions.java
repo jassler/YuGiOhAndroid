@@ -38,14 +38,33 @@ public class GlobalOptions {
 
     public static void setPrefs(SharedPreferences prefs) {
         GlobalOptions.prefs = prefs;
-        startingLifePoints = prefs.getInt(STARTING_LIFE_POINTS, 8000);
-        keepScreenOn = prefs.getBoolean(KEEP_SCREEN_ON, false);
-        deleteAfter4 = prefs.getBoolean(DELETE_AFTER_4, false);
+        try {
+            startingLifePoints = prefs.getInt(STARTING_LIFE_POINTS, 8000);
+        } catch(Exception e) {
+            startingLifePoints = 8000;
+            setStartingLifePoints(startingLifePoints);
+        }
+
+        try {
+            keepScreenOn = prefs.getBoolean(KEEP_SCREEN_ON, false);
+        } catch(Exception e) {
+            keepScreenOn = false;
+            setScreenAlwaysOn(keepScreenOn);
+        }
+
+        try {
+            deleteAfter4 = prefs.getBoolean(DELETE_AFTER_4, false);
+        } catch(Exception e) {
+            deleteAfter4 = false;
+            setDeleteAfter4(deleteAfter4);
+        }
+
         try {
             int i = prefs.getInt(REMEMBER_VIEW, Views.FIRST_VIEW.layout);
             currentView = Views.from(i);
         } catch(Exception e) {
             currentView = Views.FIRST_VIEW;
+            setCurrentView(currentView);
         }
     }
 
