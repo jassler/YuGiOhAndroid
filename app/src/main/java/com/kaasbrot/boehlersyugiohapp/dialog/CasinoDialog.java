@@ -3,39 +3,26 @@ package com.kaasbrot.boehlersyugiohapp.dialog;
 import android.animation.Animator;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
-import android.animation.TypeEvaluator;
-import android.animation.ValueAnimator;
 import android.app.Dialog;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatDialogFragment;
-import android.text.Html;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.AccelerateInterpolator;
-import android.view.animation.BounceInterpolator;
 import android.view.animation.DecelerateInterpolator;
-import android.view.animation.Interpolator;
-import android.view.animation.LinearInterpolator;
-import android.view.animation.OvershootInterpolator;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.kaasbrot.boehlersyugiohapp.GlobalOptions;
 import com.kaasbrot.boehlersyugiohapp.R;
-import com.kaasbrot.boehlersyugiohapp.history.Coin;
 import com.kaasbrot.boehlersyugiohapp.history.Dice;
 import com.kaasbrot.boehlersyugiohapp.history.History;
 
-import java.lang.reflect.Array;
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
 import java.util.Random;
 
 public class CasinoDialog extends AppCompatDialogFragment {
@@ -44,13 +31,10 @@ public class CasinoDialog extends AppCompatDialogFragment {
 
     private History history;
     private Dice d;
-    private Dice scaped;
     private final int imgtime=120; //100
     private final int animationtime=350; //300
 
     AnimatorSet animatorSet;
-
-    //public CasinoDialog() {}
 
     int numfaces = (int)(Math.ceil((float)animationtime/imgtime));
     int[] dicesequence = {
@@ -111,11 +95,9 @@ public class CasinoDialog extends AppCompatDialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext(), R.style.MyDialogTheme);
-        //d = new Dice(rand.nextInt(6) + 1);
-        scaped = new Dice(rand.nextInt(20) + 1);
         builder.setMessage(R.string.dice_title); //centered title with bigger font than default title
-        //if scape d = 1/20 then different images
-        if(scaped.roll==1){
+
+        if(GlobalOptions.showSheep()) {
             imgPaths = new int[] {
                     R.drawable.ds1,
                     R.drawable.ds2,
@@ -123,17 +105,17 @@ public class CasinoDialog extends AppCompatDialogFragment {
                     R.drawable.ds4,
                     R.drawable.ds5,
                     R.drawable.ds6
-            };}
-        else{
-        imgPaths = new int[] {
-                R.drawable.d1,
-                R.drawable.d2,
-                R.drawable.d3,
-                R.drawable.d4,
-                R.drawable.d5,
-                R.drawable.d6
-        };}
-
+            };
+        } else {
+            imgPaths = new int[] {
+                    R.drawable.d1,
+                    R.drawable.d2,
+                    R.drawable.d3,
+                    R.drawable.d4,
+                    R.drawable.d5,
+                    R.drawable.d6
+            };
+        }
 
         LayoutInflater factory = LayoutInflater.from(getContext());
         View view = factory.inflate(R.layout.dice_layout, null);

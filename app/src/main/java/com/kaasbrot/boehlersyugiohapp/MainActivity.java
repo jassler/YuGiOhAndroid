@@ -1,12 +1,14 @@
 package com.kaasbrot.boehlersyugiohapp;
 
-import android.app.Dialog;
+import static com.kaasbrot.boehlersyugiohapp.GameInformation.history;
+import static com.kaasbrot.boehlersyugiohapp.GameInformation.p1;
+import static com.kaasbrot.boehlersyugiohapp.GameInformation.p2;
+
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.graphics.Point;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -18,7 +20,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
@@ -28,29 +29,22 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-
-import android.os.*; //and this
-
-import static com.kaasbrot.boehlersyugiohapp.GameInformation.history;
-import static com.kaasbrot.boehlersyugiohapp.GameInformation.p1;
-import static com.kaasbrot.boehlersyugiohapp.GameInformation.p2;
-
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.kaasbrot.boehlersyugiohapp.dialog.CasinoDialog;
 import com.kaasbrot.boehlersyugiohapp.dialog.CoinDialog;
 import com.kaasbrot.boehlersyugiohapp.dialog.CoinsDialog;
 import com.kaasbrot.boehlersyugiohapp.dialog.HistoryDialog;
-import com.kaasbrot.boehlersyugiohapp.dialog.CasinoDialog;
 import com.kaasbrot.boehlersyugiohapp.dialog.SettingsDialog;
 import com.kaasbrot.boehlersyugiohapp.history.History;
 import com.kaasbrot.boehlersyugiohapp.history.HistoryElement;
 import com.kaasbrot.boehlersyugiohapp.history.HistoryElementParser;
 import com.kaasbrot.boehlersyugiohapp.history.NewGame;
 import com.kaasbrot.boehlersyugiohapp.history.Points;
+
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements ButtonDeterminer {
 
@@ -81,7 +75,6 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
 
     // counts seconds passed since game started
     GameTimer gameTimer;
-    Random rand;
 
     HistoryDialog historyDialog;
     CasinoDialog casinoDialog;
@@ -135,7 +128,6 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
         setSupportActionBar(toolbar);
 
         gameTimer = new GameTimer();
-        rand = new Random();
         updateComponentActivities();
 
         historyDialog = new HistoryDialog();
