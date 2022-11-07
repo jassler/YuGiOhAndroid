@@ -21,6 +21,11 @@ import com.kaasbrot.boehlersyugiohapp.R;
 
 public class SettingsDialog extends AppCompatDialogFragment {
 
+    private static final int POINTS_MIN = 1;
+    private static final int POINTS_MAX = 40_000;
+
+    private EditText startLifeText = null;
+
     private boolean keyEvent(EditText startLifeText) {
         startLifeText.clearFocus();
 
@@ -33,10 +38,10 @@ public class SettingsDialog extends AppCompatDialogFragment {
         try {
             int startLifetempint = Integer.parseInt(startLifeTemp);
             toast.setGravity(Gravity.TOP, 0, 10);
-            if (startLifetempint > 40000) {
+            if (startLifetempint > POINTS_MAX) {
                 toast.setText(R.string.set_lifepoint_max);
                 toast.show();
-            } else if (startLifetempint < 1) {
+            } else if (startLifetempint < POINTS_MIN) {
                 toast.setText(R.string.set_lifepoint_min);
                 toast.show();
             } else {
@@ -74,7 +79,7 @@ public class SettingsDialog extends AppCompatDialogFragment {
         ((TextView) view.findViewById(R.id.BehindEdit)).setTextSize(GlobalOptions.settingstextsize);
         ((EditText) view.findViewById(R.id.StartLifeInput)).setTextSize(GlobalOptions.settingstextsize);
 
-        EditText startLifeText = view.findViewById(R.id.StartLifeInput);
+        startLifeText = view.findViewById(R.id.StartLifeInput);
         startLifeText.setText(String.valueOf(GlobalOptions.getStartingLifePoints()), TextView.BufferType.EDITABLE);
         startLifeText.setSelectAllOnFocus(true);
         startLifeText.setOnEditorActionListener((v, actionId, event) -> keyEvent(startLifeText));
@@ -111,5 +116,18 @@ public class SettingsDialog extends AppCompatDialogFragment {
         TextView texts = this.getDialog().findViewById(android.R.id.message);
         texts.setTextSize(30);
         texts.setGravity(Gravity.CENTER);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        try {
+            int startPoints = Integer.parseInt(startLifeText.getText().toString());
+            if(POINTS_MIN <= startPoints && startPoints <= POINTS_MAX)
+                GlobalOptions.setStartingLifePoints(startPoints);
+
+        } catch(Exception ignored) {}
+
+        startLifeText = null;
     }
 }
