@@ -3,7 +3,7 @@ package com.kaasbrot.boehlersyugiohapp;
 import android.animation.TypeEvaluator;
 import android.animation.ValueAnimator;
 import android.os.Handler;
-import android.support.constraint.ConstraintLayout;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;

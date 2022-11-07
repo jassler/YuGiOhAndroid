@@ -2,8 +2,8 @@ package com.kaasbrot.boehlersyugiohapp.dialog;
 
 import android.app.Dialog;
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatDialogFragment;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatDialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -12,8 +12,6 @@ import android.widget.ScrollView;
 import com.kaasbrot.boehlersyugiohapp.R;
 import com.kaasbrot.boehlersyugiohapp.history.History;
 import com.kaasbrot.boehlersyugiohapp.history.HistoryElement;
-
-import java.util.List;
 
 public class HistoryDialog extends AppCompatDialogFragment {
 
