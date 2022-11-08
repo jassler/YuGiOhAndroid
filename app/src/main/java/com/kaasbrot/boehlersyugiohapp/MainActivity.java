@@ -168,7 +168,7 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
         timerAnimator.addUpdateListener(animation -> {
             abovetimersize = (int) animation.getAnimatedValue();
 //            abovetimertext.setTextSize((int) animation.getAnimatedValue());
-            aboveLayout.height = abovetimersize * 3;
+            aboveLayout.height = abovetimersize;
             abovetimertext.requestLayout();
         });
     }
@@ -194,21 +194,21 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
         belowtimersize = (screen_ratio > 2) ? 30 : 0;
 
         if(screen_height_sp > 650){
-            toggletimermax=60;
+            toggletimermax=60*4;
             toggletimerfrequency = 30;
             lifetextsize=34;
             numberbuttontextsize=32;
             timertextsize=24;
             GlobalOptions.settingstextsize=20;
         }else if(screen_height_sp > 580){
-            toggletimermax=55;
+            toggletimermax=55*4;
             toggletimerfrequency = 20;
             lifetextsize=22;
             numberbuttontextsize=26;
             timertextsize=20;
             GlobalOptions.settingstextsize=16;
         }else{
-            toggletimermax=50;
+            toggletimermax=50*4;
             toggletimerfrequency = 12;
             lifetextsize=20;
             numberbuttontextsize=20;
