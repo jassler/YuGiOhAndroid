@@ -22,6 +22,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
@@ -163,9 +164,12 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
         timerAnimator.setEvaluator((TypeEvaluator<Integer>) (fraction, startValue, endValue) ->
                 (int) (startValue + (endValue - startValue) * fraction)
         );
+        ViewGroup.LayoutParams aboveLayout = abovetimertext.getLayoutParams();
         timerAnimator.addUpdateListener(animation -> {
             abovetimersize = (int) animation.getAnimatedValue();
-            abovetimertext.setTextSize((int) animation.getAnimatedValue());
+//            abovetimertext.setTextSize((int) animation.getAnimatedValue());
+            aboveLayout.height = abovetimersize * 3;
+            abovetimertext.requestLayout();
         });
     }
 
