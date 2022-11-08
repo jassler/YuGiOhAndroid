@@ -95,7 +95,7 @@ public class Player {
     }
 
     void reset() {
-        reset(8000);
+        reset(GlobalOptions.getStartingLifePoints());
     }
 
     void reset(int points) {
@@ -120,7 +120,7 @@ public class Player {
             animator.setObjectValues(added, 0);
 
             // if tmpText should be updated as well, use pre
-            final String pre = (added > 0) ? "+" : "";
+            animator.removeAllUpdateListeners();
             animator.addUpdateListener(animation -> {
                 int value = (int) animation.getAnimatedValue();
                 setPointsText(String.valueOf(points + added - value));

@@ -4,6 +4,8 @@ import static com.kaasbrot.boehlersyugiohapp.GameInformation.history;
 import static com.kaasbrot.boehlersyugiohapp.GameInformation.p1;
 import static com.kaasbrot.boehlersyugiohapp.GameInformation.p2;
 
+import android.animation.TypeEvaluator;
+import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Point;
@@ -21,6 +23,8 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.DecelerateInterpolator;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -45,6 +49,7 @@ import com.kaasbrot.boehlersyugiohapp.history.Points;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
 
 public class MainActivity extends AppCompatActivity implements ButtonDeterminer {
 
@@ -87,6 +92,7 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
     int belowtimersize;
 
     CooldownTracker cooldowns;
+    ValueAnimator timerAnimator;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,7 +104,7 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
 
         String json = sharedPreferences.getString(GlobalOptions.HISTORY, "");
         history = new History(8000, 8000);
-        if(json != null && !json.isEmpty()) {
+        if(!json.isEmpty()) {
             Type listType = new TypeToken<ArrayList<HistoryElementParser>>(){}.getType();
 
             HistoryElementParser.prev = history.getLastPoints();
@@ -149,6 +155,14 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
 
         abovetimertext = findViewById(R.id.AboveTimer);
         abovetimertext.setTextSize(abovetimersize);
+
+        timerAnimator = new ValueAnimator();
+        timerAnimator.setInterpolator(new DecelerateInterpolator());
+        timerAnimator.removeAllUpdateListeners();
+        timerAnimator.addUpdateListener(animation -> {
+            abovetimersize = (int) animation.getAnimatedValue();
+            abovetimertext.setTextSize((int) animation.getAnimatedValue());
+        });
     }
 
     @Override
@@ -591,8 +605,8 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
      * Cancel timers, animations. Reset points.
      */
     public void reset(MenuItem item) {
-        p1.reset(GlobalOptions.getStartingLifePoints());
-        p2.reset(GlobalOptions.getStartingLifePoints());
+        p1.reset();
+        p2.reset();
         //Dialog "Neues Duell" hinzufügen
 
         List<HistoryElement> h = history.getHistory();
@@ -637,7 +651,6 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
         historyAction(history.redo());
     }
 
-
     /**
      * Called from Toolbar
      * If timer is running, stop and hide timer.
@@ -648,32 +661,51 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
         if(!cooldowns.tryAndStartTracker("toggleTimer"))
             return;
 
+        if(timerAnimator.isRunning()) {
+            timerAnimator.cancel();
+        }
+
         int toggletimermin = 0;
         int toggletimertime = 480;
+
+        timerAnimator.setEvaluator((TypeEvaluator<Integer>) (fraction, startValue, endValue) ->
+                (int) (startValue + (endValue - startValue) * fraction)
+        );
+
+        if(gameTimer.isTimerVisible()) {
+            timerAnimator.setObjectValues(toggletimermax, toggletimermin);
+        } else {
+            timerAnimator.setObjectValues(toggletimermin, toggletimermax);
+        }
+
+        timerAnimator.setDuration(toggletimertime);
+        this.runOnUiThread(() -> timerAnimator.start());
+
         // private int toggletimermax = 60; //defined in getScreenSize
         // private int toggletimerfrequency = 15; //defined in getScreenSize
-        if (gameTimer.isTimerVisible()) {
-            clearTimerTextFocus();
-            for (int i = 1; i < toggletimerfrequency; i++){
-                int finalI = i;
-                new Handler().postDelayed(() -> {
-                    abovetimersize = toggletimermax-(toggletimermax-toggletimermin)/(toggletimerfrequency)* finalI;
-                    abovetimertext.setTextSize(abovetimersize);
-                }, (long) (toggletimertime / toggletimerfrequency) * finalI);
-            }
-            new Handler().postDelayed(() -> abovetimertext.setTextSize(toggletimermin),toggletimertime);
-
-        } else {
-            abovetimersize = toggletimermin;
-            for (int i = 1; i < toggletimerfrequency; i++){
-                int finalI = i;
-                new Handler().postDelayed(() -> {
-                    abovetimersize = toggletimermin+(toggletimermax-toggletimermin)/(toggletimerfrequency)* finalI;
-                    abovetimertext.setTextSize(abovetimersize);
-                }, (long) (toggletimertime / toggletimerfrequency) *i);
-            }
-            new Handler().postDelayed(() -> abovetimertext.setTextSize(toggletimermax),toggletimertime);
-        }
+//        if (gameTimer.isTimerVisible()) {
+//
+//            clearTimerTextFocus();
+//            for (int i = 1; i < toggletimerfrequency; i++){
+//                int finalI = i;
+//                new Handler().postDelayed(() -> {
+//                    abovetimersize = toggletimermax-(toggletimermax-toggletimermin)/(toggletimerfrequency)* finalI;
+//                    abovetimertext.setTextSize(abovetimersize);
+//                }, (long) (toggletimertime / toggletimerfrequency) * finalI);
+//            }
+//            new Handler().postDelayed(() -> abovetimertext.setTextSize(toggletimermin),toggletimertime);
+//
+//        } else {
+//            abovetimersize = toggletimermin;
+//            for (int i = 1; i < toggletimerfrequency; i++){
+//                int finalI = i;
+//                new Handler().postDelayed(() -> {
+//                    abovetimersize = toggletimermin+(toggletimermax-toggletimermin)/(toggletimerfrequency)* finalI;
+//                    abovetimertext.setTextSize(abovetimersize);
+//                }, (long) (toggletimertime / toggletimerfrequency) *i);
+//            }
+//            new Handler().postDelayed(() -> abovetimertext.setTextSize(toggletimermax),toggletimertime);
+//        }
 
         gameTimer.toggleTimerVisibility(item);
     }
