@@ -159,6 +159,10 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
         timerAnimator = new ValueAnimator();
         timerAnimator.setInterpolator(new DecelerateInterpolator());
         timerAnimator.removeAllUpdateListeners();
+        timerAnimator.setDuration(450);
+        timerAnimator.setEvaluator((TypeEvaluator<Integer>) (fraction, startValue, endValue) ->
+                (int) (startValue + (endValue - startValue) * fraction)
+        );
         timerAnimator.addUpdateListener(animation -> {
             abovetimersize = (int) animation.getAnimatedValue();
             abovetimertext.setTextSize((int) animation.getAnimatedValue());
@@ -665,20 +669,16 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
             timerAnimator.cancel();
         }
 
-        int toggletimermin = 0;
-        int toggletimertime = 480;
-
-        timerAnimator.setEvaluator((TypeEvaluator<Integer>) (fraction, startValue, endValue) ->
-                (int) (startValue + (endValue - startValue) * fraction)
-        );
+        int toggletimermin = 1;
 
         if(gameTimer.isTimerVisible()) {
-            timerAnimator.setObjectValues(toggletimermax, toggletimermin);
+            // make invisible
+            timerAnimator.setObjectValues(abovetimersize, toggletimermin);
         } else {
-            timerAnimator.setObjectValues(toggletimermin, toggletimermax);
+            // make visible
+            timerAnimator.setObjectValues(abovetimersize, toggletimermax);
         }
 
-        timerAnimator.setDuration(toggletimertime);
         this.runOnUiThread(() -> timerAnimator.start());
 
         // private int toggletimermax = 60; //defined in getScreenSize
