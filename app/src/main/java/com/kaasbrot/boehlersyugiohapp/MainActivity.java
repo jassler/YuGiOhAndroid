@@ -87,6 +87,7 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
     CoinDialog coinDialog;
     CoinsDialog coinsDialog;
     SettingsDialog settingsDialog;
+    ViewGroup.LayoutParams aboveLayout;
     TextView abovetimertext;
     TextView belowtimertext;
     int abovetimersize = 1;
@@ -164,7 +165,7 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
         timerAnimator.setEvaluator((TypeEvaluator<Integer>) (fraction, startValue, endValue) ->
                 (int) (startValue + (endValue - startValue) * fraction)
         );
-        ViewGroup.LayoutParams aboveLayout = abovetimertext.getLayoutParams();
+        aboveLayout = abovetimertext.getLayoutParams();
         timerAnimator.addUpdateListener(animation -> {
             abovetimersize = (int) animation.getAnimatedValue();
 //            abovetimertext.setTextSize((int) animation.getAnimatedValue());
@@ -194,21 +195,24 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
         belowtimersize = (screen_ratio > 2) ? 30 : 0;
 
         if(screen_height_sp > 650){
-            toggletimermax=60*4;
+            //toggletimermax=60;
+            toggletimermax = 200;
             toggletimerfrequency = 30;
             lifetextsize=34;
             numberbuttontextsize=32;
             timertextsize=24;
             GlobalOptions.settingstextsize=20;
         }else if(screen_height_sp > 580){
-            toggletimermax=55*4;
+            //toggletimermax=55;
+            toggletimermax = 183;
             toggletimerfrequency = 20;
             lifetextsize=22;
             numberbuttontextsize=26;
             timertextsize=20;
             GlobalOptions.settingstextsize=16;
         }else{
-            toggletimermax=50*4;
+            //toggletimermax=50;
+            toggletimermax = 167;
             toggletimerfrequency = 12;
             lifetextsize=20;
             numberbuttontextsize=20;
@@ -974,7 +978,7 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
         toolbar = findViewById(toolbar_id);
         setSupportActionBar(toolbar);
         abovetimertext = findViewById(R.id.AboveTimer);
-        abovetimertext.setTextSize(abovetimersize);
+        aboveLayout = abovetimertext.getLayoutParams();
         AdjustToScreen();
         updateComponentActivities();
 
