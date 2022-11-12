@@ -978,7 +978,9 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
         toolbar = findViewById(toolbar_id);
         setSupportActionBar(toolbar);
         abovetimertext = findViewById(R.id.AboveTimer);
-        aboveLayout = abovetimertext.getLayoutParams();
+        ViewGroup.LayoutParams tmp = abovetimertext.getLayoutParams();
+        tmp.height = aboveLayout.height;
+        aboveLayout = tmp;
         AdjustToScreen();
         updateComponentActivities();
 
