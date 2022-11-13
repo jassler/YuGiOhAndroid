@@ -1,8 +1,6 @@
 package com.kaasbrot.boehlersyugiohapp;
 
 import android.content.SharedPreferences;
-import android.graphics.Point;
-import android.view.Display;
 
 import java.util.Random;
 
@@ -32,6 +30,9 @@ public class GlobalOptions {
     public static final String REMEMBER_VIEW = "rememberview";
     public static final String SHEEP_COUNT = "sheepcount";
     public static final String HISTORY = "history";
+    public static final String TIMER_IS_RUNNING = "timer_running";
+    public static final String TIMER_PAUSE_TIME = "timer_paused";
+    public static final String TIMER_START_TIME = "timer_paused";
 
     public static int settingstextsize = 20;
 
@@ -39,6 +40,11 @@ public class GlobalOptions {
     private static int startingLifePoints = 8000;
     private static boolean keepScreenOn = false;
     private static boolean deleteAfter4 = false;
+
+    private static boolean timerRunning = false;
+    private static long timerStartTime = 0;
+    private static long timerPauseTime = 0;
+
     private static Views currentView = Views.FIRST_VIEW;
 
     // when sheepCounter hits 0 only then is there a possibility that the sheep are shown
@@ -78,14 +84,30 @@ public class GlobalOptions {
         } catch(Exception e) {
             setCurrentView(Views.FIRST_VIEW);
         }
+
+        // TIMER STUFF
+        try {
+            timerRunning = prefs.getBoolean(TIMER_IS_RUNNING, false);
+        } catch(Exception e) {
+            setTimerRunning(false);
+        }
+
+        try {
+            timerStartTime = prefs.getLong(TIMER_START_TIME, 0);
+        } catch(Exception e) {
+            setTimerStartTime(0);
+        }
+
+        try {
+            timerPauseTime = prefs.getLong(TIMER_PAUSE_TIME, 0);
+        } catch(Exception e) {
+            setTimerPauseTime(0);
+        }
     }
 
     public static void reset() {
-        setStartingLifePoints(8000);
-        setCurrentView(Views.FIRST_VIEW);
-        setDeleteAfter4(false);
-        setScreenAlwaysOn(false);
-        setSheepCount(2);
+        prefs.edit().clear().commit();
+        setPrefs(prefs);
     }
 
     /*
@@ -122,6 +144,36 @@ public class GlobalOptions {
     public static void setDeleteAfter4(boolean delete) {
         deleteAfter4 = delete;
         prefs.edit().putBoolean(KEEP_SCREEN_ON, delete).apply();
+    }
+
+    /*
+     * TIMER STUFF
+     */
+    public static void setTimerRunning(boolean isRunning) {
+        timerRunning = isRunning;
+        prefs.edit().putBoolean(TIMER_IS_RUNNING, isRunning).apply();
+    }
+
+    public static void setTimerStartTime(long value) {
+        timerStartTime = value;
+        prefs.edit().putLong(TIMER_START_TIME, value).apply();
+    }
+
+    public static void setTimerPauseTime(long value) {
+        timerPauseTime = value;
+        prefs.edit().putLong(TIMER_IS_RUNNING, value).apply();
+    }
+
+    public static boolean isTimerRunning() {
+        return timerRunning;
+    }
+
+    public static long getTimerStartTime() {
+        return timerStartTime;
+    }
+
+    public static long getTimerPauseTime() {
+        return timerPauseTime;
     }
 
     /*

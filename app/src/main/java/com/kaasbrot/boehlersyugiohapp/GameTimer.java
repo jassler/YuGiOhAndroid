@@ -1,34 +1,37 @@
 package com.kaasbrot.boehlersyugiohapp;
 
-import android.animation.TypeEvaluator;
 import android.animation.ValueAnimator;
 import android.os.Handler;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.animation.Animation;
+import android.view.animation.Transformation;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import java.util.Locale;
+
 public class GameTimer {
 
-    private Handler handler;
+    private final Handler handler;
     private long started;
-    private long paused = 0;
+    private long paused;
 
     private boolean running;
     private boolean timerVisible;
 
-    private ValueAnimator animator;
+    private final ReverseInterpolator interpolator;
+    private final Animation animation;
+    private int topMarginMax = 650;
 
     private View viewTimer;
-    private View activity_main;
     private TextView textTimer;
     private ImageButton startStopButton;
+    private ConstraintLayout.LayoutParams layoutParams;
 
-    private int marginTop = 0;
-
-    private Runnable repeatingCall = new Runnable() {
+    private final Runnable repeatingCall = new Runnable() {
         @Override
         public void run() {
             // make sure timer doesn't pass 9:59:59
@@ -42,24 +45,40 @@ public class GameTimer {
     };
 
     public GameTimer() {
-        handler = new Handler();
-        running = false;
-        animator = new ValueAnimator();
-        animator.setInterpolator(new AccelerateDecelerateInterpolator());
-        animator.setEvaluator(new TypeEvaluator<Integer>() {
-            public Integer evaluate(float fraction, Integer startValue, Integer endValue) {
-                return Math.round(startValue + (endValue - startValue) * fraction);
+        this.handler = new Handler();
+        this.animation = new Animation() {
+            @Override
+            protected void applyTransformation(float interpolatedTime, Transformation t) {
+                layoutParams.topMargin = (int) (topMarginMax * interpolatedTime);
+                viewTimer.requestLayout();
             }
-        });
+        };
+        this.interpolator = new ReverseInterpolator(new AccelerateDecelerateInterpolator(), false);
+
+        this.running = GlobalOptions.isTimerRunning();
+        this.started = GlobalOptions.getTimerStartTime();
+        this.paused = GlobalOptions.getTimerPauseTime();
+
+        this.animation.setDuration(400);
+        this.animation.setInterpolator(interpolator);
     }
 
-    public void updateActivity(View viewTimer, TextView textTimer, View startStopButton) {
-        this.viewTimer = viewTimer;
-        this.textTimer = textTimer;
-        this.startStopButton = (ImageButton) startStopButton;
+    public void setTopMarginMax(int max) {
+        this.topMarginMax = max;
+        if(timerVisible) {
+            this.layoutParams.topMargin = max;
+            this.viewTimer.requestLayout();
+        }
+    }
 
-        ConstraintLayout.LayoutParams layout = (ConstraintLayout.LayoutParams) viewTimer.getLayoutParams();
-        layout.setMargins(layout.leftMargin, marginTop, layout.rightMargin, layout.bottomMargin);
+    public void updateActivity(View viewTimer) {
+        this.viewTimer = viewTimer;
+        this.textTimer = viewTimer.findViewById(R.id.timerText);
+        this.startStopButton = viewTimer.findViewById(R.id.timerPlayPauseButton);
+        this.layoutParams = (ConstraintLayout.LayoutParams) viewTimer.getLayoutParams();
+
+        layoutParams.topMargin = timerVisible ? topMarginMax : 0;
+        viewTimer.requestLayout();
 
         if(!running && started == 0) {
             textTimer.setText("00:00");
@@ -79,10 +98,6 @@ public class GameTimer {
         return (System.currentTimeMillis() - started) / 1000;
     }
 
-    public String getSecondsPassedString() {
-        return formatSeconds(getSecondsPassed());
-    }
-
     public boolean isRunning() {
         return running;
     }
@@ -95,9 +110,9 @@ public class GameTimer {
      */
     public static String formatSeconds(long seconds) {
         if(seconds < 60*60) {
-            return String.format("%02d:%02d", seconds / 60, seconds % 60);
+            return String.format(Locale.getDefault(), "%02d:%02d", seconds / 60, seconds % 60);
         }
-        return String.format("%d:%02d:%02d", seconds / (60*60), (seconds / 60) % 60, seconds % 60);
+        return String.format(Locale.getDefault(), "%d:%02d:%02d", seconds / (60*60), (seconds / 60) % 60, seconds % 60);
     }
 
     public void updateTimerText() {
@@ -111,62 +126,32 @@ public class GameTimer {
         updateTimerText();
     }
 
-    /**
-     * Make timer slide up and down
-     * @param from y Position element should start from
-     * @param to y Position element should move to
-     * @param layout Layout of element to be moved
-     */
-    public void animateTimerMovement(int from, int to, ConstraintLayout.LayoutParams layout) {
-        if(animator.isRunning())
-            animator.cancel();
-
-        animator.setObjectValues(from, to);
-
-        int left = layout.leftMargin, bottom = layout.bottomMargin, right = layout.rightMargin;
-
-        animator.addUpdateListener(animation -> {
-            String strValue = String.valueOf(animation.getAnimatedValue());
-            int value = Integer.parseInt(strValue);
-            layout.setMargins(left, value, right, bottom);
-        });
-
-        animator.setDuration(500);
-        animator.start();
+    private void animateStuff() {
+        interpolator.setReversed(!timerVisible);
+        viewTimer.startAnimation(animation);
     }
 
     /**
      * Called from Toolbar
-     * If timer is running, stop and hide timer.
-     * If timer is not running, start and update timer display every second.
      * @param item Timer menu item. Text is updated whether timer is shown or not.
      */
     public void toggleTimerVisibility(MenuItem item) {
         timerVisible = !timerVisible;
-        ConstraintLayout.LayoutParams layout = (ConstraintLayout.LayoutParams) viewTimer.getLayoutParams();
+        animateStuff();
 
         if(timerVisible) {
             // show timer
             item.setTitle(R.string.hide_timer);
-            //marginTop = textTimer.getHeight() + 8; //old animation
-            //animateTimerMovement(layout.topMargin, marginTop, layout);
 
-            //if(running) { repeatingCall.run(); }
-            toggleTimer();
-            toggleTimer();
+            //toggleTimer();
+            //toggleTimer();
         } else {
             // hide timer
             item.setTitle(R.string.show_timer);
-            //marginTop = 0; //old animation
-            //animateTimerMovement(layout.topMargin, marginTop, layout);
 
             // don't have to update timer every second
-            handler.removeCallbacks(repeatingCall);
+            //handler.removeCallbacks(repeatingCall);
         }
-    }
-
-    public int getCurrentMarginTop() {
-        return marginTop;
     }
 
     private void updateButtonImage() {
@@ -179,7 +164,6 @@ public class GameTimer {
 
     public void toggleTimer() {
         running = !running;
-
 
         if(running) {
             // start timer
@@ -198,24 +182,14 @@ public class GameTimer {
         updateButtonImage();
     }
 
-    public void resetTimer() {
-        started = System.currentTimeMillis();
-        paused = 0;
-        updateTimerText();
-    }
-
     public boolean isTimerVisible() {
         return timerVisible;
     }
 
-    public interface GameTimerToggleListener {
-        /**
-         * Call toggling before toggling timer.
-         *
-         * @param willBeRunning Is timer about to start or not
-         * @return false if toggling should be prevented, true if everything should continue as expected
-         */
-        boolean toggling(boolean willBeRunning);
+    public void resetTimer() {
+        started = System.currentTimeMillis();
+        paused = 0;
+        updateTimerText();
     }
 
 }
