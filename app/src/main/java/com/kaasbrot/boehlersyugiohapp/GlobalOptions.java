@@ -31,17 +31,20 @@ public class GlobalOptions {
     public static final String SHEEP_COUNT = "sheepcount";
     public static final String HISTORY = "history";
     public static final String TIMER_IS_RUNNING = "timer_running";
+    public static final String TIMER_IS_VISIBLE = "timer_visible";
     public static final String TIMER_PAUSE_TIME = "timer_paused";
-    public static final String TIMER_START_TIME = "timer_paused";
+    public static final String TIMER_START_TIME = "timer_started";
 
     public static int settingstextsize = 20;
 
     private static SharedPreferences prefs = null;
+    private static SharedPreferences.Editor editor = null;
     private static int startingLifePoints = 8000;
     private static boolean keepScreenOn = false;
     private static boolean deleteAfter4 = false;
 
     private static boolean timerRunning = false;
+    private static boolean timerVisible = false;
     private static long timerStartTime = 0;
     private static long timerPauseTime = 0;
 
@@ -54,6 +57,11 @@ public class GlobalOptions {
 
     public static void setPrefs(SharedPreferences prefs) {
         GlobalOptions.prefs = prefs;
+        GlobalOptions.editor = prefs.edit();
+        loadData();
+    }
+
+    private static void loadData() {
         try {
             startingLifePoints = prefs.getInt(STARTING_LIFE_POINTS, 8000);
         } catch(Exception e) {
@@ -88,26 +96,22 @@ public class GlobalOptions {
         // TIMER STUFF
         try {
             timerRunning = prefs.getBoolean(TIMER_IS_RUNNING, false);
-        } catch(Exception e) {
-            setTimerRunning(false);
-        }
-
-        try {
             timerStartTime = prefs.getLong(TIMER_START_TIME, 0);
-        } catch(Exception e) {
-            setTimerStartTime(0);
-        }
-
-        try {
             timerPauseTime = prefs.getLong(TIMER_PAUSE_TIME, 0);
         } catch(Exception e) {
-            setTimerPauseTime(0);
+            setTimerValues(false, 0, 0);
+        }
+
+        try {
+            timerVisible = prefs.getBoolean(TIMER_IS_VISIBLE, false);
+        } catch(Exception e) {
+            setTimerVisible(false);
         }
     }
 
     public static void reset() {
-        prefs.edit().clear().commit();
-        setPrefs(prefs);
+        editor.clear().commit();
+        loadData();
     }
 
     /*
@@ -119,7 +123,7 @@ public class GlobalOptions {
 
     public static void setStartingLifePoints(int newLifePoints) {
         startingLifePoints = newLifePoints;
-        prefs.edit().putInt(STARTING_LIFE_POINTS, newLifePoints).apply();
+        editor.putInt(STARTING_LIFE_POINTS, newLifePoints).apply();
     }
 
     /*
@@ -131,7 +135,7 @@ public class GlobalOptions {
 
     public static void setScreenAlwaysOn(boolean alwaysOn) {
         keepScreenOn = alwaysOn;
-        prefs.edit().putBoolean(KEEP_SCREEN_ON, alwaysOn).apply();
+        editor.putBoolean(KEEP_SCREEN_ON, alwaysOn).apply();
     }
 
     /*
@@ -143,29 +147,35 @@ public class GlobalOptions {
 
     public static void setDeleteAfter4(boolean delete) {
         deleteAfter4 = delete;
-        prefs.edit().putBoolean(KEEP_SCREEN_ON, delete).apply();
+        editor.putBoolean(KEEP_SCREEN_ON, delete).apply();
     }
 
     /*
      * TIMER STUFF
      */
-    public static void setTimerRunning(boolean isRunning) {
+    public static void setTimerValues(boolean isRunning, long startTime, long pauseTime) {
+        // these are often set in conjunction, hence why they are put together into one function here
         timerRunning = isRunning;
-        prefs.edit().putBoolean(TIMER_IS_RUNNING, isRunning).apply();
+        timerStartTime = startTime;
+        timerPauseTime = pauseTime;
+        editor
+                .putBoolean(TIMER_IS_RUNNING, isRunning)
+                .putLong(TIMER_START_TIME, startTime)
+                .putLong(TIMER_PAUSE_TIME, pauseTime)
+                .apply();
     }
 
-    public static void setTimerStartTime(long value) {
-        timerStartTime = value;
-        prefs.edit().putLong(TIMER_START_TIME, value).apply();
-    }
-
-    public static void setTimerPauseTime(long value) {
-        timerPauseTime = value;
-        prefs.edit().putLong(TIMER_IS_RUNNING, value).apply();
+    public static void setTimerVisible(boolean isVisible) {
+        timerVisible = isVisible;
+        editor.putBoolean(TIMER_IS_VISIBLE, isVisible).apply();
     }
 
     public static boolean isTimerRunning() {
         return timerRunning;
+    }
+
+    public static boolean isTimerVisible() {
+        return timerVisible;
     }
 
     public static long getTimerStartTime() {
@@ -193,7 +203,7 @@ public class GlobalOptions {
 
     public static void setCurrentView(Views newView) {
         currentView = newView;
-        prefs.edit().putInt(REMEMBER_VIEW, newView.layout).apply();
+        editor.putInt(REMEMBER_VIEW, newView.layout).apply();
     }
 
     /*
@@ -205,13 +215,13 @@ public class GlobalOptions {
         } else {
             // don't show sheep
             sheepCounter--;
-            prefs.edit().putInt(SHEEP_COUNT, sheepCounter).apply();
+            editor.putInt(SHEEP_COUNT, sheepCounter).apply();
             return false;
         }
     }
 
     public static void setSheepCount(int newSheepCount) {
         sheepCounter = newSheepCount;
-        prefs.edit().putInt(SHEEP_COUNT, newSheepCount).apply();
+        editor.putInt(SHEEP_COUNT, newSheepCount).apply();
     }
 }

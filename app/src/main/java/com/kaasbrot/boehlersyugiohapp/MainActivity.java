@@ -66,8 +66,6 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
     int screen_height_sp;
     int screen_width_sp;
 
-    int toggletimermax;
-    int toggletimerfrequency;
     int actionbar_height;
     int actionbar_width;
     int lifetextsize;
@@ -87,14 +85,10 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
     CoinDialog coinDialog;
     CoinsDialog coinsDialog;
     SettingsDialog settingsDialog;
-    ViewGroup.LayoutParams aboveLayout;
-    TextView abovetimertext;
     TextView belowtimertext;
-    int abovetimersize = 1;
     int belowtimersize;
 
     CooldownTracker cooldowns;
-    ValueAnimator timerAnimator;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -154,24 +148,6 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
 
         getScreenSize();
         getActionBarHeight();
-
-        abovetimertext = findViewById(R.id.AboveTimer);
-        abovetimertext.setTextSize(abovetimersize);
-
-        timerAnimator = new ValueAnimator();
-        timerAnimator.setInterpolator(new DecelerateInterpolator());
-        timerAnimator.removeAllUpdateListeners();
-        timerAnimator.setDuration(450);
-        timerAnimator.setEvaluator((TypeEvaluator<Integer>) (fraction, startValue, endValue) ->
-                (int) (startValue + (endValue - startValue) * fraction)
-        );
-        aboveLayout = abovetimertext.getLayoutParams();
-        timerAnimator.addUpdateListener(animation -> {
-            abovetimersize = (int) animation.getAnimatedValue();
-//            abovetimertext.setTextSize((int) animation.getAnimatedValue());
-            aboveLayout.height = abovetimersize;
-            abovetimertext.requestLayout();
-        });
     }
 
     @Override
@@ -197,8 +173,7 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
         if(screen_height_sp > 650){
             //toggletimermax=60;
             //toggletimermax = 200;
-            gameTimer.setTopMarginMax(200);
-            toggletimerfrequency = 30;
+            gameTimer.setTopMarginMax(190);
             lifetextsize=34;
             numberbuttontextsize=32;
             timertextsize=24;
@@ -206,8 +181,7 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
         }else if(screen_height_sp > 580){
             //toggletimermax=55;
             //toggletimermax = 183;
-            gameTimer.setTopMarginMax(183);
-            toggletimerfrequency = 20;
+            gameTimer.setTopMarginMax(175);
             lifetextsize=22;
             numberbuttontextsize=26;
             timertextsize=20;
@@ -216,7 +190,6 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
             //toggletimermax=50;
             //toggletimermax = 167;
             gameTimer.setTopMarginMax(167);
-            toggletimerfrequency = 12;
             lifetextsize=20;
             numberbuttontextsize=20;
             timertextsize=18;
@@ -387,11 +360,11 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
 
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(currentMenu, menu);
-
-         redoButton = menu.findItem(R.id.action_redo);
+        redoButton = menu.findItem(R.id.action_redo);
         undoButton = menu.findItem(R.id.action_undo);
 
-       timerShowButton = menu.findItem(R.id.action_start_timer);
+        timerShowButton = menu.findItem(R.id.action_start_timer);
+        timerShowButton.setTitle(gameTimer.isTimerVisible() ? R.string.hide_timer : R.string.show_timer);
 
         MenuItem timerButton = menu.findItem(R.id.action_start_timer);
         if(gameTimer.isTimerVisible()) {
@@ -672,21 +645,6 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
         if(!cooldowns.tryAndStartTracker("toggleTimer"))
             return;
 
-//        if(timerAnimator.isRunning()) {
-//            timerAnimator.cancel();
-//        }
-//
-//        int toggletimermin = 1;
-//
-//        if(gameTimer.isTimerVisible()) {
-//            // make invisible
-//            timerAnimator.setObjectValues(abovetimersize, toggletimermin);
-//        } else {
-//            // make visible
-//            timerAnimator.setObjectValues(abovetimersize, toggletimermax);
-//        }
-//
-//        this.runOnUiThread(() -> timerAnimator.start());
         gameTimer.toggleTimerVisibility(item);
     }
 
@@ -823,10 +781,6 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
 
         toolbar = findViewById(toolbar_id);
         setSupportActionBar(toolbar);
-        abovetimertext = findViewById(R.id.AboveTimer);
-        ViewGroup.LayoutParams tmp = abovetimertext.getLayoutParams();
-        tmp.height = aboveLayout.height;
-        aboveLayout = tmp;
         AdjustToScreen();
         updateComponentActivities();
 

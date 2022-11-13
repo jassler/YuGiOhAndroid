@@ -1,6 +1,6 @@
 package com.kaasbrot.boehlersyugiohapp;
 
-import android.animation.ValueAnimator;
+import android.os.Build;
 import android.os.Handler;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import android.view.MenuItem;
@@ -11,16 +11,19 @@ import android.view.animation.Transformation;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import static com.kaasbrot.boehlersyugiohapp.GlobalOptions.isTimerRunning;
+import static com.kaasbrot.boehlersyugiohapp.GlobalOptions.getTimerPauseTime;
+import static com.kaasbrot.boehlersyugiohapp.GlobalOptions.getTimerStartTime;
+import static com.kaasbrot.boehlersyugiohapp.GlobalOptions.setTimerValues;
+import static com.kaasbrot.boehlersyugiohapp.GlobalOptions.setTimerVisible;
+
 import java.util.Locale;
 
 public class GameTimer {
 
-    private final Handler handler;
-    private long started;
-    private long paused;
+    public static final long TIME_LIMIT = 9 * 60 * 60 + 59 * 60 + 59;
 
-    private boolean running;
-    private boolean timerVisible;
+    private final Handler handler;
 
     private final ReverseInterpolator interpolator;
     private final Animation animation;
@@ -34,9 +37,6 @@ public class GameTimer {
     private final Runnable repeatingCall = new Runnable() {
         @Override
         public void run() {
-            // make sure timer doesn't pass 9:59:59
-            if (getSecondsPassed() > 9 * 60 * 60 + 59 * 60 + 59)
-                return;
             updateTimerText();
 
             // call function again in a quarter of a second second
@@ -54,18 +54,22 @@ public class GameTimer {
             }
         };
         this.interpolator = new ReverseInterpolator(new AccelerateDecelerateInterpolator(), false);
-
-        this.running = GlobalOptions.isTimerRunning();
-        this.started = GlobalOptions.getTimerStartTime();
-        this.paused = GlobalOptions.getTimerPauseTime();
-
-        this.animation.setDuration(400);
+        this.animation.setDuration(500);
         this.animation.setInterpolator(interpolator);
+
+        if(getSecondsPassed() > TIME_LIMIT) {
+            // maybe timer was left running overnight by accident
+            setTimerValues(false, 0, 0);
+        }
+
+        if(isRunning()) {
+            repeatingCall.run();
+        }
     }
 
     public void setTopMarginMax(int max) {
         this.topMarginMax = max;
-        if(timerVisible) {
+        if(isTimerVisible()) {
             this.layoutParams.topMargin = max;
             this.viewTimer.requestLayout();
         }
@@ -77,29 +81,27 @@ public class GameTimer {
         this.startStopButton = viewTimer.findViewById(R.id.timerPlayPauseButton);
         this.layoutParams = (ConstraintLayout.LayoutParams) viewTimer.getLayoutParams();
 
-        layoutParams.topMargin = timerVisible ? topMarginMax : 0;
+        this.layoutParams.topMargin = isTimerVisible() ? topMarginMax : 0;
         viewTimer.requestLayout();
 
-        if(!running && started == 0) {
-            textTimer.setText("00:00");
-        } else {
-            updateTimerText();
-        }
+        updateTimerText();
         updateButtonImage();
     }
 
     public long getSecondsPassed() {
-        if (paused > 0.001) {
-            return paused / 1000;
+        long tmp = getTimerPauseTime();
+        if (tmp >= 1) {
+            return tmp / 1000;
         }
-        if (started == 0) {
+        tmp = getTimerStartTime();
+        if (tmp == 0) {
             return 0;
         }
-        return (System.currentTimeMillis() - started) / 1000;
+        return (System.currentTimeMillis() - tmp) / 1000;
     }
 
     public boolean isRunning() {
-        return running;
+        return isTimerRunning();
     }
 
     /**
@@ -116,18 +118,25 @@ public class GameTimer {
     }
 
     public void updateTimerText() {
-        textTimer.setText(formatSeconds(getSecondsPassed()));
+        // make sure timer doesn't pass 9:59:59
+        if (getSecondsPassed() > TIME_LIMIT)
+            setSecondsPassed(0);
+        if (textTimer != null)
+            textTimer.setText(formatSeconds(getSecondsPassed()));
     }
 
     public void setSecondsPassed(int seconds) {
-        paused = (1000 * (long) seconds);
+        long started = getTimerPauseTime();
+        long paused = (1000 * (long) seconds);
         if (seconds == 0 && !isRunning()) //these two lines caused some issues if you restart and hide
-            this.started = 0; //while still 00:00, might cause issues.
+            started = 0; //while still 00:00, might cause issues.
+
+        setTimerValues(isRunning(), started, paused);
         updateTimerText();
     }
 
     private void animateStuff() {
-        interpolator.setReversed(!timerVisible);
+        interpolator.setReversed(!isTimerVisible());
         viewTimer.startAnimation(animation);
     }
 
@@ -136,34 +145,29 @@ public class GameTimer {
      * @param item Timer menu item. Text is updated whether timer is shown or not.
      */
     public void toggleTimerVisibility(MenuItem item) {
-        timerVisible = !timerVisible;
+        setTimerVisible(!isTimerVisible());
         animateStuff();
 
-        if(timerVisible) {
+        if(isTimerVisible()) {
             // show timer
             item.setTitle(R.string.hide_timer);
-
-            //toggleTimer();
-            //toggleTimer();
         } else {
             // hide timer
             item.setTitle(R.string.show_timer);
-
-            // don't have to update timer every second
-            //handler.removeCallbacks(repeatingCall);
         }
     }
 
     private void updateButtonImage() {
-        if(running) {
-            startStopButton.setImageResource(R.drawable.ic_baseline_pause_24px);
-        } else {
-            startStopButton.setImageResource(R.drawable.ic_baseline_play_arrow_24px);
-        }
+        startStopButton.setImageResource(isRunning() ?
+                        R.drawable.ic_baseline_pause_24px :
+                        R.drawable.ic_baseline_play_arrow_24px
+        );
     }
 
     public void toggleTimer() {
-        running = !running;
+        boolean running = !isRunning();
+        long started = getTimerStartTime();
+        long paused = getTimerPauseTime();
 
         if(running) {
             // start timer
@@ -179,16 +183,16 @@ public class GameTimer {
             updateTimerText();
         }
 
+        setTimerValues(running, started, paused);
         updateButtonImage();
     }
 
     public boolean isTimerVisible() {
-        return timerVisible;
+        return GlobalOptions.isTimerVisible();
     }
 
     public void resetTimer() {
-        started = System.currentTimeMillis();
-        paused = 0;
+        setTimerValues(isRunning(), isRunning() ? System.currentTimeMillis() : 0, 0);
         updateTimerText();
     }
 
