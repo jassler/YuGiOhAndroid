@@ -3,8 +3,11 @@ package com.kaasbrot.boehlersyugiohapp;
 import android.os.Build;
 import android.os.Handler;
 import androidx.constraintlayout.widget.ConstraintLayout;
+
+import android.transition.TransitionManager;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.Transformation;
@@ -31,6 +34,7 @@ public class GameTimer {
 
     private View viewTimer;
     private TextView textTimer;
+    private TextView topBox;
     private ImageButton startStopButton;
     private ConstraintLayout.LayoutParams layoutParams;
 
@@ -78,6 +82,7 @@ public class GameTimer {
     public void updateActivity(View viewTimer) {
         this.viewTimer = viewTimer;
         this.textTimer = viewTimer.findViewById(R.id.timerText);
+        this.topBox = viewTimer.findViewById(R.id.AboveTimer);
         this.startStopButton = viewTimer.findViewById(R.id.timerPlayPauseButton);
         this.layoutParams = (ConstraintLayout.LayoutParams) viewTimer.getLayoutParams();
 
@@ -136,6 +141,8 @@ public class GameTimer {
     }
 
     private void animateStuff() {
+//        TransitionManager.beginDelayedTransition((ViewGroup) viewTimer.getParent());
+//        layoutParams.topMargin = isTimerVisible() ? topMarginMax : 0;
         interpolator.setReversed(!isTimerVisible());
         viewTimer.startAnimation(animation);
     }
