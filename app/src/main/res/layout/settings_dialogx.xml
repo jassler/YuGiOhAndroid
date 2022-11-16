@@ -1,24 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-             android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:paddingStart="10dp"
+    android:paddingTop="5dp"
+    android:paddingEnd="10dp"
+    android:paddingBottom="5dp">
 
     <TextView
         android:id="@+id/settingsPointsLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/starting_lp"
+        android:textColor="@color/dialog_text"
         app:layout_constraintBottom_toBottomOf="@id/settingsPointsField"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/settingsPointsField" />
 
     <EditText
         android:id="@+id/settingsPointsField"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:ems="1"
+        android:inputType="number"
+        android:maxEms="3"
+        android:maxLength="6"
+        android:textAlignment="center"
+        android:textColor="@color/dialog_text"
+        android:backgroundTint="@color/dialog_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/settingsPointsLabel"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/settingsScreenOnLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="number"
+        android:text="@string/keep_screen_on"
+        android:textColor="@color/dialog_text"
+        app:layout_constraintBottom_toBottomOf="@+id/settingsScreenOnImage"
+        app:layout_constraintStart_toStartOf="@+id/settingsPointsLabel"
+        app:layout_constraintTop_toTopOf="@+id/settingsScreenOnImage" />
+
+    <ImageView
+        android:id="@+id/settingsScreenOnImage"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="16dp"
+        android:onClick="toggleScreenAlwaysOn"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/settingsPointsField"
+        app:srcCompat="@drawable/tick0" />
+
+    <TextView
+        android:id="@+id/settingsDeleteAfter4Label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/remember_games"
+        android:textColor="@color/dialog_text"
+        app:layout_constraintBottom_toBottomOf="@+id/settingsDeleteAfter4Image"
+        app:layout_constraintStart_toStartOf="@+id/settingsPointsLabel"
+        app:layout_constraintTop_toTopOf="@+id/settingsDeleteAfter4Image" />
+
+    <ImageView
+        android:id="@+id/settingsDeleteAfter4Image"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="16dp"
+        android:onClick="toggleDeleteHistory"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/settingsScreenOnImage"
+        app:srcCompat="@drawable/tick0" />
 </androidx.constraintlayout.widget.ConstraintLayout>

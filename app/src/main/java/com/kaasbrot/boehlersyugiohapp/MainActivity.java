@@ -237,15 +237,11 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
         if(!cooldowns.tryAndStartTracker("screenOn"))
             return;
 
-        ImageView buttonimage = v.findViewById(R.id.tickbutton1);
+        settingsDialog.toggleScreenAlwaysOn();
         if(GlobalOptions.isScreenAlwaysOn()) {
-            buttonimage.setImageResource(R.drawable.tick0);
             getWindow().clearFlags(android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-            GlobalOptions.setScreenAlwaysOn(false);
         } else {
-            buttonimage.setImageResource(R.drawable.tick1);
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-            GlobalOptions.setScreenAlwaysOn(true);
         }
     }
 
@@ -253,14 +249,9 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
         if(!cooldowns.tryAndStartTracker("deleteHistory"))
             return;
 
-        ImageView buttonimage = v.findViewById(R.id.tickbutton2);
-        if(GlobalOptions.isDeleteAfter4()) {
-            buttonimage.setImageResource(R.drawable.tick0);
-            GlobalOptions.setDeleteAfter4(false);
-        } else {
-            buttonimage.setImageResource(R.drawable.tick1);
+        settingsDialog.toggleDeleteAfter4Games();
+        if(!GlobalOptions.isDeleteAfter4()) {
             history.removeNewGamesExcept4();
-            GlobalOptions.setDeleteAfter4(true);
         }
     }
 

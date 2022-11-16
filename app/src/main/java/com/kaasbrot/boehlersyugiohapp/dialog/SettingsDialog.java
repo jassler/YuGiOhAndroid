@@ -66,37 +66,41 @@ public class SettingsDialog extends AppCompatDialogFragment {
         builder.setMessage(R.string.settings);
 
         LayoutInflater inflater =  LayoutInflater.from(getContext());
-        View view = inflater.inflate(R.layout.settings_dialogr, null);
+        View view = inflater.inflate(R.layout.settings_dialogx, null);
         builder.setView(view);
 
         //dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         builder.setCancelable(true);
 
-        ((TextView) view.findViewById(R.id.settingsok)).setTextSize(GlobalOptions.settingstextsize);
-        ((TextView) view.findViewById(R.id.StartLifeText)).setTextSize(GlobalOptions.settingstextsize);
-        ((TextView) view.findViewById(R.id.KeepScreenOnText)).setTextSize(GlobalOptions.settingstextsize);
-        ((TextView) view.findViewById(R.id.KeepHistoryText)).setTextSize(GlobalOptions.settingstextsize);
-        ((TextView) view.findViewById(R.id.BehindEdit)).setTextSize(GlobalOptions.settingstextsize);
-        ((EditText) view.findViewById(R.id.StartLifeInput)).setTextSize(GlobalOptions.settingstextsize);
+//        ((TextView) view.findViewById(R.id.settingsok)).setTextSize(GlobalOptions.settingstextsize);
+//        ((TextView) view.findViewById(R.id.StartLifeText)).setTextSize(GlobalOptions.settingstextsize);
+//        ((TextView) view.findViewById(R.id.KeepScreenOnText)).setTextSize(GlobalOptions.settingstextsize);
+//        ((TextView) view.findViewById(R.id.KeepHistoryText)).setTextSize(GlobalOptions.settingstextsize);
+//        ((TextView) view.findViewById(R.id.BehindEdit)).setTextSize(GlobalOptions.settingstextsize);
+//        ((EditText) view.findViewById(R.id.StartLifeInput)).setTextSize(GlobalOptions.settingstextsize);
 
-        startLifeText = view.findViewById(R.id.StartLifeInput);
-        startLifeText.setText(String.valueOf(GlobalOptions.getStartingLifePoints()), TextView.BufferType.EDITABLE);
-        startLifeText.setSelectAllOnFocus(true);
-        startLifeText.setOnEditorActionListener((v, actionId, event) -> keyEvent(startLifeText));
+        ((TextView) view.findViewById(R.id.settingsPointsLabel)).setTextSize(GlobalOptions.settingstextsize);
+        ((TextView) view.findViewById(R.id.settingsScreenOnLabel)).setTextSize(GlobalOptions.settingstextsize);
+        ((TextView) view.findViewById(R.id.settingsDeleteAfter4Label)).setTextSize(GlobalOptions.settingstextsize);
 
-        ImageView buttonImage = view.findViewById(R.id.tickbutton1);
-        if(GlobalOptions.isScreenAlwaysOn()){
-            buttonImage.setImageResource(R.drawable.tick1);
-        } else {
-            buttonImage.setImageResource(R.drawable.tick0);
-        }
+        EditText pointsField = view.findViewById(R.id.settingsPointsField);
+        pointsField.setTextSize(GlobalOptions.settingstextsize);
+        pointsField.setText(String.valueOf(GlobalOptions.getStartingLifePoints()), TextView.BufferType.EDITABLE);
+        pointsField.setSelectAllOnFocus(true);
+        pointsField.setOnEditorActionListener((v, actionId, event) -> keyEvent(startLifeText));
+        this.startLifeText = pointsField;
 
-        buttonImage = view.findViewById(R.id.tickbutton2);
-        if(GlobalOptions.isDeleteAfter4()){
-            buttonImage.setImageResource(R.drawable.tick1);
-        } else {
-            buttonImage.setImageResource(R.drawable.tick0);
-        }
+//        startLifeText = view.findViewById(R.id.StartLifeInput);
+//        startLifeText.setText(String.valueOf(GlobalOptions.getStartingLifePoints()), TextView.BufferType.EDITABLE);
+//        startLifeText.setSelectAllOnFocus(true);
+//        startLifeText.setOnEditorActionListener((v, actionId, event) -> keyEvent(startLifeText));
+
+        ImageView img = view.findViewById(R.id.settingsScreenOnImage);
+        img.setImageResource(GlobalOptions.isScreenAlwaysOn() ? R.drawable.tick1 : R.drawable.tick0);
+
+        img = view.findViewById(R.id.settingsDeleteAfter4Image);
+        img.setImageResource(GlobalOptions.isDeleteAfter4() ? R.drawable.tick1 : R.drawable.tick0);
+
         builder.setPositiveButton("ok", (dialogInterface, i) -> {});
 
         view.setOnKeyListener((view1, i, keyEvent) -> {
@@ -107,6 +111,21 @@ public class SettingsDialog extends AppCompatDialogFragment {
         });
 
         return builder.create();
+    }
+
+    private void updateImageToggle(int id, boolean val) {
+        ImageView img = this.getDialog().findViewById(id);
+        img.setImageResource(val ? R.drawable.tick1 : R.drawable.tick0);
+    }
+
+    public void toggleScreenAlwaysOn() {
+        GlobalOptions.setScreenAlwaysOn(!GlobalOptions.isScreenAlwaysOn());
+        updateImageToggle(R.id.settingsScreenOnImage, GlobalOptions.isScreenAlwaysOn());
+    }
+
+    public void toggleDeleteAfter4Games() {
+        GlobalOptions.setDeleteAfter4(!GlobalOptions.isDeleteAfter4());
+        updateImageToggle(R.id.settingsDeleteAfter4Image, GlobalOptions.isDeleteAfter4());
     }
 
     @Override
