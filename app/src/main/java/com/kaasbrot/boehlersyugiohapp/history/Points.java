@@ -82,7 +82,8 @@ public class Points {
         if(actions == null) {
             return "";
         } else {
-            return "" + actions.stream()
+//            return pre + actions.stream()
+            return "<br><br>" + actions.stream()
                     .map(x -> x.render(res))
                     .collect(Collectors.joining("<br>"));
         }
