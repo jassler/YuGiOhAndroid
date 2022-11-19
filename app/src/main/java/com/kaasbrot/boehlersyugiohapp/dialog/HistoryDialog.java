@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -40,13 +41,16 @@ public class HistoryDialog extends AppCompatDialogFragment {
         Points prev = new Points(0, 0);
 
         for (Points p : history) {
+            if(p.isNewGame()) {
+                parent.addView(
+                        inflater.inflate(R.layout.dialog_history_line, parent, false)
+                );
+            }
+
             View view = inflater.inflate(R.layout.dialog_history_element, parent, false);
             ((TextView) view.findViewById(R.id.p1)).setText(Html.fromHtml(p.renderP1(prev), Html.FROM_HTML_MODE_COMPACT));
             ((TextView) view.findViewById(R.id.p2)).setText(Html.fromHtml(p.renderP2(prev), Html.FROM_HTML_MODE_COMPACT));
             ((TextView) view.findViewById(R.id.info)).setText(Html.fromHtml(p.renderActions(res), Html.FROM_HTML_MODE_COMPACT));
-            if(p.isNewGame()) {
-                view.setBackground(ContextCompat.getDrawable(view.getContext(), R.drawable.border_bottom_2));
-            }
             parent.addView(view);
 
             prev = p;
