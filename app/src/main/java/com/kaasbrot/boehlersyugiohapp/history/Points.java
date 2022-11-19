@@ -77,12 +77,12 @@ public class Points {
     }
 
     public String renderActions(Resources res) {
-        String pre = isNewGame ? ("<i>" + res.getString(R.string.new_game) + "</i><br><br>") : "<br><br>";
+//        String pre = isNewGame ? ("<i>" + res.getString(R.string.new_game) + "</i><br><br>") : "<br><br>";
 
         if(actions == null) {
-            return pre;
+            return "";
         } else {
-            return pre + actions.stream()
+            return "" + actions.stream()
                     .map(x -> x.render(res))
                     .collect(Collectors.joining("<br>"));
         }
