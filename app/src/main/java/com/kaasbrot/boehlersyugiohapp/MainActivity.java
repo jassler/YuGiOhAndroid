@@ -4,8 +4,6 @@ import static com.kaasbrot.boehlersyugiohapp.GameInformation.history;
 import static com.kaasbrot.boehlersyugiohapp.GameInformation.p1;
 import static com.kaasbrot.boehlersyugiohapp.GameInformation.p2;
 
-import android.animation.TypeEvaluator;
-import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Point;
@@ -22,35 +20,24 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.view.animation.AccelerateInterpolator;
-import android.view.animation.DecelerateInterpolator;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.kaasbrot.boehlersyugiohapp.dialog.CasinoDialog;
 import com.kaasbrot.boehlersyugiohapp.dialog.CoinDialog;
 import com.kaasbrot.boehlersyugiohapp.dialog.CoinsDialog;
 import com.kaasbrot.boehlersyugiohapp.dialog.HistoryDialog;
 import com.kaasbrot.boehlersyugiohapp.dialog.SettingsDialog;
 import com.kaasbrot.boehlersyugiohapp.history.History;
-import com.kaasbrot.boehlersyugiohapp.history.HistoryElement;
-import com.kaasbrot.boehlersyugiohapp.history.HistoryElementParser;
-import com.kaasbrot.boehlersyugiohapp.history.NewGame;
+import com.kaasbrot.boehlersyugiohapp.history.HistoryAction;
 import com.kaasbrot.boehlersyugiohapp.history.Points;
 
-import java.lang.reflect.Type;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Timer;
 
 public class MainActivity extends AppCompatActivity implements ButtonDeterminer {
 
@@ -98,16 +85,16 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
         SharedPreferences sharedPreferences = getPreferences(MODE_PRIVATE);
         GlobalOptions.setPrefs(sharedPreferences);
 
-        String json = sharedPreferences.getString(GlobalOptions.HISTORY, "");
-        history = new History(8000, 8000);
-        if(!json.isEmpty()) {
-            Type listType = new TypeToken<ArrayList<HistoryElementParser>>(){}.getType();
-
-            HistoryElementParser.prev = history.getLastPoints();
-            ArrayList<HistoryElementParser> elements = new Gson().fromJson(json, listType);
-            elements.remove(0);
-            elements.forEach(el -> history.add(el.parse()));
-        }
+//        String json = sharedPreferences.getString(GlobalOptions.HISTORY, "");
+        history = new History(new Points(GlobalOptions.getStartingLifePoints(), GlobalOptions.getStartingLifePoints(), true));
+//        if(!json.isEmpty()) {
+//            Type listType = new TypeToken<ArrayList<HistoryElementParser>>(){}.getType();
+//
+//            HistoryElementParser.prev = history.getLastPoints();
+//            ArrayList<HistoryElementParser> elements = new Gson().fromJson(json, listType);
+//            elements.remove(0);
+//            elements.forEach(el -> history.add(el.parse()));
+//        }
         history.setEditor(sharedPreferences.edit());
         // hopefully done with loading
 
@@ -153,7 +140,7 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
     @Override
     protected void onStart() {
         super.onStart();
-        Points p = history.getLastPoints();
+        Points p = history.getCurrentPoints();
         p1.reset(p.p1);
         p2.reset(p.p2);
     }
@@ -584,12 +571,7 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
         p2.reset();
         //Dialog "Neues Duell" hinzufügen
 
-        List<HistoryElement> h = history.getHistory();
-        if(h.size() <= 1 || h.get(h.size()-2) instanceof NewGame)
-            return;
-
-        history.add(new NewGame());
-        history.add(p1.points, p2.points);
+        history.addNewGame();
         if(GlobalOptions.isDeleteAfter4()){
             history.removeNewGamesExcept4();
         }

@@ -1,17 +1,23 @@
 package com.kaasbrot.boehlersyugiohapp.dialog;
 
 import android.app.Dialog;
+import android.content.res.Resources;
 import android.os.Bundle;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatDialogFragment;
+import androidx.core.content.ContextCompat;
+
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
+import android.widget.TextView;
 
 import com.kaasbrot.boehlersyugiohapp.R;
 import com.kaasbrot.boehlersyugiohapp.history.History;
-import com.kaasbrot.boehlersyugiohapp.history.HistoryElement;
+import com.kaasbrot.boehlersyugiohapp.history.Points;
 
 public class HistoryDialog extends AppCompatDialogFragment {
 
@@ -29,8 +35,21 @@ public class HistoryDialog extends AppCompatDialogFragment {
         View parentView = inflater.inflate(R.layout.dialog_history, null);
         LinearLayout parent = parentView.findViewById(R.id.historyLayout);
 
-        for (HistoryElement element : history.getHistory()) {
-            parent.addView(element.render(inflater, parent));
+        Resources res = getResources();
+
+        Points prev = new Points(0, 0);
+
+        for (Points p : history) {
+            View view = inflater.inflate(R.layout.dialog_history_element, parent, false);
+            ((TextView) view.findViewById(R.id.p1)).setText(Html.fromHtml(p.renderP1(prev), Html.FROM_HTML_MODE_COMPACT));
+            ((TextView) view.findViewById(R.id.p2)).setText(Html.fromHtml(p.renderP2(prev), Html.FROM_HTML_MODE_COMPACT));
+            ((TextView) view.findViewById(R.id.info)).setText(Html.fromHtml(p.renderActions(res), Html.FROM_HTML_MODE_COMPACT));
+            if(p.isNewGame()) {
+                view.setBackground(ContextCompat.getDrawable(view.getContext(), R.drawable.border_bottom_2));
+            }
+            parent.addView(view);
+
+            prev = p;
         }
 
         ScrollView scroll = parentView.findViewById(R.id.historyScroll);

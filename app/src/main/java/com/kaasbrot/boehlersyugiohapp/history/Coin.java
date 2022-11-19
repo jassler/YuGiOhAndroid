@@ -1,8 +1,6 @@
 package com.kaasbrot.boehlersyugiohapp.history;
 
-import android.content.Context;
 import android.content.res.Resources;
-import android.text.SpannableString;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,9 +8,7 @@ import android.widget.TextView;
 
 import com.kaasbrot.boehlersyugiohapp.R;
 
-import java.util.Random;
-
-public class Coin implements HistoryElement {
+public class Coin implements HistoryAction {
     public enum Toss {
         HEADS('\u2461', "&#x24DA;" ),
         TAILS('\u24D7', "&#x24E9;" );
@@ -44,14 +40,9 @@ public class Coin implements HistoryElement {
     }
 
     @Override
-    public View render(LayoutInflater inflater, ViewGroup parent) {
-        View view = inflater.inflate(R.layout.dialog_history_element, parent, false);
-        TextView text = view.findViewById(R.id.info);
-
-        Resources res = text.getResources();
+    public String render(Resources res) {
         int pre = R.string.coin_lands_on;
         int post = (toss == Toss.HEADS) ? R.string.result_heads : R.string.result_tails;
-        text.setText(String.format("%s %s.", res.getString(pre), res.getString(post)));
-        return view;
+        return res.getString(pre) + " " + res.getString(post) + ".";
     }
 }

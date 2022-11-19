@@ -1,5 +1,6 @@
 package com.kaasbrot.boehlersyugiohapp.history;
 
+import android.content.res.Resources;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,21 +9,31 @@ import android.widget.TextView;
 
 import com.kaasbrot.boehlersyugiohapp.R;
 
-public class Points implements HistoryElement {
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
+public class Points {
+
+    private boolean isNewGame;
     public final int p1;
     public final int p2;
 
-    public int diff1;
-    public int diff2;
+    private List<HistoryAction> actions;
 
-    public Points(int p1, int p2) {
-        this(p1, p2, null);
+    public Points(int pointsForBoth) {
+        this(pointsForBoth, pointsForBoth);
     }
 
-    public Points(int p1, int p2, Points prevPoints) {
+    public Points(int p1, int p2) {
+        this(p1, p2, false);
+    }
+
+    public Points(int p1, int p2, boolean isNewGame) {
         this.p1 = p1;
         this.p2 = p2;
-        updateDiffs(prevPoints);
+        this.isNewGame = isNewGame;
+        this.actions = null;
     }
 
     private String renderScore(int score, int diff) {
@@ -35,32 +46,46 @@ public class Points implements HistoryElement {
         }
     }
 
-    public void updateDiffs(Points prevPoints) {
-        if(prevPoints == null) {
-            diff1 = diff2 = 0;
+    public void addAction(HistoryAction a) {
+        if(actions == null)
+            actions = new ArrayList<>();
+        actions.add(a);
+    }
+
+    public void setNewGame(boolean newGame) {
+        isNewGame = newGame;
+    }
+
+    public boolean isNewGame() {
+        return isNewGame;
+    }
+
+    public String renderP1(Points prev) {
+        if(isNewGame) {
+            return "<br><b>" + p1 + "</b>";
         } else {
-            diff1 = p1 - prevPoints.p1;
-            diff2 = p2 - prevPoints.p2;
+            return renderScore(p1, p1 - prev.p1);
         }
     }
 
-    @Override
-    public View render(LayoutInflater inflater, ViewGroup parent) {
-        View view = inflater.inflate(R.layout.dialog_history_element, parent, false);
-
-        TextView p1Text = view.findViewById(R.id.p1);
-        TextView p2Text = view.findViewById(R.id.p2);
-
-        if(diff1 == 0 && diff2 == 0) {
-            // assuming it's a new game, so make scores bold
-            p1Text.setText(Html.fromHtml("<b>" + p1 + "</b>", Html.FROM_HTML_MODE_COMPACT));
-            p2Text.setText(Html.fromHtml("<b>" + p2 + "</b>", Html.FROM_HTML_MODE_COMPACT));
-
+    public String renderP2(Points prev) {
+        if(isNewGame) {
+            return "<br><b>" + p2 + "</b>";
         } else {
-            p1Text.setText(Html.fromHtml(renderScore(p1, diff1), Html.FROM_HTML_MODE_COMPACT));
-            p2Text.setText(Html.fromHtml(renderScore(p2, diff2), Html.FROM_HTML_MODE_COMPACT));
+            return renderScore(p2, p2 - prev.p2);
         }
-
-        return view;
     }
+
+    public String renderActions(Resources res) {
+        String pre = isNewGame ? ("<i>-- " + res.getString(R.string.new_game) + "--</i><br><br>") : "<br><br>";
+
+        if(actions == null) {
+            return pre;
+        } else {
+            return pre + actions.stream()
+                    .map(x -> x.render(res))
+                    .collect(Collectors.joining("<br>"));
+        }
+    }
+
 }
