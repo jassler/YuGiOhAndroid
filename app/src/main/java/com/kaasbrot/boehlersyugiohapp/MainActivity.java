@@ -4,8 +4,6 @@ import static com.kaasbrot.boehlersyugiohapp.GameInformation.history;
 import static com.kaasbrot.boehlersyugiohapp.GameInformation.p1;
 import static com.kaasbrot.boehlersyugiohapp.GameInformation.p2;
 
-import android.animation.TypeEvaluator;
-import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Point;
@@ -22,35 +20,24 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.view.animation.AccelerateInterpolator;
-import android.view.animation.DecelerateInterpolator;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.kaasbrot.boehlersyugiohapp.dialog.CasinoDialog;
 import com.kaasbrot.boehlersyugiohapp.dialog.CoinDialog;
 import com.kaasbrot.boehlersyugiohapp.dialog.CoinsDialog;
 import com.kaasbrot.boehlersyugiohapp.dialog.HistoryDialog;
 import com.kaasbrot.boehlersyugiohapp.dialog.SettingsDialog;
 import com.kaasbrot.boehlersyugiohapp.history.History;
-import com.kaasbrot.boehlersyugiohapp.history.HistoryElement;
-import com.kaasbrot.boehlersyugiohapp.history.HistoryElementParser;
-import com.kaasbrot.boehlersyugiohapp.history.NewGame;
+import com.kaasbrot.boehlersyugiohapp.history.HistoryAction;
 import com.kaasbrot.boehlersyugiohapp.history.Points;
 
-import java.lang.reflect.Type;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Timer;
 
 public class MainActivity extends AppCompatActivity implements ButtonDeterminer {
 
@@ -66,8 +53,6 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
     int screen_height_sp;
     int screen_width_sp;
 
-    int toggletimermax;
-    int toggletimerfrequency;
     int actionbar_height;
     int actionbar_width;
     int lifetextsize;
@@ -87,14 +72,10 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
     CoinDialog coinDialog;
     CoinsDialog coinsDialog;
     SettingsDialog settingsDialog;
-    ViewGroup.LayoutParams aboveLayout;
-    TextView abovetimertext;
     TextView belowtimertext;
-    int abovetimersize = 1;
     int belowtimersize;
 
     CooldownTracker cooldowns;
-    ValueAnimator timerAnimator;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,16 +85,16 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
         SharedPreferences sharedPreferences = getPreferences(MODE_PRIVATE);
         GlobalOptions.setPrefs(sharedPreferences);
 
-        String json = sharedPreferences.getString(GlobalOptions.HISTORY, "");
-        history = new History(8000, 8000);
-        if(!json.isEmpty()) {
-            Type listType = new TypeToken<ArrayList<HistoryElementParser>>(){}.getType();
-
-            HistoryElementParser.prev = history.getLastPoints();
-            ArrayList<HistoryElementParser> elements = new Gson().fromJson(json, listType);
-            elements.remove(0);
-            elements.forEach(el -> history.add(el.parse()));
-        }
+//        String json = sharedPreferences.getString(GlobalOptions.HISTORY, "");
+        history = new History(new Points(GlobalOptions.getStartingLifePoints(), GlobalOptions.getStartingLifePoints(), true));
+//        if(!json.isEmpty()) {
+//            Type listType = new TypeToken<ArrayList<HistoryElementParser>>(){}.getType();
+//
+//            HistoryElementParser.prev = history.getLastPoints();
+//            ArrayList<HistoryElementParser> elements = new Gson().fromJson(json, listType);
+//            elements.remove(0);
+//            elements.forEach(el -> history.add(el.parse()));
+//        }
         history.setEditor(sharedPreferences.edit());
         // hopefully done with loading
 
@@ -154,30 +135,12 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
 
         getScreenSize();
         getActionBarHeight();
-
-        abovetimertext = findViewById(R.id.AboveTimer);
-        abovetimertext.setTextSize(abovetimersize);
-
-        timerAnimator = new ValueAnimator();
-        timerAnimator.setInterpolator(new DecelerateInterpolator());
-        timerAnimator.removeAllUpdateListeners();
-        timerAnimator.setDuration(450);
-        timerAnimator.setEvaluator((TypeEvaluator<Integer>) (fraction, startValue, endValue) ->
-                (int) (startValue + (endValue - startValue) * fraction)
-        );
-        aboveLayout = abovetimertext.getLayoutParams();
-        timerAnimator.addUpdateListener(animation -> {
-            abovetimersize = (int) animation.getAnimatedValue();
-//            abovetimertext.setTextSize((int) animation.getAnimatedValue());
-            aboveLayout.height = abovetimersize;
-            abovetimertext.requestLayout();
-        });
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        Points p = history.getLastPoints();
+        Points p = history.getCurrentPoints();
         p1.reset(p.p1);
         p2.reset(p.p2);
     }
@@ -196,24 +159,24 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
 
         if(screen_height_sp > 650){
             //toggletimermax=60;
-            toggletimermax = 200;
-            toggletimerfrequency = 30;
+            //toggletimermax = 200;
+            gameTimer.setTopMarginMax(190);
             lifetextsize=34;
             numberbuttontextsize=32;
             timertextsize=24;
             GlobalOptions.settingstextsize=20;
         }else if(screen_height_sp > 580){
             //toggletimermax=55;
-            toggletimermax = 183;
-            toggletimerfrequency = 20;
+            //toggletimermax = 183;
+            gameTimer.setTopMarginMax(175);
             lifetextsize=22;
             numberbuttontextsize=26;
             timertextsize=20;
             GlobalOptions.settingstextsize=16;
         }else{
             //toggletimermax=50;
-            toggletimermax = 167;
-            toggletimerfrequency = 12;
+            //toggletimermax = 167;
+            gameTimer.setTopMarginMax(167);
             lifetextsize=20;
             numberbuttontextsize=20;
             timertextsize=18;
@@ -261,15 +224,11 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
         if(!cooldowns.tryAndStartTracker("screenOn"))
             return;
 
-        ImageView buttonimage = v.findViewById(R.id.tickbutton1);
+        settingsDialog.toggleScreenAlwaysOn();
         if(GlobalOptions.isScreenAlwaysOn()) {
-            buttonimage.setImageResource(R.drawable.tick0);
             getWindow().clearFlags(android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-            GlobalOptions.setScreenAlwaysOn(false);
         } else {
-            buttonimage.setImageResource(R.drawable.tick1);
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-            GlobalOptions.setScreenAlwaysOn(true);
         }
     }
 
@@ -277,14 +236,9 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
         if(!cooldowns.tryAndStartTracker("deleteHistory"))
             return;
 
-        ImageView buttonimage = v.findViewById(R.id.tickbutton2);
-        if(GlobalOptions.isDeleteAfter4()) {
-            buttonimage.setImageResource(R.drawable.tick0);
-            GlobalOptions.setDeleteAfter4(false);
-        } else {
-            buttonimage.setImageResource(R.drawable.tick1);
+        settingsDialog.toggleDeleteAfter4Games();
+        if(!GlobalOptions.isDeleteAfter4()) {
             history.removeNewGamesExcept4();
-            GlobalOptions.setDeleteAfter4(true);
         }
     }
 
@@ -303,11 +257,7 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
                 findViewById(R.id.tmpText2),
                 this
         );
-        gameTimer.updateActivity(
-                findViewById(R.id.viewTimer),
-                findViewById(R.id.timerText),
-                findViewById(R.id.timerPlayPauseButton)
-        );
+        gameTimer.updateActivity(findViewById(R.id.viewTimer));
 
 
         // don't show title "YuGiCalc" in the title bar
@@ -388,11 +338,11 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
 
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(currentMenu, menu);
-
-         redoButton = menu.findItem(R.id.action_redo);
+        redoButton = menu.findItem(R.id.action_redo);
         undoButton = menu.findItem(R.id.action_undo);
 
-       timerShowButton = menu.findItem(R.id.action_start_timer);
+        timerShowButton = menu.findItem(R.id.action_start_timer);
+        timerShowButton.setTitle(gameTimer.isTimerVisible() ? R.string.hide_timer : R.string.show_timer);
 
         MenuItem timerButton = menu.findItem(R.id.action_start_timer);
         if(gameTimer.isTimerVisible()) {
@@ -621,12 +571,7 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
         p2.reset();
         //Dialog "Neues Duell" hinzufügen
 
-        List<HistoryElement> h = history.getHistory();
-        if(h.size() <= 1 || h.get(h.size()-2) instanceof NewGame)
-            return;
-
-        history.add(new NewGame());
-        history.add(p1.points, p2.points);
+        history.addNewGame();
         if(GlobalOptions.isDeleteAfter4()){
             history.removeNewGamesExcept4();
         }
@@ -673,48 +618,6 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
         if(!cooldowns.tryAndStartTracker("toggleTimer"))
             return;
 
-        if(timerAnimator.isRunning()) {
-            timerAnimator.cancel();
-        }
-
-        int toggletimermin = 1;
-
-        if(gameTimer.isTimerVisible()) {
-            // make invisible
-            timerAnimator.setObjectValues(abovetimersize, toggletimermin);
-        } else {
-            // make visible
-            timerAnimator.setObjectValues(abovetimersize, toggletimermax);
-        }
-
-        this.runOnUiThread(() -> timerAnimator.start());
-
-        // private int toggletimermax = 60; //defined in getScreenSize
-        // private int toggletimerfrequency = 15; //defined in getScreenSize
-//        if (gameTimer.isTimerVisible()) {
-//
-//            clearTimerTextFocus();
-//            for (int i = 1; i < toggletimerfrequency; i++){
-//                int finalI = i;
-//                new Handler().postDelayed(() -> {
-//                    abovetimersize = toggletimermax-(toggletimermax-toggletimermin)/(toggletimerfrequency)* finalI;
-//                    abovetimertext.setTextSize(abovetimersize);
-//                }, (long) (toggletimertime / toggletimerfrequency) * finalI);
-//            }
-//            new Handler().postDelayed(() -> abovetimertext.setTextSize(toggletimermin),toggletimertime);
-//
-//        } else {
-//            abovetimersize = toggletimermin;
-//            for (int i = 1; i < toggletimerfrequency; i++){
-//                int finalI = i;
-//                new Handler().postDelayed(() -> {
-//                    abovetimersize = toggletimermin+(toggletimermax-toggletimermin)/(toggletimerfrequency)* finalI;
-//                    abovetimertext.setTextSize(abovetimersize);
-//                }, (long) (toggletimertime / toggletimerfrequency) *i);
-//            }
-//            new Handler().postDelayed(() -> abovetimertext.setTextSize(toggletimermax),toggletimertime);
-//        }
-
         gameTimer.toggleTimerVisibility(item);
     }
 
@@ -739,95 +642,6 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
             return;
 
         settingsDialog.show(getSupportFragmentManager(), "Settings");
-
-//        Dialog dialog = new Dialog(MainActivity.this);
-//        dialog.setContentView(R.layout.settings_dialogr);
-//        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-//        dialog.setCancelable(true);
-//
-//        dialog.getWindow().getAttributes().windowAnimations = R.style.MyDialogTheme;
-//        dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-//        dialog.getWindow().setGravity(Gravity.CENTER);
-//        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-//        TextView okay_text = dialog.findViewById(R.id.settingsok);
-//        okay_text.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                dialog.dismiss();
-//            }
-//        });
-//        ((TextView) dialog.findViewById(R.id.settingsok)).setTextSize(GlobalOptions.settingstextsize);
-//        ((TextView) dialog.findViewById(R.id.StartLifeText)).setTextSize(GlobalOptions.settingstextsize);
-//        ((TextView) dialog.findViewById(R.id.KeepScreenOnText)).setTextSize(GlobalOptions.settingstextsize);
-//        ((TextView) dialog.findViewById(R.id.KeepHistoryText)).setTextSize(GlobalOptions.settingstextsize);
-//        ((TextView) dialog.findViewById(R.id.BehindEdit)).setTextSize(GlobalOptions.settingstextsize);
-//        ((EditText) dialog.findViewById(R.id.StartLifeInput)).setTextSize(GlobalOptions.settingstextsize);
-//
-//        EditText startlifetext = dialog.findViewById(R.id.StartLifeInput);
-//        startlifetext.setText(String.valueOf(startinglifepoints), TextView.BufferType.EDITABLE);
-//        startlifetext.setSelectAllOnFocus(true);
-//        startlifetext.setOnEditorActionListener((v, actionId, event) -> {
-//            if ((event != null && (event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) || (actionId == EditorInfo.IME_ACTION_DONE)) {
-//                startlifetext.clearFocus();
-//
-//                InputMethodManager imm = (InputMethodManager) getSystemService(
-//                        Context.INPUT_METHOD_SERVICE);
-//                imm.hideSoftInputFromWindow(startlifetext.getApplicationWindowToken(), 0);
-//                String startlifetemp = startlifetext.getText().toString();
-//                if(!startlifetemp.isEmpty()){
-//                int startlifetempint = Integer.parseInt(startlifetemp);
-//                Toast toast = Toast.makeText(getApplicationContext(), "", Toast.LENGTH_LONG);
-//                toast.setGravity(Gravity.TOP, 0, 10);
-//                if(startlifetempint>40000){
-//                    toast.setText(R.string.set_lifepoint_max);
-//                    toast.show();
-//                    startlifetext.setText(String.valueOf(startinglifepoints));
-//                    return true;
-//                } else if(startlifetempint<1) {
-//                    toast.setText(R.string.set_lifepoint_min);
-//                    toast.show();
-//                    startlifetext.setText(String.valueOf(startinglifepoints));
-//                    return true;
-//                }
-//                else{
-//
-//                    startinglifepoints = startlifetempint;
-//                    edit.putInt(GlobalOptions.STARTING_LIFE_POINTS,startinglifepoints);
-//                    edit.apply();
-//                }} else{
-//                    startlifetext.setText(String.valueOf(startinglifepoints));
-//                }
-//            }
-//
-//            return true;
-//        });
-//        ImageView buttonimage1 = dialog.findViewById(R.id.tickbutton1);
-//        if(keepscreenon==0){
-//            buttonimage1.setImageResource(R.drawable.tick0);
-//        }else{
-//            buttonimage1.setImageResource(R.drawable.tick1);
-//        }
-//        ImageView buttonimage2 = dialog.findViewById(R.id.tickbutton2);
-//        if(deleteafter4==0){
-//            buttonimage2.setImageResource(R.drawable.tick0);
-//        }else{
-//            buttonimage2.setImageResource(R.drawable.tick1);
-//        }
-//
-//        dialog.show();
-//
-//        //clear focus with double back only
-//        dialog.setOnKeyListener(new Dialog.OnKeyListener() {
-//            @Override
-//            public boolean onKey(DialogInterface dialog, int keyCode,
-//                                 KeyEvent event) {
-//                if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
-//                    startlifetext.clearFocus();
-//                }
-//                return true;
-//            }
-//        });
-
     }
 
     @Override
@@ -882,43 +696,6 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
                 break;
         }
 
-        /*int deltaY;
-        switch (event.getAction()) {
-            case MotionEvent.ACTION_DOWN:
-                y1 = (int) event.getY();
-                break;
-            case MotionEvent.ACTION_UP:
-                y2 = (int) event.getY();
-                deltaY = y2 - y1;
-                if (Math.abs(deltaY) > MIN_DISTANCE) {
-                    if (gameTimer.isTimerVisible()) {
-                        clearTimerTextFocus();
-                    }
-                    gameTimer.toggleTimerVisibility(timerShowButton);
-                } else {
-                    View v = findViewById(R.id.viewTimer);
-                    ConstraintLayout.LayoutParams layout = (ConstraintLayout.LayoutParams) v.getLayoutParams();
-                    gameTimer.animateTimerMovement(layout.topMargin, gameTimer.getCurrentMarginTop(), layout);
-                    // consider as something else - a screen tap for example
-                }
-                break;
-            case MotionEvent.ACTION_MOVE:
-                y2 = (int) event.getY();
-                deltaY = y2 - y1;
-                if (Math.abs(deltaY) > MIN_DISTANCE) {
-                    View v = findViewById(R.id.viewTimer);
-                    ConstraintLayout.LayoutParams layout = (ConstraintLayout.LayoutParams) v.getLayoutParams();
-                    int left = layout.leftMargin, bottom = layout.bottomMargin, right = layout.rightMargin;
-
-                    if (deltaY > 0 && !gameTimer.isTimerVisible()) {
-                        // down gesture, show timer
-                        layout.setMargins(left, deltaY - MIN_DISTANCE + gameTimer.getCurrentMarginTop(), right, bottom);
-                    } else if (deltaY < 0 && gameTimer.isTimerVisible()) {
-                        // up gesture, hide timer
-                        layout.setMargins(left, deltaY + MIN_DISTANCE + gameTimer.getCurrentMarginTop(), right, bottom);
-                    }
-                }
-        }*/ //old drag down stuff
         return super.onTouchEvent(event);
     }
 
@@ -977,10 +754,6 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
 
         toolbar = findViewById(toolbar_id);
         setSupportActionBar(toolbar);
-        abovetimertext = findViewById(R.id.AboveTimer);
-        ViewGroup.LayoutParams tmp = abovetimertext.getLayoutParams();
-        tmp.height = aboveLayout.height;
-        aboveLayout = tmp;
         AdjustToScreen();
         updateComponentActivities();
 

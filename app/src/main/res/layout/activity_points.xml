@@ -16,585 +16,561 @@
         app:layout_constraintTop_toTopOf="parent" />
 
 
-
-<androidx.constraintlayout.widget.ConstraintLayout
-    android:id="@+id/PointsUnderTimer"
-    android:layout_width="0dp"
-    android:layout_height="0dp"
-    android:layout_marginTop="0dp"
-    android:layout_marginEnd="0dp"
-    android:layout_marginBottom="2dp"
-    app:layout_constraintBottom_toBottomOf="parent"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toBottomOf="@+id/viewTimer">
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guidelinePointsBelowPanel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintGuide_percent="0.96" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guidelinePointsBelowInput"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintGuide_percent="0.42" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guidelinePointsAboveInput"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintGuide_percent="0.35" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guidelinePointsBelowLife"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintGuide_percent="0.12" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guidelinePointsAboveLife"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintGuide_percent="0.005" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guidelineLeft"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:orientation="vertical"
-        app:layout_constraintGuide_begin="8dp"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guidelineCenterLeft"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.25" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guidelineCenter"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.5" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guidelineCenterRight"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.75" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guidelineRight"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_end="8dp" />
-
-    <TextView
-        android:id="@+id/customInput"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/PointsUnderTimer"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:text="0"
-        android:textColor="#ffffff"
-        android:textSize="30sp"
-        android:gravity="center_vertical|center_horizontal"
-        app:layout_constraintBottom_toTopOf="@+id/guidelinePointsBelowInput"
-        app:layout_constraintEnd_toStartOf="@+id/guidelineRight"
-        app:layout_constraintStart_toStartOf="@+id/guidelineLeft"
-        app:layout_constraintTop_toTopOf="@+id/guidelinePointsAboveInput" />
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/LifePlayer1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="0dp"
-        android:layout_marginEnd="0dp"
-        android:layout_marginBottom="0dp"
-        app:layout_constraintVertical_bias="1.2"
-        app:layout_constraintBottom_toBottomOf="@id/guidelinePointsBelowLife"
-        app:layout_constraintEnd_toEndOf="@id/guidelineCenter"
-        app:layout_constraintStart_toStartOf="@id/guidelineLeft"
-        app:layout_constraintTop_toTopOf="@id/guidelinePointsAboveLife">
-    <TextView
-        android:id="@+id/pointsPlayer1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="#FFFFFF"
-        android:textSize="30sp"
-        android:text=""
-        android:gravity="bottom"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/tmpText1"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginBottom="2dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintVertical_bias="0.95" />
-    <TextView
-        android:id="@+id/tmpText1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="0dp"
-        android:text=""
-        android:gravity="top"
-        android:textColor="#CCCCCC"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/pointsPlayer1"
-        app:layout_constraintBottom_toBottomOf="parent"/>
-    </androidx.constraintlayout.widget.ConstraintLayout>
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/viewPlayer1"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="0dp"
-        android:layout_marginEnd="0dp"
-        android:layout_marginBottom="0dp"
-        app:layout_constraintDimensionRatio="3:2.3"
-        app:layout_constraintBottom_toBottomOf="@id/guidelinePointsAboveInput"
-        app:layout_constraintEnd_toStartOf="@+id/guidelineCenter"
-        app:layout_constraintStart_toStartOf="@+id/guidelineLeft"
-        app:layout_constraintTop_toTopOf="@id/guidelinePointsBelowLife">
+        app:layout_constraintTop_toBottomOf="@+id/viewTimer">
 
-        <Button
-            android:id="@+id/p1Add"
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guidelinePointsBelowPanel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.96"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guidelinePointsBelowInput"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.42"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guidelinePointsAboveInput"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.35"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guidelinePointsBelowLife"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.12"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guidelinePointsAboveLife"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.005"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guidelineLeft"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="8dp"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guidelineCenterLeft"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.25" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guidelineCenter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.5" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guidelineCenterRight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.75" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guidelineRight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_end="8dp" />
+
+        <TextView
+            android:id="@+id/customInput"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:background="@drawable/add_button"
-            android:onClick="addPoint"
-            android:text="+"
+            android:gravity="center_vertical|center_horizontal"
+            android:text="0"
+            android:textColor="#ffffff"
+            android:textSize="30sp"
+            app:layout_constraintBottom_toTopOf="@+id/guidelinePointsBelowInput"
+            app:layout_constraintEnd_toStartOf="@+id/guidelineRight"
+            app:layout_constraintStart_toStartOf="@+id/guidelineLeft"
+            app:layout_constraintTop_toTopOf="@+id/guidelinePointsAboveInput" />
+
+        <TextView
+            android:id="@+id/pointsPlayer1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:text=""
             android:textAlignment="center"
-            android:textColor="@drawable/add_button"
-            android:textSize="40sp"
-            android:textStyle="bold"
-            app:layout_constraintDimensionRatio="w,1:1"
-            app:layout_constraintEnd_toStartOf="@+id/p1Sub"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:textColor="#FFFFFF"
+            android:textSize="30sp"
+            app:layout_constraintBottom_toBottomOf="@id/guidelinePointsBelowLife"
+            app:layout_constraintEnd_toEndOf="@id/guidelineCenter"
+            app:layout_constraintStart_toStartOf="@id/guidelineLeft"
+            app:layout_constraintTop_toTopOf="@id/guidelinePointsAboveLife" />
 
+        <TextView
+            android:id="@+id/tmpText1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="-6dp"
+            android:gravity="center_horizontal"
+            android:text=""
+            android:textAlignment="center"
+            android:textColor="#CCCCCC"
+            app:layout_constraintEnd_toEndOf="@id/guidelineCenter"
+            app:layout_constraintStart_toStartOf="@id/guidelineLeft"
+            app:layout_constraintTop_toBottomOf="@id/pointsPlayer1" />
 
-        <Button
-            android:id="@+id/p1Sub"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/viewPlayer1"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:background="@drawable/sub_button"
-            android:onClick="subPoint"
-            android:text="\u2212"
-            android:textColor="@drawable/sub_button"
-            android:textSize="40sp"
-            android:textStyle="bold"
-            app:layout_constraintDimensionRatio="w,1:1"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/p1Add"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:layout_marginTop="0dp"
+            android:layout_marginEnd="0dp"
+            android:layout_marginBottom="0dp"
+            app:layout_constraintBottom_toBottomOf="@id/guidelinePointsAboveInput"
+            app:layout_constraintDimensionRatio="3:2.3"
+            app:layout_constraintEnd_toStartOf="@+id/guidelineCenter"
+            app:layout_constraintStart_toStartOf="@+id/guidelineLeft"
+            app:layout_constraintTop_toTopOf="@id/guidelinePointsBelowLife">
 
-        <Button
-            android:id="@+id/p1DivTwo"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:background="@drawable/div_button"
-            android:onClick="div"
-            android:text="\u00F7 2"
-            android:textColor="@drawable/div_button"
-            android:textSize="20sp"
-            app:layout_constraintDimensionRatio="w,1:2"
-            app:layout_constraintEnd_toStartOf="@+id/p1Equal"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/p1Add" />
-
-        <Button
-            android:id="@+id/p1Equal"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:background="@drawable/div_button"
-            android:onClick="customInputSet"
-            android:text="="
-            android:textColor="@drawable/div_button"
-            android:textSize="20sp"
-            app:layout_constraintDimensionRatio="w,1:2"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/p1DivTwo"
-            app:layout_constraintTop_toBottomOf="@+id/p1Sub" />
+            <Button
+                android:id="@+id/p1Add"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/add_button"
+                android:onClick="addPoint"
+                android:text="+"
+                android:textAlignment="center"
+                android:textColor="@drawable/add_button"
+                android:textSize="40sp"
+                android:textStyle="bold"
+                app:layout_constraintDimensionRatio="w,1:1"
+                app:layout_constraintEnd_toStartOf="@+id/p1Sub"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/LifePlayer2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="0dp"
-        android:layout_marginEnd="0dp"
-        android:layout_marginBottom="0dp"
-        app:layout_constraintVertical_bias="1.2"
-        app:layout_constraintBottom_toBottomOf="@id/guidelinePointsBelowLife"
-        app:layout_constraintStart_toStartOf="@id/guidelineCenter"
-        app:layout_constraintEnd_toEndOf="@id/guidelineRight"
-        app:layout_constraintTop_toTopOf="@id/guidelinePointsAboveLife">
+            <Button
+                android:id="@+id/p1Sub"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/sub_button"
+                android:onClick="subPoint"
+                android:text="\u2212"
+                android:textColor="@drawable/sub_button"
+                android:textSize="40sp"
+                android:textStyle="bold"
+                app:layout_constraintDimensionRatio="w,1:1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/p1Add"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Button
+                android:id="@+id/p1DivTwo"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/div_button"
+                android:onClick="div"
+                android:text="\u00F7 2"
+                android:textColor="@drawable/div_button"
+                android:textSize="20sp"
+                app:layout_constraintDimensionRatio="w,1:2"
+                app:layout_constraintEnd_toStartOf="@+id/p1Equal"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/p1Add" />
+
+            <Button
+                android:id="@+id/p1Equal"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/div_button"
+                android:onClick="customInputSet"
+                android:text="="
+                android:textColor="@drawable/div_button"
+                android:textSize="20sp"
+                app:layout_constraintDimensionRatio="w,1:2"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/p1DivTwo"
+                app:layout_constraintTop_toBottomOf="@+id/p1Sub" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
         <TextView
             android:id="@+id/pointsPlayer2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:text=""
+            android:textAlignment="center"
             android:textColor="#FFFFFF"
             android:textSize="30sp"
-            android:text=""
-            android:gravity="bottom"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/tmpText2"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintVertical_bias="0.95" />
+            app:layout_constraintBottom_toBottomOf="@id/guidelinePointsBelowLife"
+            app:layout_constraintEnd_toEndOf="@id/guidelineRight"
+            app:layout_constraintStart_toStartOf="@id/guidelineCenter"
+            app:layout_constraintTop_toTopOf="@id/guidelinePointsAboveLife" />
+
         <TextView
             android:id="@+id/tmpText2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="0dp"
+            android:layout_marginTop="-6dp"
+            android:gravity="center_horizontal"
             android:text=""
-            android:gravity="top"
+            android:textAlignment="center"
             android:textColor="#CCCCCC"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/pointsPlayer2"
-            app:layout_constraintBottom_toBottomOf="parent"/>
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/viewPlayer2"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="0dp"
-        android:layout_marginEnd="0dp"
-        android:layout_marginBottom="0dp"
-        app:layout_constraintDimensionRatio="3:2.3"
-        app:layout_constraintBottom_toBottomOf="@id/guidelinePointsAboveInput"
-        app:layout_constraintEnd_toStartOf="@+id/guidelineRight"
-        app:layout_constraintStart_toStartOf="@+id/guidelineCenter"
-        app:layout_constraintTop_toTopOf="@id/guidelinePointsBelowLife">
-
-        <Button
-            android:id="@+id/p2Add"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:background="@drawable/add_button"
-            android:onClick="addPoint"
-            android:text="+"
-            android:textColor="@drawable/add_button"
-            android:textSize="40sp"
-            android:textStyle="bold"
-            app:layout_constraintDimensionRatio="1:1"
-            app:layout_constraintEnd_toStartOf="@+id/p2Sub"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-
-        <Button
-            android:id="@+id/p2Sub"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:background="@drawable/sub_button"
-            android:onClick="subPoint"
-            android:text="\u2212"
-            android:textColor="@drawable/sub_button"
-            android:textSize="40sp"
-            android:textStyle="bold"
-            app:layout_constraintDimensionRatio="w,1:1"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/p2Add"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <Button
-            android:id="@+id/p2DivTwo"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:background="@drawable/div_button"
-            android:onClick="div"
-            android:text="\u00F7 2"
-            android:textColor="@drawable/div_button"
-            android:textSize="20sp"
-            app:layout_constraintDimensionRatio="w,1:2"
-            app:layout_constraintEnd_toStartOf="@+id/p2Equal"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/p2Add" />
-
-        <Button
-            android:id="@+id/p2Equal"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:background="@drawable/div_button"
-            android:onClick="customInputSet"
-            android:text="="
-            android:textColor="@drawable/div_button"
-            android:textSize="20sp"
-            app:layout_constraintDimensionRatio="w,1:2"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/p2DivTwo"
-            app:layout_constraintTop_toBottomOf="@+id/p2Sub" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraintLayout"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="4dp"
-        android:layout_marginBottom="0dp"
-        app:layout_constraintBottom_toBottomOf="@id/guidelinePointsBelowPanel"
-        app:layout_constraintEnd_toStartOf="@+id/guidelineRight"
-        app:layout_constraintStart_toStartOf="@+id/guidelineLeft"
-        app:layout_constraintTop_toTopOf="@+id/guidelinePointsBelowInput">
+            app:layout_constraintEnd_toEndOf="@id/guidelineRight"
+            app:layout_constraintStart_toStartOf="@id/guidelineCenter"
+            app:layout_constraintTop_toBottomOf="@id/pointsPlayer2" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/viewDialpad"
+            android:id="@+id/viewPlayer2"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintDimensionRatio="4:5.2"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            android:layout_marginTop="0dp"
+            android:layout_marginEnd="0dp"
+            android:layout_marginBottom="0dp"
+            app:layout_constraintBottom_toBottomOf="@id/guidelinePointsAboveInput"
+            app:layout_constraintDimensionRatio="3:2.3"
+            app:layout_constraintEnd_toStartOf="@+id/guidelineRight"
+            app:layout_constraintStart_toStartOf="@+id/guidelineCenter"
+            app:layout_constraintTop_toTopOf="@id/guidelinePointsBelowLife">
 
             <Button
-                android:id="@+id/button0"
+                android:id="@+id/p2Add"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
-                android:background="@drawable/dial_button"
-                android:onClick="customInputButton"
-                android:text="0"
-                android:textColor="@drawable/dial_button"
-                android:textSize="24sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/button00"
+                android:background="@drawable/add_button"
+                android:onClick="addPoint"
+                android:text="+"
+                android:textColor="@drawable/add_button"
+                android:textSize="40sp"
+                android:textStyle="bold"
+                app:layout_constraintDimensionRatio="1:1"
+                app:layout_constraintEnd_toStartOf="@+id/p2Sub"
                 app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/button1" />
-
-            <Button
-                android:id="@+id/button00"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_marginEnd="8dp"
-                android:background="@drawable/dial_button"
-                android:onClick="customInputButton"
-                android:text="00"
-                android:textColor="@drawable/dial_button"
-                android:textSize="24sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/buttonDel"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/button0"
-                app:layout_constraintTop_toBottomOf="@+id/button2" />
-
-            <Button
-                android:id="@+id/buttonDel"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:background="@drawable/dial_button"
-                android:onClick="customInputDelete"
-                android:text="\u232b"
-                android:textColor="@drawable/dial_button"
-                android:textSize="24sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/button00"
-                app:layout_constraintTop_toBottomOf="@+id/button3" />
-
-            <Button
-                android:id="@+id/button1"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginBottom="8dp"
-                android:background="@drawable/dial_button"
-                android:onClick="customInputButton"
-                android:text="1"
-                android:textColor="@drawable/dial_button"
-                android:textSize="24sp"
-                app:layout_constraintBottom_toTopOf="@+id/button0"
-                app:layout_constraintEnd_toStartOf="@+id/button2"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/button4" />
-
-            <Button
-                android:id="@+id/button2"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginBottom="8dp"
-                android:background="@drawable/dial_button"
-                android:onClick="customInputButton"
-                android:text="2"
-                android:textColor="@drawable/dial_button"
-                android:textSize="24sp"
-                app:layout_constraintBottom_toTopOf="@+id/button00"
-                app:layout_constraintEnd_toStartOf="@+id/button3"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/button1"
-                app:layout_constraintTop_toBottomOf="@+id/button5" />
-
-            <Button
-                android:id="@+id/button3"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_marginBottom="8dp"
-                android:background="@drawable/dial_button"
-                android:onClick="customInputButton"
-                android:text="3"
-                android:textColor="@drawable/dial_button"
-                android:textSize="24sp"
-                app:layout_constraintBottom_toTopOf="@+id/buttonDel"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/button2"
-                app:layout_constraintTop_toBottomOf="@+id/button6" />
-
-            <Button
-                android:id="@+id/button4"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginBottom="8dp"
-                android:background="@drawable/dial_button"
-                android:onClick="customInputButton"
-                android:text="4"
-                android:textColor="@drawable/dial_button"
-                android:textSize="24sp"
-                app:layout_constraintBottom_toTopOf="@+id/button1"
-                app:layout_constraintEnd_toStartOf="@+id/button5"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintHorizontal_chainStyle="spread_inside"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/button7" />
-
-            <Button
-                android:id="@+id/button5"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginBottom="8dp"
-                android:background="@drawable/dial_button"
-                android:onClick="customInputButton"
-                android:text="5"
-                android:textColor="@drawable/dial_button"
-                android:textSize="24sp"
-                app:layout_constraintBottom_toTopOf="@+id/button2"
-                app:layout_constraintEnd_toStartOf="@+id/button6"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/button4"
-                app:layout_constraintTop_toBottomOf="@+id/button8" />
-
-            <Button
-                android:id="@+id/button6"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_marginBottom="8dp"
-                android:background="@drawable/dial_button"
-                android:onClick="customInputButton"
-                android:text="6"
-                android:textColor="@drawable/dial_button"
-                android:textSize="24sp"
-                app:layout_constraintBottom_toTopOf="@+id/button3"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/button5"
-                app:layout_constraintTop_toBottomOf="@+id/button9" />
-
-            <Button
-                android:id="@+id/button7"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginBottom="8dp"
-                android:background="@drawable/dial_button"
-                android:onClick="customInputButton"
-                android:text="7"
-                android:textColor="@drawable/dial_button"
-                android:textSize="24sp"
-                app:layout_constraintBottom_toTopOf="@+id/button4"
-                app:layout_constraintEnd_toStartOf="@+id/button8"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintHorizontal_chainStyle="spread_inside"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
+
             <Button
-                android:id="@+id/button8"
+                android:id="@+id/p2Sub"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
+                android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
-                android:layout_marginBottom="8dp"
-                android:background="@drawable/dial_button"
-                android:onClick="customInputButton"
-                android:text="8"
-                android:textColor="@drawable/dial_button"
-                android:textSize="24sp"
-                app:layout_constraintBottom_toTopOf="@+id/button5"
-                app:layout_constraintEnd_toStartOf="@+id/button9"
+                android:background="@drawable/sub_button"
+                android:onClick="subPoint"
+                android:text="\u2212"
+                android:textColor="@drawable/sub_button"
+                android:textSize="40sp"
+                android:textStyle="bold"
+                app:layout_constraintDimensionRatio="w,1:1"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/button7"
+                app:layout_constraintStart_toEndOf="@+id/p2Add"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <Button
-                android:id="@+id/button9"
+                android:id="@+id/p2DivTwo"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:layout_marginBottom="8dp"
-                android:background="@drawable/dial_button"
-                android:onClick="customInputButton"
-                android:text="9"
-                android:textColor="@drawable/dial_button"
-                android:textSize="24sp"
-                app:layout_constraintBottom_toTopOf="@+id/button6"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/div_button"
+                android:onClick="div"
+                android:text="\u00F7 2"
+                android:textColor="@drawable/div_button"
+                android:textSize="20sp"
+                app:layout_constraintDimensionRatio="w,1:2"
+                app:layout_constraintEnd_toStartOf="@+id/p2Equal"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/p2Add" />
+
+            <Button
+                android:id="@+id/p2Equal"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/div_button"
+                android:onClick="customInputSet"
+                android:text="="
+                android:textColor="@drawable/div_button"
+                android:textSize="20sp"
+                app:layout_constraintDimensionRatio="w,1:2"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/button8"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintStart_toEndOf="@+id/p2DivTwo"
+                app:layout_constraintTop_toBottomOf="@+id/p2Sub" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="0dp"
+            app:layout_constraintBottom_toBottomOf="@id/guidelinePointsBelowPanel"
+            app:layout_constraintEnd_toStartOf="@+id/guidelineRight"
+            app:layout_constraintStart_toStartOf="@+id/guidelineLeft"
+            app:layout_constraintTop_toTopOf="@+id/guidelinePointsBelowInput">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/viewDialpad"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintDimensionRatio="4:5.2"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <Button
+                    android:id="@+id/button0"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginEnd="8dp"
+                    android:background="@drawable/dial_button"
+                    android:onClick="customInputButton"
+                    android:text="0"
+                    android:textColor="@drawable/dial_button"
+                    android:textSize="24sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/button00"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/button1" />
+
+                <Button
+                    android:id="@+id/button00"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginEnd="8dp"
+                    android:background="@drawable/dial_button"
+                    android:onClick="customInputButton"
+                    android:text="00"
+                    android:textColor="@drawable/dial_button"
+                    android:textSize="24sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/buttonDel"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toEndOf="@+id/button0"
+                    app:layout_constraintTop_toBottomOf="@+id/button2" />
+
+                <Button
+                    android:id="@+id/buttonDel"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:background="@drawable/dial_button"
+                    android:onClick="customInputDelete"
+                    android:text="\u232b"
+                    android:textColor="@drawable/dial_button"
+                    android:textSize="24sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toEndOf="@+id/button00"
+                    app:layout_constraintTop_toBottomOf="@+id/button3" />
+
+                <Button
+                    android:id="@+id/button1"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:background="@drawable/dial_button"
+                    android:onClick="customInputButton"
+                    android:text="1"
+                    android:textColor="@drawable/dial_button"
+                    android:textSize="24sp"
+                    app:layout_constraintBottom_toTopOf="@+id/button0"
+                    app:layout_constraintEnd_toStartOf="@+id/button2"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/button4" />
+
+                <Button
+                    android:id="@+id/button2"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:background="@drawable/dial_button"
+                    android:onClick="customInputButton"
+                    android:text="2"
+                    android:textColor="@drawable/dial_button"
+                    android:textSize="24sp"
+                    app:layout_constraintBottom_toTopOf="@+id/button00"
+                    app:layout_constraintEnd_toStartOf="@+id/button3"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toEndOf="@+id/button1"
+                    app:layout_constraintTop_toBottomOf="@+id/button5" />
+
+                <Button
+                    android:id="@+id/button3"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginBottom="8dp"
+                    android:background="@drawable/dial_button"
+                    android:onClick="customInputButton"
+                    android:text="3"
+                    android:textColor="@drawable/dial_button"
+                    android:textSize="24sp"
+                    app:layout_constraintBottom_toTopOf="@+id/buttonDel"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toEndOf="@+id/button2"
+                    app:layout_constraintTop_toBottomOf="@+id/button6" />
+
+                <Button
+                    android:id="@+id/button4"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:background="@drawable/dial_button"
+                    android:onClick="customInputButton"
+                    android:text="4"
+                    android:textColor="@drawable/dial_button"
+                    android:textSize="24sp"
+                    app:layout_constraintBottom_toTopOf="@+id/button1"
+                    app:layout_constraintEnd_toStartOf="@+id/button5"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintHorizontal_chainStyle="spread_inside"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/button7" />
+
+                <Button
+                    android:id="@+id/button5"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:background="@drawable/dial_button"
+                    android:onClick="customInputButton"
+                    android:text="5"
+                    android:textColor="@drawable/dial_button"
+                    android:textSize="24sp"
+                    app:layout_constraintBottom_toTopOf="@+id/button2"
+                    app:layout_constraintEnd_toStartOf="@+id/button6"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toEndOf="@+id/button4"
+                    app:layout_constraintTop_toBottomOf="@+id/button8" />
+
+                <Button
+                    android:id="@+id/button6"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginBottom="8dp"
+                    android:background="@drawable/dial_button"
+                    android:onClick="customInputButton"
+                    android:text="6"
+                    android:textColor="@drawable/dial_button"
+                    android:textSize="24sp"
+                    app:layout_constraintBottom_toTopOf="@+id/button3"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toEndOf="@+id/button5"
+                    app:layout_constraintTop_toBottomOf="@+id/button9" />
+
+                <Button
+                    android:id="@+id/button7"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:background="@drawable/dial_button"
+                    android:onClick="customInputButton"
+                    android:text="7"
+                    android:textColor="@drawable/dial_button"
+                    android:textSize="24sp"
+                    app:layout_constraintBottom_toTopOf="@+id/button4"
+                    app:layout_constraintEnd_toStartOf="@+id/button8"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintHorizontal_chainStyle="spread_inside"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <Button
+                    android:id="@+id/button8"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:background="@drawable/dial_button"
+                    android:onClick="customInputButton"
+                    android:text="8"
+                    android:textColor="@drawable/dial_button"
+                    android:textSize="24sp"
+                    app:layout_constraintBottom_toTopOf="@+id/button5"
+                    app:layout_constraintEnd_toStartOf="@+id/button9"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toEndOf="@+id/button7"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <Button
+                    android:id="@+id/button9"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginBottom="8dp"
+                    android:background="@drawable/dial_button"
+                    android:onClick="customInputButton"
+                    android:text="9"
+                    android:textColor="@drawable/dial_button"
+                    android:textSize="24sp"
+                    app:layout_constraintBottom_toTopOf="@+id/button6"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toEndOf="@+id/button8"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
-</androidx.constraintlayout.widget.ConstraintLayout>
     <include android:id="@+id/viewTimer"
         layout="@layout/view_timer"
         android:layout_width="wrap_content"

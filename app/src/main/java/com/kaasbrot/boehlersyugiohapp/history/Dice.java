@@ -1,6 +1,6 @@
 package com.kaasbrot.boehlersyugiohapp.history;
 
-import android.annotation.SuppressLint;
+import android.content.res.Resources;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,7 +8,7 @@ import android.widget.TextView;
 
 import com.kaasbrot.boehlersyugiohapp.R;
 
-public class Dice implements HistoryElement {
+public class Dice implements HistoryAction {
     public final int roll;
 
     public Dice(int roll) {
@@ -24,13 +24,8 @@ public class Dice implements HistoryElement {
     }
 
     @Override
-    public View render(LayoutInflater inflater, ViewGroup parent) {
-        View view = inflater.inflate(R.layout.dialog_history_element, parent, false);
-        TextView text = view.findViewById(R.id.info);
-        text.setText(R.string.dice_lands_on);
-        text.append(" "+roll+".");
-
-        return view;
+    public String render(Resources res) {
+        return res.getString(R.string.dice_lands_on) + " " + roll + ".";
     }
 
     public static String getDiceHtml(int roll) {

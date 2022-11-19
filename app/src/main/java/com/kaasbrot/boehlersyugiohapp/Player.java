@@ -6,6 +6,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.TextView;
 
+import com.kaasbrot.boehlersyugiohapp.history.Points;
+
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -156,7 +158,7 @@ public class Player {
 
         points += tmpCalc;
         tmpCalc = 0;
-        GameInformation.history.add(GameInformation.p1.points, GameInformation.p2.points);
+        GameInformation.history.add(new Points(GameInformation.p1.points, GameInformation.p2.points));
         if(currentActivity instanceof ButtonDeterminer)
             ((ButtonDeterminer) currentActivity).determineButtonEnable();
     }
@@ -192,7 +194,7 @@ public class Player {
 
                 points += tmpCalc;
                 tmpCalc = 0;
-                GameInformation.history.add(GameInformation.p1.points, GameInformation.p2.points);
+                GameInformation.history.add(new Points(GameInformation.p1.points, GameInformation.p2.points));
                 if(currentActivity instanceof ButtonDeterminer)
                     ((ButtonDeterminer) currentActivity).determineButtonEnable();
             }

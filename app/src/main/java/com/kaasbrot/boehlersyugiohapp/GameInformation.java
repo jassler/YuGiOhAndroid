@@ -1,6 +1,7 @@
 package com.kaasbrot.boehlersyugiohapp;
 
 import com.kaasbrot.boehlersyugiohapp.history.History;
+import com.kaasbrot.boehlersyugiohapp.history.Points;
 
 public class GameInformation {
 
@@ -12,6 +13,6 @@ public class GameInformation {
     static {
         p1 = new Player(8000);
         p2 = new Player(8000);
-        history = new History(p1.points, p2.points);
+        history = new History(new Points(p1.points, p2.points));
     }
 }
