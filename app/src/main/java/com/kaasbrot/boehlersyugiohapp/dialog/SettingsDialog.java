@@ -102,6 +102,9 @@ public class SettingsDialog extends AppCompatDialogFragment {
         img = view.findViewById(R.id.settingsDeleteAfter4Image);
         img.setImageResource(GlobalOptions.isDeleteAfter4() ? R.drawable.tick1 : R.drawable.tick0);
 
+        img = view.findViewById(R.id.settingsShowNamesImage);
+        img.setImageResource(GlobalOptions.isShowNames() ? R.drawable.tick1 : R.drawable.tick0);
+
         builder.setPositiveButton("ok", (dialogInterface, i) -> {});
 
         view.setOnKeyListener((view1, i, keyEvent) -> {
@@ -130,8 +133,8 @@ public class SettingsDialog extends AppCompatDialogFragment {
     }
 
     public void toggleShowNames() {
-        GlobalOptions.setDeleteAfter4(!GlobalOptions.isDeleteAfter4());
-        updateImageToggle(R.id.settingsShowNamesImage, GlobalOptions.isDeleteAfter4());
+        GlobalOptions.setShowNames(!GlobalOptions.isShowNames());
+        updateImageToggle(R.id.settingsShowNamesImage, GlobalOptions.isShowNames());
     }
 
     @Override

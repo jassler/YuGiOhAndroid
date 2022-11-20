@@ -73,13 +73,13 @@ public class GlobalOptions {
         try {
             keepScreenOn = prefs.getBoolean(KEEP_SCREEN_ON, true);
         } catch(Exception e) {
-            setScreenAlwaysOn(false);
+            setScreenAlwaysOn(true);
         }
 
         try {
             deleteAfter4 = prefs.getBoolean(DELETE_AFTER_4, true);
         } catch(Exception e) {
-            setDeleteAfter4(false);
+            setDeleteAfter4(true);
         }
 
         try {
@@ -166,7 +166,7 @@ public class GlobalOptions {
     }
 
     public static void setShowNames(boolean showname) {
-        deleteAfter4 = showname;
+        showNames = showname;
         editor.putBoolean(SHOW_NAMES, showname).apply();
     }
 
