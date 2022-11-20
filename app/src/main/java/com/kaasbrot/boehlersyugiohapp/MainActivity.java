@@ -28,6 +28,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.kaasbrot.boehlersyugiohapp.dialog.CasinoDialog;
 import com.kaasbrot.boehlersyugiohapp.dialog.CoinDialog;
 import com.kaasbrot.boehlersyugiohapp.dialog.CoinsDialog;
@@ -35,9 +37,13 @@ import com.kaasbrot.boehlersyugiohapp.dialog.HistoryDialog;
 import com.kaasbrot.boehlersyugiohapp.dialog.SettingsDialog;
 import com.kaasbrot.boehlersyugiohapp.history.History;
 import com.kaasbrot.boehlersyugiohapp.history.HistoryAction;
+import com.kaasbrot.boehlersyugiohapp.history.HistoryElementParser;
 import com.kaasbrot.boehlersyugiohapp.history.Points;
 
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class MainActivity extends AppCompatActivity implements ButtonDeterminer {
 
@@ -85,17 +91,18 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
         SharedPreferences sharedPreferences = getPreferences(MODE_PRIVATE);
         GlobalOptions.setPrefs(sharedPreferences);
 
-//        String json = sharedPreferences.getString(GlobalOptions.HISTORY, "");
+        String json = sharedPreferences.getString(GlobalOptions.HISTORY, "");
 
-        history = new History(new Points(GlobalOptions.getStartingLifePoints(), GlobalOptions.getStartingLifePoints(), true));
-//        if(!json.isEmpty()) {
-//            Type listType = new TypeToken<ArrayList<HistoryElementParser>>(){}.getType();
-//
-//            HistoryElementParser.prev = history.getLastPoints();
-//            ArrayList<HistoryElementParser> elements = new Gson().fromJson(json, listType);
-//            elements.remove(0);
+        if(json.isEmpty()) {
+            history = new History(new Points(GlobalOptions.getStartingLifePoints(), GlobalOptions.getStartingLifePoints(), true));
+        } else {
+            Type listType = new TypeToken<ArrayList<HistoryElementParser>>(){}.getType();
+            ArrayList<HistoryElementParser> elements = new Gson().fromJson(json, listType);
+            history = new History(
+                    elements.stream().map(HistoryElementParser::parse).collect(Collectors.toList())
+            );
 //            elements.forEach(el -> history.add(el.parse()));
-//        }
+        }
         history.setEditor(sharedPreferences.edit());
         // hopefully done with loading
 

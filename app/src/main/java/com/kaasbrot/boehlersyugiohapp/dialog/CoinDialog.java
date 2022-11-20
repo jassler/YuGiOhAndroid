@@ -69,6 +69,9 @@ public class CoinDialog extends AppCompatDialogFragment {
         c = new Coin(rand.nextBoolean());
         timerotation = 150*2; //should be even
         numrotation = 4;
+        if(history != null)
+            history.add(c);
+
         Double[] timingsrotation = { //timings for 6 rotations
                 0.92,
                 1.7,
@@ -147,8 +150,6 @@ public class CoinDialog extends AppCompatDialogFragment {
                     //imaged.setImageResource(R.drawable.tails_aa);
                     title.setText(R.string.result_Tails);
                 }
-                if(history != null)
-                    history.add(c);
             }
             public void onAnimationCancel(Animator animator) {}
             public void onAnimationRepeat(Animator animator) {}

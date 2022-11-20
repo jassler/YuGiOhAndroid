@@ -111,6 +111,7 @@ public class History implements Iterable<Points> {
      */
     public void add(HistoryAction a) {
         getCurrentPoints().addAction(a);
+        updateLocalStorage();
     }
 
     public long getAmountOfNewGames() {
@@ -162,7 +163,7 @@ public class History implements Iterable<Points> {
             return;
 
         Points p = getCurrentPoints();
-        p.setNewGame(true);
+//        p.setNewGame(true);
         history.clear();
         history.add(p);
         index = 0;
