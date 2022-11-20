@@ -130,6 +130,7 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
 
         historyDialog = new HistoryDialog();
         historyDialog.setHistory(history);
+        historyDialog.setActivity(this);
 
         casinoDialog = new CasinoDialog();
         casinoDialog.setHistory(history);
