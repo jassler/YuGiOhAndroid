@@ -78,6 +78,7 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
     CoinDialog coinDialog;
     CoinsDialog coinsDialog;
     SettingsDialog settingsDialog;
+    //AboutDialog aboutDialog;
     TextView belowtimertext;
     int belowtimersize;
 
@@ -168,7 +169,7 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
         if(screen_height_sp > 650){
             //toggletimermax=60;
             //toggletimermax = 200;
-            gameTimer.setTopMarginMax(190);
+            gameTimer.setTopMarginMax(200);
             lifetextsize=34;
             numberbuttontextsize=32;
             timertextsize=24;
@@ -176,7 +177,7 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
         }else if(screen_height_sp > 580){
             //toggletimermax=55;
             //toggletimermax = 183;
-            gameTimer.setTopMarginMax(175);
+            gameTimer.setTopMarginMax(135);
             lifetextsize=22;
             numberbuttontextsize=26;
             timertextsize=20;
@@ -184,7 +185,7 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
         }else{
             //toggletimermax=50;
             //toggletimermax = 167;
-            gameTimer.setTopMarginMax(167);
+            gameTimer.setTopMarginMax(90);
             lifetextsize=20;
             numberbuttontextsize=20;
             timertextsize=18;
@@ -247,6 +248,16 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
         settingsDialog.toggleDeleteAfter4Games();
         if(!GlobalOptions.isDeleteAfter4()) {
             history.removeNewGamesExcept4();
+        }
+    }
+
+    public void toggleShowNames(View v) {
+        if(!cooldowns.tryAndStartTracker("showNames"))
+            return;
+
+        settingsDialog.toggleShowNames();
+        if(!GlobalOptions.isShowNames()) {
+
         }
     }
 

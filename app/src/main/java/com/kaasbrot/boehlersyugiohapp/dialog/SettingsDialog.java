@@ -82,6 +82,7 @@ public class SettingsDialog extends AppCompatDialogFragment {
         ((TextView) view.findViewById(R.id.settingsPointsLabel)).setTextSize(GlobalOptions.settingstextsize);
         ((TextView) view.findViewById(R.id.settingsScreenOnLabel)).setTextSize(GlobalOptions.settingstextsize);
         ((TextView) view.findViewById(R.id.settingsDeleteAfter4Label)).setTextSize(GlobalOptions.settingstextsize);
+        ((TextView) view.findViewById(R.id.settingsShowNamesLabel)).setTextSize(GlobalOptions.settingstextsize);
 
         EditText pointsField = view.findViewById(R.id.settingsPointsField);
         pointsField.setTextSize(GlobalOptions.settingstextsize);
@@ -126,6 +127,11 @@ public class SettingsDialog extends AppCompatDialogFragment {
     public void toggleDeleteAfter4Games() {
         GlobalOptions.setDeleteAfter4(!GlobalOptions.isDeleteAfter4());
         updateImageToggle(R.id.settingsDeleteAfter4Image, GlobalOptions.isDeleteAfter4());
+    }
+
+    public void toggleShowNames() {
+        GlobalOptions.setDeleteAfter4(!GlobalOptions.isDeleteAfter4());
+        updateImageToggle(R.id.settingsShowNamesImage, GlobalOptions.isDeleteAfter4());
     }
 
     @Override

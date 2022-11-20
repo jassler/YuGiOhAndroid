@@ -27,6 +27,7 @@ public class GlobalOptions {
     public static final String STARTING_LIFE_POINTS = "startinglifepoints";
     public static final String KEEP_SCREEN_ON = "keepscreenon";
     public static final String DELETE_AFTER_4 = "deleteafter4";
+    public static final String SHOW_NAMES = "shownames";
     public static final String REMEMBER_VIEW = "rememberview";
     public static final String SHEEP_COUNT = "sheepcount";
     public static final String HISTORY = "history";
@@ -42,6 +43,7 @@ public class GlobalOptions {
     private static int startingLifePoints = 8000;
     private static boolean keepScreenOn = false;
     private static boolean deleteAfter4 = false;
+    private static boolean showNames = false;
 
     private static boolean timerRunning = false;
     private static boolean timerVisible = false;
@@ -69,15 +71,21 @@ public class GlobalOptions {
         }
 
         try {
-            keepScreenOn = prefs.getBoolean(KEEP_SCREEN_ON, false);
+            keepScreenOn = prefs.getBoolean(KEEP_SCREEN_ON, true);
         } catch(Exception e) {
             setScreenAlwaysOn(false);
         }
 
         try {
-            deleteAfter4 = prefs.getBoolean(DELETE_AFTER_4, false);
+            deleteAfter4 = prefs.getBoolean(DELETE_AFTER_4, true);
         } catch(Exception e) {
             setDeleteAfter4(false);
+        }
+
+        try {
+            showNames = prefs.getBoolean(SHOW_NAMES, false);
+        } catch(Exception e) {
+            setShowNames(false);
         }
 
         try {
@@ -147,7 +155,19 @@ public class GlobalOptions {
 
     public static void setDeleteAfter4(boolean delete) {
         deleteAfter4 = delete;
-        editor.putBoolean(KEEP_SCREEN_ON, delete).apply();
+        editor.putBoolean(DELETE_AFTER_4, delete).apply();
+    }
+
+    /*
+     * SHOW NAMES
+     */
+    public static boolean isShowNames() {
+        return showNames;
+    }
+
+    public static void setShowNames(boolean showname) {
+        deleteAfter4 = showname;
+        editor.putBoolean(SHOW_NAMES, showname).apply();
     }
 
     /*

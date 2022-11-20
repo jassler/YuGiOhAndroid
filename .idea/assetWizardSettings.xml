@@ -310,8 +310,8 @@
                         <option name="values">
                           <map>
                             <entry key="assetSourceType" value="FILE" />
-                            <entry key="outputName" value="ic_coin_icon" />
-                            <entry key="sourceFile" value="D:\Documents\06 Spiele\Yugioh\Custom &amp; Proxies\Sinister\coin icon.svg" />
+                            <entry key="outputName" value="coin_icon2" />
+                            <entry key="sourceFile" value="D:\Documents\06 Spiele\Yugioh\Custom &amp; Proxies\Sinister\coin icon2.svg" />
                           </map>
                         </option>
                       </PersistentState>

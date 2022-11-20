@@ -9,6 +9,13 @@
     android:paddingEnd="8dp"
     android:paddingBottom="5dp">
 
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/SettingsGuidelineLeft"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.08" />
+
     <TextView
         android:id="@+id/settingsPointsLabel"
         android:layout_width="wrap_content"
@@ -16,7 +23,7 @@
         android:text="@string/starting_lp"
         android:textColor="@color/dialog_text"
         app:layout_constraintBottom_toBottomOf="@id/settingsPointsField"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@id/SettingsGuidelineLeft"
         app:layout_constraintTop_toTopOf="@id/settingsPointsField" />
 
     <EditText
@@ -81,4 +88,57 @@
         app:layout_constraintStart_toStartOf="@+id/settingsPointsField"
         app:layout_constraintTop_toBottomOf="@+id/settingsScreenOnImage"
         app:srcCompat="@drawable/tick0" />
+
+    <TextView
+        android:id="@+id/settingsShowNamesLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Show Player Names"
+        android:textColor="@color/dialog_text"
+        app:layout_constraintBottom_toBottomOf="@+id/settingsShowNamesImage"
+        app:layout_constraintStart_toStartOf="@+id/settingsPointsLabel"
+        app:layout_constraintTop_toTopOf="@+id/settingsShowNamesImage" />
+
+    <ImageView
+        android:id="@+id/settingsShowNamesImage"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="16dp"
+        android:onClick="toggleShowNames"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintEnd_toEndOf="@+id/settingsPointsField"
+        app:layout_constraintStart_toStartOf="@+id/settingsPointsField"
+        app:layout_constraintTop_toBottomOf="@+id/settingsDeleteAfter4Image"
+        app:srcCompat="@drawable/tick0" />
+
+    <RadioGroup
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toStartOf="@+id/settingsPointsLabel"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/settingsShowNamesImage">
+    <RadioButton
+    android:layout_width="100dp"
+    android:layout_height="20dp"
+    android:layout_weight="1"
+    android:id="@+id/LanguageButton1"
+    android:text="Engrisch"
+    android:textColor="@color/dialog_text"
+    app:layout_constraintStart_toStartOf="parent"
+    android:buttonTint="@color/dialog_text"
+        />
+
+    <RadioButton
+    android:layout_width="100dp"
+    android:layout_height="20dp"
+    android:layout_weight="1"
+    android:id="@+id/LanguageButton2"
+    android:text="Germansch"
+    android:textColor="@color/dialog_text"
+    app:layout_constraintStart_toStartOf="@id/LanguageButton1"
+    android:buttonTint="@color/dialog_text"/>
+
+    </RadioGroup>
 </androidx.constraintlayout.widget.ConstraintLayout>
