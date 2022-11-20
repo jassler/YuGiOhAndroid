@@ -1,7 +1,14 @@
 package com.kaasbrot.boehlersyugiohapp.history;
 
+import static android.text.Spanned.SPAN_EXCLUSIVE_EXCLUSIVE;
+import static android.text.Spanned.SPAN_INCLUSIVE_INCLUSIVE;
+
 import android.content.res.Resources;
 import android.text.Html;
+import android.text.SpannableString;
+import android.text.TextUtils;
+import android.text.style.AbsoluteSizeSpan;
+import android.text.style.RelativeSizeSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +26,9 @@ public class Points {
     public final int p1;
     public final int p2;
 
+    //public SpannableString smallbreak = new SpannableString("<br>");
+    //public SpannableString smallbreak2 = smallbreak.setSpan(new RelativeSizeSpan(8dp), 0, 1);
+            //.setSpan(new AbsoluteSizeSpan(textSize1), 0, text1.length(), SPAN_INCLUSIVE_INCLUSIVE);
     private List<HistoryAction> actions;
 
     public Points(int pointsForBoth) {
@@ -62,7 +72,7 @@ public class Points {
 
     public String renderP1(Points prev) {
         if(isNewGame) {
-            return "<br><b>" + p1 + "</b>";
+            return "<b>" + p1 + "</b>";
         } else {
             return renderScore(p1, p1 - prev.p1);
         }
@@ -70,7 +80,7 @@ public class Points {
 
     public String renderP2(Points prev) {
         if(isNewGame) {
-            return "<br><b>" + p2 + "</b>";
+            return "<b>" + p2 + "</b>";
         } else {
             return renderScore(p2, p2 - prev.p2);
         }
@@ -83,7 +93,7 @@ public class Points {
             return "";
         } else {
 //            return pre + actions.stream()
-            return "<br><br>" + actions.stream()
+            return (isNewGame ? "<br>" : "<br><br>") + actions.stream()
                     .map(x -> x.render(res))
                     .collect(Collectors.joining("<br>"));
         }

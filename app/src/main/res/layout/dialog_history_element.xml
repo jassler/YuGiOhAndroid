@@ -5,36 +5,52 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/HistoryGuidelineLeft"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.31" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/HistoryGuidelineRight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.64" />
+
     <TextView
         android:id="@+id/p1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="2dp"
         android:gravity="top|end"
         android:minEms="3"
         android:textColor="@color/dialog_text"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@id/HistoryGuidelineLeft"
+        app:layout_constraintEnd_toStartOf="@id/HistoryGuidelineLeft"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/p2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="2dp"
         android:layout_marginEnd="8dp"
         android:gravity="top|end"
         android:minEms="3"
         android:textAlignment="textEnd"
         android:textColor="@color/dialog_text"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/HistoryGuidelineRight"
+        app:layout_constraintEnd_toEndOf="@id/HistoryGuidelineRight"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/info"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="4dp"
         android:gravity="center_horizontal"
         android:textColor="@color/dialog_text"
         app:layout_constraintEnd_toEndOf="parent"

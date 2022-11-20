@@ -86,6 +86,7 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
         GlobalOptions.setPrefs(sharedPreferences);
 
 //        String json = sharedPreferences.getString(GlobalOptions.HISTORY, "");
+
         history = new History(new Points(GlobalOptions.getStartingLifePoints(), GlobalOptions.getStartingLifePoints(), true));
 //        if(!json.isEmpty()) {
 //            Type listType = new TypeToken<ArrayList<HistoryElementParser>>(){}.getType();
