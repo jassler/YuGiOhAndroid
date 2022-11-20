@@ -112,6 +112,7 @@
         app:srcCompat="@drawable/tick0" />
 
     <RadioGroup
+        android:id="@+id/RadioGroupLanguage"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:orientation="horizontal"

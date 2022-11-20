@@ -13,6 +13,8 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -105,6 +107,22 @@ public class SettingsDialog extends AppCompatDialogFragment {
         img = view.findViewById(R.id.settingsShowNamesImage);
         img.setImageResource(GlobalOptions.isShowNames() ? R.drawable.tick1 : R.drawable.tick0);
 
+        RadioGroup rgL;
+        RadioButton rb1,rb2;
+        rgL = view.findViewById(R.id.RadioGroupLanguage);
+        rb1 = view.findViewById(R.id.LanguageButton1);
+        rb2 = view.findViewById(R.id.LanguageButton1);
+
+        rgL.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                switch (checkedId){
+                    case R.id.LanguageButton1:
+                        
+                    case R.id.LanguageButton2:
+                }
+            }
+        });
         builder.setPositiveButton("ok", (dialogInterface, i) -> {});
 
         view.setOnKeyListener((view1, i, keyEvent) -> {
