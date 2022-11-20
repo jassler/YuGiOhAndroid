@@ -227,14 +227,7 @@ public class CoinDialog extends AppCompatDialogFragment {
     public void onDestroy() {
         super.onDestroy();
         this.titleView = null;
-    }
-
-    public Coin getCoin() {
-        return c;
-    }
-
-    public void setCoin(Coin c) {
-        this.c = c;
+        this.animator.cancel();
     }
 
     public void setHistory(History history) {
