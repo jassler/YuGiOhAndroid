@@ -167,6 +167,7 @@ public class History implements Iterable<Points> {
             return;
 
         Points p = getCurrentPoints();
+        p.clearActions();
 //        p.setNewGame(true);
         history.clear();
         history.add(p);
