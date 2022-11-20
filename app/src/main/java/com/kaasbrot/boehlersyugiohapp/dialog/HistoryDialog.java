@@ -16,16 +16,22 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.kaasbrot.boehlersyugiohapp.MainActivity;
 import com.kaasbrot.boehlersyugiohapp.R;
 import com.kaasbrot.boehlersyugiohapp.history.History;
 import com.kaasbrot.boehlersyugiohapp.history.Points;
 
 public class HistoryDialog extends AppCompatDialogFragment {
 
+    MainActivity activity;
     History history;
 
     public void setHistory(History history) {
         this.history = history;
+    }
+
+    public void setActivity(MainActivity activity) {
+        this.activity = activity;
     }
 
     @Override
@@ -67,7 +73,10 @@ public class HistoryDialog extends AppCompatDialogFragment {
                 .setView(parentView)
                 .setTitle(R.string.show_history)
                 .setPositiveButton("ok", (dialogInterface, i) -> {})
-                .setNegativeButton(R.string.clear_text, ((dialogInterface, i) -> history.clearHistory()))
+                .setNegativeButton(R.string.clear_text, ((dialogInterface, i) -> {
+                    if(history != null) history.clearHistory();
+                    if(activity != null) activity.determineButtonEnable();
+                }))
         ;
         return builder.create();
     }
