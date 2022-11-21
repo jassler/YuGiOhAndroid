@@ -99,4 +99,7 @@ public class Points {
         }
     }
 
+    public void clearActions() {
+        this.actions = null;
+    }
 }

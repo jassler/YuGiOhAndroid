@@ -138,6 +138,12 @@ public class CasinoDialog extends AppCompatDialogFragment {
         texts.setGravity(Gravity.CENTER);
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        animatorSet.cancel();
+    }
+
     public void setHistory(History history) {
         this.history = history;
     }

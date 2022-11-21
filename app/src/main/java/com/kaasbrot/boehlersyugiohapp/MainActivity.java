@@ -681,7 +681,7 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
      * @param item Clicked menu item (unimportant)
      */
     public void showSettings(MenuItem item) {
-        if(!cooldowns.tryAndStartTracker("settings"))
+        if(settingsDialog.isAdded())
             return;
 
         settingsDialog.show(getSupportFragmentManager(), "Settings");
@@ -695,19 +695,21 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
 
 
     public void threecoins(MenuItem item) {
-        //historyDialog.show(getSupportFragmentManager(), "History Dialog");
+        if(coinsDialog.isAdded())
+            return;
+
         coinsDialog.show(getSupportFragmentManager(), "Coins");
     }
 
     public void showCasino() {
-        if(!cooldowns.tryAndStartTracker("casino"))
+        if(casinoDialog.isAdded())
             return;
 
         casinoDialog.show(getSupportFragmentManager(), "Casino");
     }
 
     public void showCoin(MenuItem item) {
-        if(!cooldowns.tryAndStartTracker("coin"))
+        if(coinDialog.isAdded())
             return;
 
         coinDialog.show(getSupportFragmentManager(), "Coin");
@@ -757,8 +759,9 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
      * @param item Menu Item
      */
     public void showHistory(MenuItem item) {
-        //if cooldown on, do nothing, else set cooldown, then unset after x time
-        if(!cooldowns.tryAndStartTracker("history"))
+        // make sure not to accidentally generate the historyDialog twice
+        // else we might get some weird FragmentException
+        if(historyDialog.isAdded())
             return;
 
         historyDialog.show(getSupportFragmentManager(), "History Dialog");

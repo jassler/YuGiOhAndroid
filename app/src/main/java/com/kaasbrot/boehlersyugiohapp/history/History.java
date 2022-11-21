@@ -155,6 +155,10 @@ public class History implements Iterable<Points> {
         return history.get(index);
     }
 
+    public Points get(int i) {
+        return history.get(i);
+    }
+
     /**
      * Deletes everything in history, only keeps the most current points (see {@link #getCurrentPoints()}.
      */
@@ -163,6 +167,7 @@ public class History implements Iterable<Points> {
             return;
 
         Points p = getCurrentPoints();
+        p.clearActions();
 //        p.setNewGame(true);
         history.clear();
         history.add(p);

@@ -44,7 +44,7 @@ public class HistoryDialog extends AppCompatDialogFragment {
 
         Resources res = getResources();
 
-        Points prev = new Points(0, 0);
+        Points prev = history.get(0);
 
         for (Points p : history) {
             if(p.isNewGame()) {
