@@ -19,6 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.kaasbrot.boehlersyugiohapp.GlobalOptions;
+import com.kaasbrot.boehlersyugiohapp.MainActivity;
 import com.kaasbrot.boehlersyugiohapp.R;
 
 public class SettingsDialog extends AppCompatDialogFragment {
@@ -26,17 +27,21 @@ public class SettingsDialog extends AppCompatDialogFragment {
     private static final int POINTS_MIN = 1;
     private static final int POINTS_MAX = 40_000;
 
+    private static final int MAX_PLAYER_NAME_LENGTH = 20;
+
+    // these are needed for the onDestroy method
     private EditText startLifeText = null;
     private EditText player1nameText = null;
     private EditText player2nameText = null;
+    private MainActivity mainActivity = null;
 
-    private boolean keyEvent(EditText startLifeText) {
-        startLifeText.clearFocus();
+    private boolean lifePointsKeyEvent(EditText field) {
+        field.clearFocus();
 
         InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(startLifeText.getApplicationWindowToken(), 0);
+        imm.hideSoftInputFromWindow(field.getApplicationWindowToken(), 0);
 
-        String startLifeTemp = startLifeText.getText().toString();
+        String startLifeTemp = field.getText().toString();
         Toast toast = Toast.makeText(getContext(), "", Toast.LENGTH_LONG);
 
         try {
@@ -58,9 +63,47 @@ public class SettingsDialog extends AppCompatDialogFragment {
             toast.setText(R.string.bad_number_format);
         }
 
-        startLifeText.setText(String.valueOf(GlobalOptions.getStartingLifePoints()));
+        field.setText(String.valueOf(GlobalOptions.getStartingLifePoints()));
 
         return true;
+    }
+
+    private boolean playerNameKeyEvent(TextView field, boolean isPlayer1) {
+        InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+
+        field.clearFocus();
+        imm.hideSoftInputFromWindow(field.getApplicationWindowToken(), 0);
+
+        String name = field.getText().toString();
+
+        if(name.length() > MAX_PLAYER_NAME_LENGTH) {
+            Toast toast = Toast.makeText(getContext(), "", Toast.LENGTH_LONG);
+            toast.setText("Bad player name length");
+            toast.show();
+        } else if(isPlayer1) {
+            GlobalOptions.setPlayerName1(player1nameText.getText().toString());
+        } else {
+            GlobalOptions.setPlayerName2(player2nameText.getText().toString());
+        }
+
+        if(mainActivity != null)
+            mainActivity.updatePlayerNames();
+
+        startLifeText.clearFocus();
+        return true;
+    }
+
+    private void initLabel(View view, int id) {
+        ((TextView) view.findViewById(id)).setTextSize(GlobalOptions.settingstextsize);
+    }
+
+    private EditText initTextView(View view, int id, String startValue, TextView.OnEditorActionListener l) {
+        EditText field = view.findViewById(id);
+        field.setTextSize(GlobalOptions.settingstextsize);
+        field.setText(startValue, TextView.BufferType.EDITABLE);
+        field.setSelectAllOnFocus(true);
+        field.setOnEditorActionListener(l);
+        return field;
     }
 
     @NonNull
@@ -76,46 +119,36 @@ public class SettingsDialog extends AppCompatDialogFragment {
         //dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         builder.setCancelable(true);
 
-//        ((TextView) view.findViewById(R.id.settingsok)).setTextSize(GlobalOptions.settingstextsize);
-//        ((TextView) view.findViewById(R.id.StartLifeText)).setTextSize(GlobalOptions.settingstextsize);
-//        ((TextView) view.findViewById(R.id.KeepScreenOnText)).setTextSize(GlobalOptions.settingstextsize);
-//        ((TextView) view.findViewById(R.id.KeepHistoryText)).setTextSize(GlobalOptions.settingstextsize);
-//        ((TextView) view.findViewById(R.id.BehindEdit)).setTextSize(GlobalOptions.settingstextsize);
-//        ((EditText) view.findViewById(R.id.StartLifeInput)).setTextSize(GlobalOptions.settingstextsize);
+        /*
+         * Labels
+         */
+        initLabel(view, R.id.settingsPointsLabel);
+        initLabel(view, R.id.settingsScreenOnLabel);
+        initLabel(view, R.id.settingsDeleteAfter4Label);
+        initLabel(view, R.id.settingsShowNamesLabel);
+        initLabel(view, R.id.settingsPlayerName1Label);
+        initLabel(view, R.id.settingsPlayerName2Label);
 
-        ((TextView) view.findViewById(R.id.settingsPointsLabel)).setTextSize(GlobalOptions.settingstextsize);
-        ((TextView) view.findViewById(R.id.settingsScreenOnLabel)).setTextSize(GlobalOptions.settingstextsize);
-        ((TextView) view.findViewById(R.id.settingsDeleteAfter4Label)).setTextSize(GlobalOptions.settingstextsize);
-        ((TextView) view.findViewById(R.id.settingsShowNamesLabel)).setTextSize(GlobalOptions.settingstextsize);
-        ((TextView) view.findViewById(R.id.settingsPlayerName1Label)).setTextSize(GlobalOptions.settingstextsize);
-        ((TextView) view.findViewById(R.id.settingsPlayerName2Label)).setTextSize(GlobalOptions.settingstextsize);
+        /*
+         * TextViews
+         */
+        this.startLifeText = initTextView(
+                view, R.id.settingsPointsField,
+                String.valueOf(GlobalOptions.getStartingLifePoints()),
+                (v, actionId, event) -> lifePointsKeyEvent(startLifeText)
+        );
+        this.player1nameText = initTextView(
+                view, R.id.PlayerName1, GlobalOptions.getPlayerName1(),
+                (v, actionId, event) -> playerNameKeyEvent(player1nameText, true)
+        );
+        this.player2nameText = initTextView(
+                view, R.id.PlayerName2, GlobalOptions.getPlayerName2(),
+                (v, actionId, event) -> playerNameKeyEvent(player2nameText, false)
+        );
 
-        EditText pointsField = view.findViewById(R.id.settingsPointsField);
-        pointsField.setTextSize(GlobalOptions.settingstextsize);
-        pointsField.setText(String.valueOf(GlobalOptions.getStartingLifePoints()), TextView.BufferType.EDITABLE);
-        pointsField.setSelectAllOnFocus(true);
-        pointsField.setOnEditorActionListener((v, actionId, event) -> keyEvent(startLifeText));
-        this.startLifeText = pointsField;
-
-        EditText player1nameField = view.findViewById(R.id.PlayerName1);
-        player1nameField.setTextSize(GlobalOptions.settingstextsize);
-        player1nameField.setText(String.valueOf(GlobalOptions.getPlayerName1()), TextView.BufferType.EDITABLE);
-        player1nameField.setSelectAllOnFocus(true);
-        player1nameField.setOnEditorActionListener((v, actionId, event) -> keyEvent(player1nameText));
-        this.player1nameText = player1nameField;
-
-        EditText player2nameField = view.findViewById(R.id.PlayerName2);
-        player2nameField.setTextSize(GlobalOptions.settingstextsize);
-        player2nameField.setText(String.valueOf(GlobalOptions.getPlayerName2()), TextView.BufferType.EDITABLE);
-        player2nameField.setSelectAllOnFocus(true);
-        player2nameField.setOnEditorActionListener((v, actionId, event) -> keyEvent(player2nameText));
-        this.player2nameText = player2nameField;
-
-//        startLifeText = view.findViewById(R.id.StartLifeInput);
-//        startLifeText.setText(String.valueOf(GlobalOptions.getStartingLifePoints()), TextView.BufferType.EDITABLE);
-//        startLifeText.setSelectAllOnFocus(true);
-//        startLifeText.setOnEditorActionListener((v, actionId, event) -> keyEvent(startLifeText));
-
+        /*
+         * Toggles
+         */
         ImageView img = view.findViewById(R.id.settingsScreenOnImage);
         img.setImageResource(GlobalOptions.isScreenAlwaysOn() ? R.drawable.tick1 : R.drawable.tick0);
 
@@ -125,6 +158,9 @@ public class SettingsDialog extends AppCompatDialogFragment {
         img = view.findViewById(R.id.settingsShowNamesImage);
         img.setImageResource(GlobalOptions.isShowNames() ? R.drawable.tick1 : R.drawable.tick0);
 
+        /*
+         * Language selection
+         */
         RadioGroup rgL;
         RadioButton rb1,rb2;
         rgL = view.findViewById(R.id.RadioGroupLanguageButton1);
@@ -141,6 +177,10 @@ public class SettingsDialog extends AppCompatDialogFragment {
                 }
             }
         });
+
+        /*
+         * öhm... rest
+         */
         builder.setPositiveButton("ok", (dialogInterface, i) -> {});
 
         view.setOnKeyListener((view1, i, keyEvent) -> {
@@ -191,9 +231,24 @@ public class SettingsDialog extends AppCompatDialogFragment {
             int startPoints = Integer.parseInt(startLifeText.getText().toString());
             if(POINTS_MIN <= startPoints && startPoints <= POINTS_MAX)
                 GlobalOptions.setStartingLifePoints(startPoints);
+        } catch(Exception ignored) {}
 
+        try {
+            String player1 = player1nameText.getText().toString();
+            GlobalOptions.setPlayerName1(player1);
+        } catch(Exception ignored) {}
+
+        try {
+            String player2 = player2nameText.getText().toString();
+            GlobalOptions.setPlayerName2(player2);
         } catch(Exception ignored) {}
 
         startLifeText = null;
+        player1nameText = null;
+        player2nameText = null;
+    }
+
+    public void setMainActivity(MainActivity act) {
+        this.mainActivity = act;
     }
 }

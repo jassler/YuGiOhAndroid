@@ -139,7 +139,7 @@
                 android:textAlignment="center"
                 android:textColor="#FFFFFF"
                 android:textSize="20sp"
-                android:text="Player 1"
+                android:text="@string/playername1"
                 app:layout_constraintBottom_toTopOf="@id/pointsPlayer1"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
@@ -433,7 +433,7 @@
                     android:textAlignment="center"
                     android:textColor="#FFFFFF"
                     android:textSize="20sp"
-                    android:text="Player 2"
+                    android:text="@string/playername2"
                     app:layout_constraintBottom_toTopOf="@id/pointsPlayer2"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent" />

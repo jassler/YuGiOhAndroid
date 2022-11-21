@@ -37,13 +37,11 @@ import com.kaasbrot.boehlersyugiohapp.dialog.CoinsDialog;
 import com.kaasbrot.boehlersyugiohapp.dialog.HistoryDialog;
 import com.kaasbrot.boehlersyugiohapp.dialog.SettingsDialog;
 import com.kaasbrot.boehlersyugiohapp.history.History;
-import com.kaasbrot.boehlersyugiohapp.history.HistoryAction;
 import com.kaasbrot.boehlersyugiohapp.history.HistoryElementParser;
 import com.kaasbrot.boehlersyugiohapp.history.Points;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.stream.Collectors;
 
 public class MainActivity extends AppCompatActivity implements ButtonDeterminer {
@@ -65,7 +63,6 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
     int emptytextsize;
     int playernametextsize;
     int lifetextsize;
-    int addsubtextsize;
     int numberbuttontextsize;
     int timertextsize;
 
@@ -146,6 +143,8 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
         coinsDialog.setHistory(history);
 
         settingsDialog = new SettingsDialog();
+        settingsDialog.setMainActivity(this);
+
         aboutDialog = new AboutDialog();
 
         getScreenSize();
@@ -158,7 +157,7 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
         Points p = history.getCurrentPoints();
         p1.reset(p.p1);
         p2.reset(p.p2);
-        AdjustToScreen();
+        adjustToScreen();
     }
 
     public void getScreenSize() {
@@ -218,7 +217,7 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
         //pixelsToSp(getActivity(), number);
     }
 
-    public void AdjustToScreen() {
+    public void adjustToScreen() {
         ((EditText) findViewById(R.id.timerText)).setTextSize(timertextsize);
         if(GlobalOptions.isFirstView()) {
             ((TextView) findViewById(R.id.pointsPlayer1)).setTextSize(lifetextsize);
@@ -241,17 +240,17 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
             ((Button) findViewById(R.id.button8)).setTextSize(numberbuttontextsize);
             ((Button) findViewById(R.id.button9)).setTextSize(numberbuttontextsize);
         }
-        if(!GlobalOptions.isShowNames()){
-            ((TextView) findViewById(R.id.namePlayer1)).setTextSize(0);
-            ((TextView) findViewById(R.id.namePlayer2)).setTextSize(0);
-            ((TextView) findViewById(R.id.pointsPlayer1)).setTextSize(lifetextsize);
-            ((TextView) findViewById(R.id.pointsPlayer2)).setTextSize(lifetextsize);
-        } else {
+        if(GlobalOptions.isShowNames()){
             ((TextView) findViewById(R.id.namePlayer1)).setTextSize(playernametextsize);
             ((TextView) findViewById(R.id.namePlayer2)).setTextSize(playernametextsize);
-            ((TextView) findViewById(R.id.pointsPlayer1)).setTextSize(lifetextsize);
-            ((TextView) findViewById(R.id.pointsPlayer2)).setTextSize(lifetextsize);
+        } else {
+            ((TextView) findViewById(R.id.namePlayer1)).setTextSize(0);
+            ((TextView) findViewById(R.id.namePlayer2)).setTextSize(0);
         }
+
+
+        ((TextView) findViewById(R.id.pointsPlayer1)).setTextSize(lifetextsize);
+        ((TextView) findViewById(R.id.pointsPlayer2)).setTextSize(lifetextsize);
 
     }
 
@@ -282,7 +281,7 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
             return;
 
         settingsDialog.toggleShowNames();
-        AdjustToScreen();
+        adjustToScreen();
         if(!GlobalOptions.isShowNames()) {
 
         }
@@ -329,7 +328,15 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
 
             return true;
         });
+        updatePlayerNames();
+    }
 
+    public void updatePlayerNames() {
+        TextView name = findViewById(R.id.namePlayer1);
+        name.setText(GlobalOptions.getPlayerName1());
+
+        name = findViewById(R.id.namePlayer2);
+        name.setText(GlobalOptions.getPlayerName2());
     }
 
     /**
@@ -810,7 +817,7 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
 
         toolbar = findViewById(toolbar_id);
         setSupportActionBar(toolbar);
-        AdjustToScreen();
+        adjustToScreen();
         updateComponentActivities();
 
         if(GlobalOptions.isFirstView()) {
