@@ -25,7 +25,7 @@ public class AboutDialog extends AppCompatDialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext(), R.style.MyDialogTheme);
-        builder.setMessage("About Us");
+        builder.setMessage(R.string.about_us);
 
         LayoutInflater inflater =  LayoutInflater.from(getContext());
         View view = inflater.inflate(R.layout.about_us, null);
