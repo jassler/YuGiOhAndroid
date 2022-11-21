@@ -27,6 +27,8 @@ public class SettingsDialog extends AppCompatDialogFragment {
     private static final int POINTS_MAX = 40_000;
 
     private EditText startLifeText = null;
+    private EditText player1nameText = null;
+    private EditText player2nameText = null;
 
     private boolean keyEvent(EditText startLifeText) {
         startLifeText.clearFocus();
@@ -85,6 +87,8 @@ public class SettingsDialog extends AppCompatDialogFragment {
         ((TextView) view.findViewById(R.id.settingsScreenOnLabel)).setTextSize(GlobalOptions.settingstextsize);
         ((TextView) view.findViewById(R.id.settingsDeleteAfter4Label)).setTextSize(GlobalOptions.settingstextsize);
         ((TextView) view.findViewById(R.id.settingsShowNamesLabel)).setTextSize(GlobalOptions.settingstextsize);
+        ((TextView) view.findViewById(R.id.settingsPlayerName1Label)).setTextSize(GlobalOptions.settingstextsize);
+        ((TextView) view.findViewById(R.id.settingsPlayerName2Label)).setTextSize(GlobalOptions.settingstextsize);
 
         EditText pointsField = view.findViewById(R.id.settingsPointsField);
         pointsField.setTextSize(GlobalOptions.settingstextsize);
@@ -92,6 +96,20 @@ public class SettingsDialog extends AppCompatDialogFragment {
         pointsField.setSelectAllOnFocus(true);
         pointsField.setOnEditorActionListener((v, actionId, event) -> keyEvent(startLifeText));
         this.startLifeText = pointsField;
+
+        EditText player1nameField = view.findViewById(R.id.PlayerName1);
+        player1nameField.setTextSize(GlobalOptions.settingstextsize);
+        player1nameField.setText(String.valueOf(GlobalOptions.getPlayerName1()), TextView.BufferType.EDITABLE);
+        player1nameField.setSelectAllOnFocus(true);
+        player1nameField.setOnEditorActionListener((v, actionId, event) -> keyEvent(player1nameText));
+        this.player1nameText = player1nameField;
+
+        EditText player2nameField = view.findViewById(R.id.PlayerName2);
+        player2nameField.setTextSize(GlobalOptions.settingstextsize);
+        player2nameField.setText(String.valueOf(GlobalOptions.getPlayerName2()), TextView.BufferType.EDITABLE);
+        player2nameField.setSelectAllOnFocus(true);
+        player2nameField.setOnEditorActionListener((v, actionId, event) -> keyEvent(player2nameText));
+        this.player2nameText = player2nameField;
 
 //        startLifeText = view.findViewById(R.id.StartLifeInput);
 //        startLifeText.setText(String.valueOf(GlobalOptions.getStartingLifePoints()), TextView.BufferType.EDITABLE);
@@ -109,7 +127,7 @@ public class SettingsDialog extends AppCompatDialogFragment {
 
         RadioGroup rgL;
         RadioButton rb1,rb2;
-        rgL = view.findViewById(R.id.RadioGroupLanguage);
+        rgL = view.findViewById(R.id.RadioGroupLanguageButton1);
         rb1 = view.findViewById(R.id.LanguageButton1);
         rb2 = view.findViewById(R.id.LanguageButton1);
 
@@ -128,6 +146,8 @@ public class SettingsDialog extends AppCompatDialogFragment {
         view.setOnKeyListener((view1, i, keyEvent) -> {
             if (i == KeyEvent.KEYCODE_BACK && keyEvent.getAction() == KeyEvent.ACTION_UP) {
                 startLifeText.clearFocus();
+                player1nameText.clearFocus();
+                player2nameText.clearFocus();
             }
             return true;
         });

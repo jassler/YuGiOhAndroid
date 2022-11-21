@@ -111,15 +111,73 @@
         app:layout_constraintTop_toBottomOf="@+id/settingsDeleteAfter4Image"
         app:srcCompat="@drawable/tick0" />
 
+    <EditText
+        android:id="@+id/PlayerName1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:inputType="text"
+        android:ems="8"
+        android:textSize="20dp"
+        android:maxLength="10"
+        android:text="Maximilian"
+        android:textAlignment="center"
+        android:textColor="@color/dialog_text"
+        android:backgroundTint="@color/dialog_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/settingsPlayerName1Label"
+        app:layout_constraintTop_toBottomOf="@+id/settingsShowNamesImage"
+        app:layout_constraintHorizontal_bias="0.25"
+        />
+
+    <TextView
+        android:id="@+id/settingsPlayerName1Label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Player 1"
+        android:textColor="@color/dialog_text"
+        app:layout_constraintBottom_toBottomOf="@id/PlayerName1"
+        app:layout_constraintStart_toStartOf="@id/SettingsGuidelineLeft"
+        app:layout_constraintTop_toTopOf="@id/PlayerName1" />
+
+    <EditText
+        android:id="@+id/PlayerName2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:inputType="text"
+        android:ems="8"
+        android:textSize="20dp"
+        android:maxLength="10"
+        android:text="Alexander"
+        android:textAlignment="center"
+        android:textColor="@color/dialog_text"
+        android:backgroundTint="@color/dialog_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/settingsPlayerName1Label"
+        app:layout_constraintTop_toBottomOf="@+id/PlayerName1"
+        app:layout_constraintHorizontal_bias="0.25"
+        />
+
+    <TextView
+        android:id="@+id/settingsPlayerName2Label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Player 2"
+        android:textColor="@color/dialog_text"
+        app:layout_constraintBottom_toBottomOf="@id/PlayerName2"
+        app:layout_constraintStart_toStartOf="@id/SettingsGuidelineLeft"
+        app:layout_constraintTop_toTopOf="@id/PlayerName2" />
+
     <RadioGroup
-        android:id="@+id/RadioGroupLanguage"
+        android:id="@+id/RadioGroupLanguageButton1"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_marginTop="16dp"
         app:layout_constraintStart_toStartOf="@+id/settingsPointsLabel"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/settingsShowNamesImage">
+        app:layout_constraintTop_toBottomOf="parent">
     <RadioButton
     android:layout_width="100dp"
     android:layout_height="20dp"

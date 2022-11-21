@@ -25,6 +25,8 @@ public class GlobalOptions {
     private static final Random random = new Random();
 
     public static final String STARTING_LIFE_POINTS = "startinglifepoints";
+    public static final String PLAYER_NAME_1 = "playername1";
+    public static final String PLAYER_NAME_2 = "playername2";
     public static final String KEEP_SCREEN_ON = "keepscreenon";
     public static final String DELETE_AFTER_4 = "deleteafter4";
     public static final String SHOW_NAMES = "shownames";
@@ -41,6 +43,8 @@ public class GlobalOptions {
     private static SharedPreferences prefs = null;
     private static SharedPreferences.Editor editor = null;
     private static int startingLifePoints = 8000;
+    private static String playerName1 = "Player 1";
+    private static String playerName2 = "Player 2";
     private static boolean keepScreenOn = false;
     private static boolean deleteAfter4 = false;
     private static boolean showNames = false;
@@ -68,6 +72,18 @@ public class GlobalOptions {
             startingLifePoints = prefs.getInt(STARTING_LIFE_POINTS, 8000);
         } catch(Exception e) {
             setStartingLifePoints(8000);
+        }
+
+        try {
+            playerName1 = prefs.getString(PLAYER_NAME_1, "Player 1");
+        } catch(Exception e) {
+            setPlayerName1("Player 1");
+        }
+
+        try {
+            playerName2 = prefs.getString(PLAYER_NAME_2, "Player 2");
+        } catch(Exception e) {
+            setPlayerName2("Player 2");
         }
 
         try {
@@ -132,6 +148,30 @@ public class GlobalOptions {
     public static void setStartingLifePoints(int newLifePoints) {
         startingLifePoints = newLifePoints;
         editor.putInt(STARTING_LIFE_POINTS, newLifePoints).apply();
+    }
+
+    /*
+     * PLAYER NAME 1
+     */
+    public static String getPlayerName1() {
+        return playerName1;
+    }
+
+    public static void setPlayerName1(String newPlayerName1) {
+        playerName1 = newPlayerName1;
+        editor.putString(PLAYER_NAME_1, newPlayerName1).apply();
+    }
+
+    /*
+     * PLAYER NAME 2
+     */
+    public static String getPlayerName2() {
+        return playerName2;
+    }
+
+    public static void setPlayerName2(String newPlayerName2) {
+        playerName2 = newPlayerName2;
+        editor.putString(PLAYER_NAME_2, newPlayerName2).apply();
     }
 
     /*
