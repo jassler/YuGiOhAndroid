@@ -75,4 +75,12 @@
         android:onClick="showSettings"
         app:showAsAction="never" />
 
+    <item
+        android:id="@+id/action_about_us"
+        android:orderInCategory="750"
+        android:title="@string/about_us"
+        android:icon="@drawable/ic_baseline_add_circle_outline_24px"
+        android:onClick="showAboutUs"
+        app:showAsAction="ifRoom" />
+
 </menu>

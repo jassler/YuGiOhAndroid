@@ -30,6 +30,7 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.kaasbrot.boehlersyugiohapp.dialog.AboutDialog;
 import com.kaasbrot.boehlersyugiohapp.dialog.CasinoDialog;
 import com.kaasbrot.boehlersyugiohapp.dialog.CoinDialog;
 import com.kaasbrot.boehlersyugiohapp.dialog.CoinsDialog;
@@ -81,7 +82,7 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
     CoinDialog coinDialog;
     CoinsDialog coinsDialog;
     SettingsDialog settingsDialog;
-    //AboutDialog aboutDialog;
+    AboutDialog aboutDialog;
     TextView belowtimertext;
     int belowtimersize;
 
@@ -145,6 +146,7 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
         coinsDialog.setHistory(history);
 
         settingsDialog = new SettingsDialog();
+        aboutDialog = new AboutDialog();
 
         getScreenSize();
         getActionBarHeight();
@@ -156,6 +158,7 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
         Points p = history.getCurrentPoints();
         p1.reset(p.p1);
         p2.reset(p.p2);
+        AdjustToScreen();
     }
 
     public void getScreenSize() {
@@ -405,7 +408,7 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
         if(screen_width_sp < 320) {
             menu.getItem(3).setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
         }
-        AdjustToScreen();
+        //AdjustToScreen();
         return true;
     }
 
@@ -685,6 +688,13 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
             return;
 
         settingsDialog.show(getSupportFragmentManager(), "Settings");
+    }
+
+    public void showAboutUs(MenuItem item) {
+        if(aboutDialog.isAdded())
+            return;
+
+        aboutDialog.show(getSupportFragmentManager(), "AboutUs");
     }
 
     @Override

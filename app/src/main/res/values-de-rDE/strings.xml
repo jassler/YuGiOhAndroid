@@ -21,10 +21,38 @@
     <string name="result_Tails">Zahl</string>
     <string name="clear_text">Löschen</string>
     <string name="change_view">Ansicht wechseln</string>
-    <string name="starting_lp">Start Lebenspunkte:</string>
-    <string name="keep_screen_on">Bildschirm bleibt an:</string>
-    <string name="remember_games">Nur 4 Spiele im Verlauf:</string>
+    <string name="starting_lp">Start Lebenspunkte</string>
+    <string name="keep_screen_on">Bildschirm bleibt an</string>
+    <string name="remember_games">Nur 4 Spiele im Verlauf</string>
     <string name="set_lifepoint_max">Maximal 40000</string>
     <string name="set_lifepoint_min">Minimum 1</string>
     <string name="bad_number_format">Bitte eine gültige Zahl eingeben</string>
+    <string name="playername1">Spieler 1</string>
+    <string name="playername2">Spieler 2</string>
+    <string name="show_names">Spieler Namen</string>
+    <string name="about_us">Über uns</string>
+    <string name="our_goal">
+    Unser Ziel war eine simple und effiziente App für Duelle: \n
+    - keine Ladezeiten \n
+    - schnelle Eingabe \n
+    - Würfel, Münze, Timer \n
+    - Verlauf (wird gespeichert) \n
+    - Rückgängig, Wiederherstellen und Neustart \n
+    - Keine Werbung \n
+ \n
+Es gibt zwei Ansichten \n
+1) Eine innovative Ansicht mit +/- Bausteinen \n
+2) Eine gewöhnliche Ansicht mit Ziffernblock \n
+
+ \n
+Mit 1) kann der Schaden meist schneller eingegeben werden. \n
+Zum Beispiel 1900 = 1000+1000-100 sind nur drei Klicks im Vergleich zu vier mit 1+9+00+\"-\". \n
+Man kann auch effekte wie von Ring der Zerstörung für beide Spieler gleichzeitig eingeben mit zwei Fingern. \n
+ \n
+Der Timer kann durch runterziehen angezeigt werden. Würfel und Münze starten beim Antippen nochmal. \n
+ \n
+Feedback und Fehler an:  \n
+        [e-mail]. \n
+Wenn du dich bei uns für die App bedanken möchtest:  \n
+        [buy us a coffee].</string>
 </resources>

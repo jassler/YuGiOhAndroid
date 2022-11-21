@@ -28,10 +28,38 @@
     <string name="result_Tails">Tails</string>
     <string name="clear_text">Clear</string>
     <string name="change_view">Change View</string>
-    <string name="starting_lp">Starting Life Points:</string>
-    <string name="keep_screen_on">Keep Screen On:</string>
-    <string name="remember_games">Only keep 4 games:</string>
+    <string name="starting_lp">Starting Life Points</string>
+    <string name="keep_screen_on">Keep Screen On</string>
+    <string name="remember_games">Only keep 4 games</string>
     <string name="set_lifepoint_max">Maximum 40000</string>
     <string name="set_lifepoint_min">at least 1</string>
     <string name="bad_number_format">Please enter a valid number</string>
+    <string name="playername1">Player 1</string>
+    <string name="playername2">Player 2</string>
+    <string name="show_names">Player Names</string>
+    <string name="about_us">About Us</string>
+    <string name="our_goal">Our goal was to create a clean and simple App for dueling: \n
+    - no long loading screen \n
+    - efficient input system \n
+    - dice, coin and timer \n
+    - history (saved when closing) \n
+    - undo, redo and reset button \n
+    - no ads \n
+ \n
+You can choose between two views: \n
+1) An innovative input system (add/sub blocks blocks) \n
+2) A traditional input system with a number pad \n
+
+ \n
+With 1) you can calculate most damages with fewer clicks than with the traditional system. \n
+For example 1900 = 1000+1000-100 is only three clicks instead of four with 1+9+00+\"-\". \n
+You can also resolve effects like Ring of Destruction for both players simultaneously by using two fingers. \n
+ \n
+The timer can be shown and hidden by dragging your finger down/up. Dice and coin can be thrown again by tapping them. \n
+ \n
+Report bugs and submit feedback to  \n
+        [e-mail]. \n
+If you want to say thank you and support us you can  \n
+        [buy us a coffee].
+    </string>
 </resources>

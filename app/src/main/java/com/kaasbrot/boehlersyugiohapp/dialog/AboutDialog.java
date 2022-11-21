@@ -52,6 +52,6 @@ public class AboutDialog extends AppCompatDialogFragment {
 
     @Override
     public void onDestroy() {
-        //super.onDestroy();
+        super.onDestroy();
     }
 }

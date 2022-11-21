@@ -13,7 +13,7 @@
         android:id="@+id/settingsPointsLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Our Goal was to make gud App."
+        android:text="@string/our_goal"
         android:textColor="@color/dialog_text"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
