@@ -186,7 +186,6 @@ public class Player {
             @Override
             public void run() {
                 if(tmpCalc == 0) {
-                    tmpView.setText("");
                     return;
                 }
 
