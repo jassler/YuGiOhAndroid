@@ -61,7 +61,10 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
 
     int actionbar_height;
     int actionbar_width;
+    int emptytextsize;
+    int playernametextsize;
     int lifetextsize;
+    int addsubtextsize;
     int numberbuttontextsize;
     int timertextsize;
 
@@ -172,24 +175,30 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
             //toggletimermax = 200;
             gameTimer.setTopMarginMax(200);
             lifetextsize=34;
+            playernametextsize=18;
             numberbuttontextsize=32;
             timertextsize=24;
+            emptytextsize=10;
             GlobalOptions.settingstextsize=20;
         }else if(screen_height_sp > 580){
             //toggletimermax=55;
             //toggletimermax = 183;
             gameTimer.setTopMarginMax(135);
             lifetextsize=22;
+            playernametextsize=15;
             numberbuttontextsize=26;
             timertextsize=20;
+            emptytextsize=6;
             GlobalOptions.settingstextsize=16;
         }else{
             //toggletimermax=50;
             //toggletimermax = 167;
             gameTimer.setTopMarginMax(90);
             lifetextsize=20;
+            playernametextsize=12;
             numberbuttontextsize=20;
             timertextsize=18;
+            emptytextsize=2;
             GlobalOptions.settingstextsize=14;
         }
     }
@@ -211,6 +220,8 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
         if(GlobalOptions.isFirstView()) {
             ((TextView) findViewById(R.id.pointsPlayer1)).setTextSize(lifetextsize);
             ((TextView) findViewById(R.id.pointsPlayer2)).setTextSize(lifetextsize);
+            ((TextView) findViewById(R.id.emptytext1)).setTextSize(emptytextsize);
+            ((TextView) findViewById(R.id.emptytext2)).setTextSize(emptytextsize);
         } else {
             ((TextView) findViewById(R.id.pointsPlayer1)).setTextSize(lifetextsize);
             ((TextView) findViewById(R.id.pointsPlayer2)).setTextSize(lifetextsize);
@@ -226,6 +237,17 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
             ((Button) findViewById(R.id.button7)).setTextSize(numberbuttontextsize);
             ((Button) findViewById(R.id.button8)).setTextSize(numberbuttontextsize);
             ((Button) findViewById(R.id.button9)).setTextSize(numberbuttontextsize);
+        }
+        if(!GlobalOptions.isShowNames()){
+            ((TextView) findViewById(R.id.namePlayer1)).setTextSize(0);
+            ((TextView) findViewById(R.id.namePlayer2)).setTextSize(0);
+            ((TextView) findViewById(R.id.pointsPlayer1)).setTextSize(lifetextsize);
+            ((TextView) findViewById(R.id.pointsPlayer2)).setTextSize(lifetextsize);
+        } else {
+            ((TextView) findViewById(R.id.namePlayer1)).setTextSize(playernametextsize);
+            ((TextView) findViewById(R.id.namePlayer2)).setTextSize(playernametextsize);
+            ((TextView) findViewById(R.id.pointsPlayer1)).setTextSize(lifetextsize);
+            ((TextView) findViewById(R.id.pointsPlayer2)).setTextSize(lifetextsize);
         }
 
     }
@@ -257,6 +279,7 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
             return;
 
         settingsDialog.toggleShowNames();
+        AdjustToScreen();
         if(!GlobalOptions.isShowNames()) {
 
         }

@@ -64,76 +64,114 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/viewPlayer1"
         android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="0dp"
-        android:layout_marginEnd="8dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="4dp"
         android:layout_marginBottom="0dp"
-        app:layout_constraintDimensionRatio="1:2.8"
         app:layout_constraintEnd_toStartOf="@+id/guidelineCenter"
         app:layout_constraintStart_toStartOf="@+id/guidelineLeft"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent">
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintVertical_bias="0.4">
 
         <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guidelineMainAboveLife1"
+            android:id="@+id/guidelineHalf1Left"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_end="0dp"
+            app:layout_constraintGuide_percent="0.25"/>
+
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guidelineHalf1Right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_end="0dp"
+            app:layout_constraintGuide_percent="0.75"/>
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guidelineMainAboveHalfa1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             app:layout_constraintGuide_end="0dp"
-            app:layout_constraintGuide_percent="0.40"/>
+            app:layout_constraintGuide_percent="0.89"/>
 
         <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guidelineMainMidLife1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_end="0dp"
-            app:layout_constraintGuide_percent="0.475"/>
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guidelineMainBelowLife1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_end="0dp"
-            app:layout_constraintGuide_percent="0.50"/>
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guidelineMainAboveHalf1"
+            android:id="@+id/guidelineMainAboveHalfb1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             app:layout_constraintGuide_end="0dp"
             app:layout_constraintGuide_percent="0.90"/>
 
-        <TextView
-            android:id="@+id/pointsPlayer1"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/LifeBox1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="0dp"
-            android:textAlignment="center"
-            android:textColor="#FFFFFF"
-            android:textSize="30sp"
-            app:layout_constraintTop_toTopOf="@id/guidelineMainAboveLife1"
-            app:layout_constraintBottom_toBottomOf="@id/guidelineMainMidLife1"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintVertical_bias="0.42000002" />
-
-
-        <TextView
-            android:id="@+id/tmpText1"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="0dp"
+            android:layout_marginEnd="0dp"
             android:layout_marginBottom="0dp"
-            android:textAlignment="center"
-            android:textColor="#CCCCCC"
+            app:layout_constraintTop_toBottomOf="@id/p1AddLower"
+            app:layout_constraintBottom_toTopOf="@id/p1SubHigh"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/guidelineMainMidLife1"
-            app:layout_constraintBottom_toBottomOf="@id/guidelineMainBelowLife1" />
+            app:layout_constraintStart_toStartOf="parent">
 
+            <TextView
+                android:id="@+id/emptytext1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" "
+                android:textSize="5dp"
+                app:layout_constraintBottom_toTopOf="@+id/namePlayer1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                />
+
+            <TextView
+                android:id="@+id/namePlayer1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="0dp"
+                android:layout_marginBottom="-8dp"
+                android:textAlignment="center"
+                android:textColor="#FFFFFF"
+                android:textSize="20sp"
+                android:text="Player 1"
+                app:layout_constraintBottom_toTopOf="@id/pointsPlayer1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                android:id="@+id/pointsPlayer1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="-0dp"
+                android:layout_marginBottom="-0dp"
+                android:text="8000"
+                android:textAlignment="center"
+                android:textColor="#FFFFFF"
+                android:textSize="30sp"
+                app:layout_constraintBottom_toTopOf="@id/tmpText1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                android:id="@+id/tmpText1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="-8dp"
+                android:layout_marginBottom="0dp"
+                android:gravity="center_horizontal"
+                android:text=""
+                android:textAlignment="center"
+                android:textColor="#CCCCCC"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/pointsPlayer1"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <Button
             android:id="@+id/p1AddHigh"
@@ -148,7 +186,6 @@
             android:textColor="@drawable/add_button"
             android:textSize="18sp"
             android:textStyle="bold"
-            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toTopOf="@+id/p1AddLow"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toStartOf="@+id/p1AddMiddle"
@@ -169,7 +206,6 @@
             android:textColor="@drawable/add_button"
             android:textSize="18sp"
             android:textStyle="bold"
-            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toTopOf="@+id/p1AddLower"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toEndOf="parent"
@@ -189,7 +225,7 @@
             android:textColor="@drawable/add_button"
             android:textSize="18sp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@id/guidelineMainAboveLife1"
+            app:layout_constraintTop_toTopOf="@id/p1AddLower"
             app:layout_constraintDimensionRatio="w,1:1"
             app:layout_constraintEnd_toStartOf="@+id/p1AddLower"
             app:layout_constraintHorizontal_bias="0.5"
@@ -200,7 +236,7 @@
             android:id="@+id/p1AddLower"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginBottom="8dp"
+            android:layout_marginBottom="18dp"
             android:background="@drawable/add_button"
             android:onClick="calculate"
             android:tag="@string/button_add"
@@ -208,7 +244,7 @@
             android:textColor="@drawable/add_button"
             android:textSize="18sp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@id/guidelineMainAboveLife1"
+            app:layout_constraintTop_toBottomOf="@id/p1AddHigh"
             app:layout_constraintDimensionRatio="w,1:1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
@@ -233,14 +269,14 @@
             app:layout_constraintEnd_toStartOf="@+id/p1SubMiddle"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/guidelineMainBelowLife1" />
+            app:layout_constraintTop_toBottomOf="@id/LifeBox1" />
 
         <Button
             android:id="@+id/p1SubMiddle"
             style="@style/Widget.AppCompat.Button.Colored"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="0dp"
             android:background="@drawable/sub_button"
             android:onClick="calculate"
             android:tag="@string/button_sub"
@@ -252,7 +288,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/p1SubHigh"
-            app:layout_constraintTop_toBottomOf="@id/guidelineMainBelowLife1" />
+            app:layout_constraintTop_toTopOf="@id/p1SubHigh" />
 
 
         <Button
@@ -274,7 +310,7 @@
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/p1SubHigh"
-            app:layout_constraintBottom_toBottomOf="@id/guidelineMainAboveHalf1"/>
+            app:layout_constraintBottom_toBottomOf="@id/guidelineMainAboveHalfa1"/>
 
 
         <Button
@@ -295,7 +331,7 @@
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/p1SubLow"
             app:layout_constraintTop_toBottomOf="@+id/p1SubMiddle"
-            app:layout_constraintBottom_toBottomOf="@id/guidelineMainAboveHalf1"/>
+            app:layout_constraintBottom_toBottomOf="@id/guidelineMainAboveHalfa1"/>
 
 
         <Button
@@ -314,267 +350,305 @@
             android:textColor="@drawable/div_button"
             android:textSize="18sp"
             app:layout_constraintDimensionRatio="1.8:1"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/guidelineMainAboveHalf1" />
+            app:layout_constraintEnd_toEndOf="@id/guidelineHalf1Right"
+            app:layout_constraintStart_toStartOf="@id/guidelineHalf1Left"
+            app:layout_constraintTop_toBottomOf="@id/guidelineMainAboveHalfb1" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/viewPlayer2"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="0dp"
-        android:layout_marginBottom="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintDimensionRatio="1:2.8"
-        app:layout_constraintEnd_toStartOf="@+id/guidelineRight"
-        app:layout_constraintStart_toStartOf="@+id/guidelineCenter"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guidelineMainAboveLife2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_end="0dp"
-            app:layout_constraintGuide_percent="0.40"/>
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guidelineMainMidLife2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_end="0dp"
-            app:layout_constraintGuide_percent="0.475"/>
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guidelineMainBelowLife2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_end="0dp"
-            app:layout_constraintGuide_percent="0.50"/>
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guidelineMainAboveHalf2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_end="0dp"
-            app:layout_constraintGuide_percent="0.90"/>
-
-        <TextView
-            android:id="@+id/pointsPlayer2"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/viewPlayer2"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:textAlignment="center"
-            android:textColor="#FFFFFF"
-            android:textSize="30sp"
-            app:layout_constraintTop_toTopOf="@id/guidelineMainAboveLife2"
-            app:layout_constraintBottom_toBottomOf="@id/guidelineMainMidLife2"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintVertical_bias="0.42000002" />
-
-
-        <TextView
-            android:id="@+id/tmpText2"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="0dp"
-            android:textAlignment="center"
-            android:textColor="#CCCCCC"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/guidelineMainMidLife2"
-            app:layout_constraintBottom_toBottomOf="@id/guidelineMainBelowLife2" />
-
-
-        <Button
-            android:id="@+id/p2AddHigh"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="8dp"
-            android:background="@drawable/add_button"
-            android:onClick="calculate"
-            android:tag="@string/button_add"
-            android:text="+1000 "
-            android:textColor="@drawable/add_button"
-            android:textSize="18sp"
-            android:textStyle="bold"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="4dp"
+            android:layout_marginBottom="0dp"
+            app:layout_constraintEnd_toStartOf="@+id/guidelineRight"
+            app:layout_constraintStart_toStartOf="@+id/guidelineCenter"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@+id/p2AddLow"
-            app:layout_constraintDimensionRatio="1:1"
-            app:layout_constraintEnd_toStartOf="@+id/p2AddMiddle"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintHorizontal_chainStyle="spread_inside"
-            app:layout_constraintStart_toStartOf="parent" />
-
-
-        <Button
-            android:id="@+id/p2AddMiddle"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginBottom="8dp"
-            android:background="@drawable/add_button"
-            android:onClick="calculate"
-            android:tag="@string/button_add"
-            android:text="+500 "
-            android:textColor="@drawable/add_button"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@+id/p2AddLower"
-            app:layout_constraintDimensionRatio="1:1"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/p2AddHigh" />
-
-        <Button
-            android:id="@+id/p2AddLow"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="8dp"
-            android:background="@drawable/add_button"
-            android:onClick="calculate"
-            android:tag="@string/button_add"
-            android:text="+100 "
-            android:textColor="@drawable/add_button"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@id/guidelineMainAboveLife2"
-            app:layout_constraintDimensionRatio="w,1:1"
-            app:layout_constraintEnd_toStartOf="@+id/p2AddLower"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent" />
-
-
-        <Button
-            android:id="@+id/p2AddLower"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginBottom="8dp"
-            android:background="@drawable/add_button"
-            android:onClick="calculate"
-            android:tag="@string/button_add"
-            android:text="+50 "
-            android:textColor="@drawable/add_button"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@id/guidelineMainAboveLife2"
-            app:layout_constraintDimensionRatio="w,1:1"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/p2AddLow" />
-
-
-        <Button
-            android:id="@+id/p2SubHigh"
-            style="@style/Widget.AppCompat.Button.Colored"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:background="@drawable/sub_button"
-            android:onClick="calculate"
-            android:tag="@string/button_sub"
-            android:text="-1000 "
-            android:textColor="@drawable/sub_button"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            app:layout_constraintDimensionRatio="1:1"
-            app:layout_constraintEnd_toStartOf="@+id/p2SubMiddle"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/guidelineMainBelowLife2" />
-
-        <Button
-            android:id="@+id/p2SubMiddle"
-            style="@style/Widget.AppCompat.Button.Colored"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginTop="8dp"
-            android:background="@drawable/sub_button"
-            android:onClick="calculate"
-            android:tag="@string/button_sub"
-            android:text="-500 "
-            android:textColor="@drawable/sub_button"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            app:layout_constraintDimensionRatio="1:1"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/p2SubHigh"
-            app:layout_constraintTop_toBottomOf="@id/guidelineMainBelowLife2" />
-
-
-        <Button
-            android:id="@+id/p2SubLow"
-            style="@style/Widget.AppCompat.Button.Colored"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:background="@drawable/sub_button"
-            android:onClick="calculate"
-            android:tag="@string/button_sub"
-            android:text="-100 "
-            android:textColor="@drawable/sub_button"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            app:layout_constraintDimensionRatio="1:1"
-            app:layout_constraintEnd_toStartOf="@+id/p2SubLower"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/p2SubHigh"
-            app:layout_constraintBottom_toBottomOf="@id/guidelineMainAboveHalf2"/>
-
-
-        <Button
-            android:id="@+id/p2SubLower"
-            style="@style/Widget.AppCompat.Button.Colored"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginTop="8dp"
-            android:background="@drawable/sub_button"
-            android:onClick="calculate"
-            android:tag="@string/button_sub"
-            android:text="-50 "
-            android:textColor="@drawable/sub_button"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            app:layout_constraintDimensionRatio="1:1"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/p2SubLow"
-            app:layout_constraintTop_toBottomOf="@+id/p2SubMiddle"
-            app:layout_constraintBottom_toBottomOf="@id/guidelineMainAboveHalf2"/>
-
-
-        <Button
-            android:id="@+id/p2DivTwo"
-            style="@style/Widget.AppCompat.Button.Colored"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginStart="2dp"
-            android:layout_marginTop="2dp"
-            android:layout_marginEnd="2dp"
-            android:layout_marginBottom="2dp"
-            android:background="@drawable/div_button"
-            android:onClick="div"
-            android:text="\u00F7 2"
-            android:textColor="@drawable/div_button"
-            android:textSize="18sp"
-            app:layout_constraintDimensionRatio="1.8:1"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/guidelineMainAboveHalf2" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            app:layout_constraintVertical_bias="0.4">
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guidelineHalf2Left"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_end="0dp"
+                app:layout_constraintGuide_percent="0.25"/>
+
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guidelineHalf2Right"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_end="0dp"
+                app:layout_constraintGuide_percent="0.75"/>
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guidelineMainAboveHalfa2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_end="0dp"
+                app:layout_constraintGuide_percent="0.89"/>
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guidelineMainAboveHalfb2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_end="0dp"
+                app:layout_constraintGuide_percent="0.90"/>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/LifeBox2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="0dp"
+                android:layout_marginEnd="0dp"
+                android:layout_marginBottom="0dp"
+                app:layout_constraintTop_toBottomOf="@id/p2AddLower"
+                app:layout_constraintBottom_toTopOf="@id/p2SubHigh"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent">
+
+                <TextView
+                    android:id="@+id/emptytext2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=" "
+                    android:textSize="5dp"
+                    app:layout_constraintBottom_toTopOf="@+id/namePlayer2"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    />
+
+                <TextView
+                    android:id="@+id/namePlayer2"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="0dp"
+                    android:layout_marginBottom="-8dp"
+                    android:textAlignment="center"
+                    android:textColor="#FFFFFF"
+                    android:textSize="20sp"
+                    android:text="Player 2"
+                    app:layout_constraintBottom_toTopOf="@id/pointsPlayer2"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <TextView
+                    android:id="@+id/pointsPlayer2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="-0dp"
+                    android:layout_marginBottom="-0dp"
+                    android:text="8000"
+                    android:textAlignment="center"
+                    android:textColor="#FFFFFF"
+                    android:textSize="30sp"
+                    app:layout_constraintBottom_toTopOf="@id/tmpText2"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <TextView
+                    android:id="@+id/tmpText2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="-8dp"
+                    android:layout_marginBottom="0dp"
+                    android:gravity="center_horizontal"
+                    android:text=""
+                    android:textAlignment="center"
+                    android:textColor="#CCCCCC"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/pointsPlayer2"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <Button
+                android:id="@+id/p2AddHigh"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
+                android:background="@drawable/add_button"
+                android:onClick="calculate"
+                android:tag="@string/button_add"
+                android:text="+1000 "
+                android:textColor="@drawable/add_button"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/p2AddLow"
+                app:layout_constraintDimensionRatio="1:1"
+                app:layout_constraintEnd_toStartOf="@+id/p2AddMiddle"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintHorizontal_chainStyle="spread_inside"
+                app:layout_constraintStart_toStartOf="parent" />
+
+
+            <Button
+                android:id="@+id/p2AddMiddle"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginBottom="8dp"
+                android:background="@drawable/add_button"
+                android:onClick="calculate"
+                android:tag="@string/button_add"
+                android:text="+500 "
+                android:textColor="@drawable/add_button"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/p2AddLower"
+                app:layout_constraintDimensionRatio="1:1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/p2AddHigh" />
+
+            <Button
+                android:id="@+id/p2AddLow"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
+                android:background="@drawable/add_button"
+                android:onClick="calculate"
+                android:tag="@string/button_add"
+                android:text="+100 "
+                android:textColor="@drawable/add_button"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintTop_toTopOf="@id/p2AddLower"
+                app:layout_constraintDimensionRatio="w,1:1"
+                app:layout_constraintEnd_toStartOf="@+id/p2AddLower"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent" />
+
+
+            <Button
+                android:id="@+id/p2AddLower"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginBottom="8dp"
+                android:background="@drawable/add_button"
+                android:onClick="calculate"
+                android:tag="@string/button_add"
+                android:text="+50 "
+                android:textColor="@drawable/add_button"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintTop_toBottomOf="@id/p2AddHigh"
+                app:layout_constraintDimensionRatio="w,1:1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/p2AddLow" />
+
+
+            <Button
+                android:id="@+id/p2SubHigh"
+                style="@style/Widget.AppCompat.Button.Colored"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/sub_button"
+                android:onClick="calculate"
+                android:tag="@string/button_sub"
+                android:text="-1000 "
+                android:textColor="@drawable/sub_button"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintDimensionRatio="1:1"
+                app:layout_constraintEnd_toStartOf="@+id/p2SubMiddle"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/LifeBox2" />
+
+            <Button
+                android:id="@+id/p2SubMiddle"
+                style="@style/Widget.AppCompat.Button.Colored"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginTop="0dp"
+                android:background="@drawable/sub_button"
+                android:onClick="calculate"
+                android:tag="@string/button_sub"
+                android:text="-500 "
+                android:textColor="@drawable/sub_button"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintDimensionRatio="1:1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/p2SubHigh"
+                app:layout_constraintTop_toTopOf="@id/p2SubHigh" />
+
+
+            <Button
+                android:id="@+id/p2SubLow"
+                style="@style/Widget.AppCompat.Button.Colored"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/sub_button"
+                android:onClick="calculate"
+                android:tag="@string/button_sub"
+                android:text="-100 "
+                android:textColor="@drawable/sub_button"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintDimensionRatio="1:1"
+                app:layout_constraintEnd_toStartOf="@+id/p2SubLower"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/p2SubHigh"
+                app:layout_constraintBottom_toBottomOf="@id/guidelineMainAboveHalfa2"/>
+
+
+            <Button
+                android:id="@+id/p2SubLower"
+                style="@style/Widget.AppCompat.Button.Colored"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/sub_button"
+                android:onClick="calculate"
+                android:tag="@string/button_sub"
+                android:text="-50 "
+                android:textColor="@drawable/sub_button"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintDimensionRatio="1:1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/p2SubLow"
+                app:layout_constraintTop_toBottomOf="@+id/p2SubMiddle"
+                app:layout_constraintBottom_toBottomOf="@id/guidelineMainAboveHalfa2"/>
+
+
+            <Button
+                android:id="@+id/p2DivTwo"
+                style="@style/Widget.AppCompat.Button.Colored"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="2dp"
+                android:layout_marginTop="2dp"
+                android:layout_marginEnd="2dp"
+                android:layout_marginBottom="2dp"
+                android:background="@drawable/div_button"
+                android:onClick="div"
+                android:tag="@string/button_div"
+                android:text="\u00F7 2"
+                android:textColor="@drawable/div_button"
+                android:textSize="18sp"
+                app:layout_constraintDimensionRatio="1.8:1"
+                app:layout_constraintEnd_toEndOf="@id/guidelineHalf2Right"
+                app:layout_constraintStart_toStartOf="@id/guidelineHalf2Left"
+                app:layout_constraintTop_toBottomOf="@id/guidelineMainAboveHalfb2" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
     <include android:id="@+id/viewTimer"
         layout="@layout/view_timer"
