@@ -83,7 +83,7 @@ public class Player {
      * Cancel 1 second delay.
      * If points animation is running, act as if that animation is already done.
      */
-    void cancelTimer() {
+    public void cancelTimer() {
         if(timer != null) {
             timer.cancel();
             timer = null;
@@ -171,8 +171,8 @@ public class Player {
      * @param withDelay wait 1 second before adding / subtracting points to player.
      */
     public void calculate(int amount, boolean withDelay) {
-        if(amount == 0)
-            return;
+        //if(amount == 0) //cancelWait() from MainActivity sends calculate with 0 to stop waitdelay
+        //    return;
 
         cancelTimer();
 

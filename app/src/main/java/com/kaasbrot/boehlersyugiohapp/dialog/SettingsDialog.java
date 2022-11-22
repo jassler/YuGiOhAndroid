@@ -78,7 +78,7 @@ public class SettingsDialog extends AppCompatDialogFragment {
 
         if(name.length() > MAX_PLAYER_NAME_LENGTH) {
             Toast toast = Toast.makeText(getContext(), "", Toast.LENGTH_LONG);
-            toast.setText("Bad player name length");
+            toast.setText(R.string.playername2long);
             toast.show();
         } else if(isPlayer1) {
             GlobalOptions.setPlayerName1(player1nameText.getText().toString());
@@ -242,6 +242,9 @@ public class SettingsDialog extends AppCompatDialogFragment {
             String player2 = player2nameText.getText().toString();
             GlobalOptions.setPlayerName2(player2);
         } catch(Exception ignored) {}
+
+        if(mainActivity != null)
+            mainActivity.updatePlayerNames();
 
         startLifeText = null;
         player1nameText = null;

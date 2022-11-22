@@ -73,6 +73,7 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
 
     // counts seconds passed since game started
     GameTimer gameTimer;
+    Player playerForTimer;
 
     HistoryDialog historyDialog;
     CasinoDialog casinoDialog;
@@ -494,6 +495,10 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
         playerFromView(v).calculate(number, true);
     }
 
+    public void cancelWait() {
+        p1.calculate(0,false);
+        p2.calculate(0,false);
+    }
     /**
      * Subtract half the points from corresponding player.
      */
@@ -738,6 +743,7 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         int deltaY;
+        cancelWait();
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 y1 = (int) event.getY();
