@@ -169,35 +169,24 @@
         app:layout_constraintStart_toStartOf="@id/SettingsGuidelineLeft"
         app:layout_constraintTop_toTopOf="@id/PlayerName2" />
 
-    <RadioGroup
-        android:id="@+id/RadioGroupLanguageButton1"
+    <TextView
+        android:id="@+id/settingsLanguageLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/languageLabel"
+        android:textColor="@color/dialog_text"
+        app:layout_constraintBottom_toBottomOf="@+id/settingsLanguageSelector"
+        app:layout_constraintStart_toStartOf="@+id/SettingsGuidelineLeft"
+        app:layout_constraintTop_toTopOf="@+id/settingsLanguageSelector" />
+
+    <Spinner
+        android:id="@+id/settingsLanguageSelector"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        app:layout_constraintStart_toStartOf="@+id/settingsPointsLabel"
+        android:backgroundTint="@color/dialog_text"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="parent">
-    <RadioButton
-    android:layout_width="100dp"
-    android:layout_height="20dp"
-    android:layout_weight="1"
-    android:id="@+id/LanguageButton1"
-    android:text="Engrisch"
-    android:textColor="@color/dialog_text"
-    app:layout_constraintStart_toStartOf="parent"
-    android:buttonTint="@color/dialog_text"
-        />
-
-    <RadioButton
-    android:layout_width="100dp"
-    android:layout_height="20dp"
-    android:layout_weight="1"
-    android:id="@+id/LanguageButton2"
-    android:text="Germansch"
-    android:textColor="@color/dialog_text"
-    app:layout_constraintStart_toStartOf="@id/LanguageButton1"
-    android:buttonTint="@color/dialog_text"/>
-
-    </RadioGroup>
+        app:layout_constraintStart_toEndOf="@+id/settingsLanguageLabel"
+        app:layout_constraintTop_toBottomOf="@+id/settingsDeleteAfter4Image" />
 </androidx.constraintlayout.widget.ConstraintLayout>

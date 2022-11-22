@@ -63,4 +63,5 @@ If you want to say thank you and support us you can  \n
         [buy us a coffee].
     </string>
     <string name="playername2long">name too long</string>
+    <string name="languageLabel">Language</string>
 </resources>

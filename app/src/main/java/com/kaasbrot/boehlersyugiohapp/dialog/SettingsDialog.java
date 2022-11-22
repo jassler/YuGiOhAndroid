@@ -5,16 +5,23 @@ import android.content.Context;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.app.AppCompatDialogFragment;
+import androidx.core.os.LocaleListCompat;
+
+import android.util.Pair;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,6 +40,7 @@ public class SettingsDialog extends AppCompatDialogFragment {
     private EditText startLifeText = null;
     private EditText player1nameText = null;
     private EditText player2nameText = null;
+    private Spinner languageSelector = null;
     private MainActivity mainActivity = null;
 
     private boolean lifePointsKeyEvent(EditText field) {
@@ -106,6 +114,15 @@ public class SettingsDialog extends AppCompatDialogFragment {
         return field;
     }
 
+    /**
+     * Get language currently set in app in short form (i.e. "en", "de", ...)
+     * @return Language code, two-letters
+     */
+    private String getCurrentLanguage() {
+        // who the hell designs this
+        return getResources().getConfiguration().getLocales().get(0).getLanguage();
+    }
+
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -128,6 +145,7 @@ public class SettingsDialog extends AppCompatDialogFragment {
         initLabel(view, R.id.settingsShowNamesLabel);
         initLabel(view, R.id.settingsPlayerName1Label);
         initLabel(view, R.id.settingsPlayerName2Label);
+        initLabel(view, R.id.settingsLanguageLabel);
 
         /*
          * TextViews
@@ -161,20 +179,57 @@ public class SettingsDialog extends AppCompatDialogFragment {
         /*
          * Language selection
          */
-        RadioGroup rgL;
-        RadioButton rb1,rb2;
-        rgL = view.findViewById(R.id.RadioGroupLanguageButton1);
-        rb1 = view.findViewById(R.id.LanguageButton1);
-        rb2 = view.findViewById(R.id.LanguageButton1);
+        this.languageSelector = view.findViewById(R.id.settingsLanguageSelector);
 
-        rgL.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+        // the order of this array is critical I tell you
+        // Engrish: index 0
+        // Germansh: index 1
+        String[] languages = new String[]{
+                "Engrish",
+                "Germansch"
+        };
+        languageSelector.setAdapter(new ArrayAdapter<>(view.getContext(), android.R.layout.simple_spinner_dropdown_item, languages));
+        switch(getCurrentLanguage()) {
+            case "en":
+                languageSelector.setSelection(0);
+                break;
+            case "de":
+                languageSelector.setSelection(1);
+                break;
+            default:
+                throw new RuntimeException("Invalid language selection");
+        }
+
+        languageSelector.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                switch (checkedId){
-                    case R.id.LanguageButton1:
-                        
-                    case R.id.LanguageButton2:
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                TextView selection = (TextView) languageSelector.getChildAt(0);
+                if(selection == null)
+                    return;
+
+                selection.setTextColor(getContext().getColor(R.color.dial_text));
+                selection.setTextAlignment(TextView.TEXT_ALIGNMENT_TEXT_END);
+                selection.setTextSize(GlobalOptions.settingstextsize);
+
+                String result = "";
+                switch(position) {
+                    case 0:
+                        result = "en";
+                        break;
+                    case 1:
+                        result = "de";
+                        break;
+                    default:
+                        throw new RuntimeException("Invalid language selection");
                 }
+
+                LocaleListCompat appLocale = LocaleListCompat.forLanguageTags(result);
+                AppCompatDelegate.setApplicationLocales(appLocale);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                System.out.println("bbbbb");
             }
         });
 
@@ -222,6 +277,7 @@ public class SettingsDialog extends AppCompatDialogFragment {
         TextView texts = this.getDialog().findViewById(android.R.id.message);
         texts.setTextSize(30);
         texts.setGravity(Gravity.CENTER);
+//        ((TextView) languageSelector.getChildAt(0)).setTextColor(getContext().getColor(R.color.dial_text));
     }
 
     @Override

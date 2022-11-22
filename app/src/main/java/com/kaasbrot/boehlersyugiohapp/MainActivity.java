@@ -9,6 +9,8 @@ import android.content.SharedPreferences;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.os.Handler;
+
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.appcompat.app.AppCompatActivity;
@@ -330,6 +332,7 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
             return true;
         });
         updatePlayerNames();
+        
     }
 
     public void updatePlayerNames() {
