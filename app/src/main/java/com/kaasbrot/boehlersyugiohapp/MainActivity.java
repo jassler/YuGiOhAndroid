@@ -332,15 +332,15 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
             return true;
         });
         updatePlayerNames();
-        
+
     }
 
     public void updatePlayerNames() {
         TextView name = findViewById(R.id.namePlayer1);
-        name.setText(GlobalOptions.getPlayerName1());
+        name.setText(GlobalOptions.getPlayerName1OrDefault(getResources()));
 
         name = findViewById(R.id.namePlayer2);
-        name.setText(GlobalOptions.getPlayerName2());
+        name.setText(GlobalOptions.getPlayerName2OrDefault(getResources()));
     }
 
     /**

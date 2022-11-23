@@ -1,6 +1,7 @@
 package com.kaasbrot.boehlersyugiohapp;
 
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 
 import java.util.Random;
 
@@ -75,15 +76,15 @@ public class GlobalOptions {
         }
 
         try {
-            playerName1 = prefs.getString(PLAYER_NAME_1, "Player 1");
+            playerName1 = prefs.getString(PLAYER_NAME_1, "");
         } catch(Exception e) {
-            setPlayerName1("Player 1");
+            setPlayerName1("");
         }
 
         try {
-            playerName2 = prefs.getString(PLAYER_NAME_2, "Player 2");
+            playerName2 = prefs.getString(PLAYER_NAME_2, "");
         } catch(Exception e) {
-            setPlayerName2("Player 2");
+            setPlayerName2("");
         }
 
         try {
@@ -157,6 +158,10 @@ public class GlobalOptions {
         return playerName1;
     }
 
+    public static String getPlayerName1OrDefault(Resources res) {
+        return playerName1.isEmpty() ? res.getString(R.string.playername1) : playerName1;
+    }
+
     public static void setPlayerName1(String newPlayerName1) {
         playerName1 = newPlayerName1;
         editor.putString(PLAYER_NAME_1, newPlayerName1).apply();
@@ -167,6 +172,10 @@ public class GlobalOptions {
      */
     public static String getPlayerName2() {
         return playerName2;
+    }
+
+    public static String getPlayerName2OrDefault(Resources res) {
+        return playerName2.isEmpty() ? res.getString(R.string.playername2) : playerName2;
     }
 
     public static void setPlayerName2(String newPlayerName2) {
