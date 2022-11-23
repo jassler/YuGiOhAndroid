@@ -150,9 +150,9 @@ public class HistoryDialog extends AppCompatDialogFragment {
             if(isShown) {
                 ScrollView scroll = getDialog().findViewById(R.id.historyScroll);
                 scroll.post(() -> {
-                    scroll.setSmoothScrollingEnabled(false);
+//                    scroll.setSmoothScrollingEnabled(false);
                     scroll.fullScroll(View.FOCUS_DOWN);
-                    scroll.setSmoothScrollingEnabled(true);
+//                    scroll.setSmoothScrollingEnabled(true);
                 });
                 neutralButton.setText(R.string.history_hide_actions);
             } else {
