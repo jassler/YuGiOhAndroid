@@ -57,4 +57,5 @@ Wenn du dich bei uns für die App bedanken möchtest:  \n
         [buy us a coffee].</string>
     <string name="playername2long">Name zu lang</string>
     <string name="languageLabel">Sprache</string>
+    <string name="languageInfo">Sprache wird nach Schließen der Einstellungen übernommen.</string>
 </resources>

@@ -2,18 +2,25 @@ package com.kaasbrot.boehlersyugiohapp.dialog;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.res.AssetManager;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.app.AppCompatDialogFragment;
+import androidx.appcompat.widget.AppCompatTextView;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.os.LocaleListCompat;
 
+import android.util.DisplayMetrics;
 import android.util.Pair;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -29,12 +36,16 @@ import com.kaasbrot.boehlersyugiohapp.GlobalOptions;
 import com.kaasbrot.boehlersyugiohapp.MainActivity;
 import com.kaasbrot.boehlersyugiohapp.R;
 
+import java.util.Locale;
+
 public class SettingsDialog extends AppCompatDialogFragment {
 
     private static final int POINTS_MIN = 1;
     private static final int POINTS_MAX = 40_000;
 
     private static final int MAX_PLAYER_NAME_LENGTH = 20;
+
+    private String selectedLanguage = null;
 
     // these are needed for the onDestroy method
     private EditText startLifeText = null;
@@ -188,7 +199,7 @@ public class SettingsDialog extends AppCompatDialogFragment {
                 "Engrish",
                 "Germansch"
         };
-        languageSelector.setAdapter(new ArrayAdapter<>(view.getContext(), android.R.layout.simple_spinner_dropdown_item, languages));
+        languageSelector.setAdapter(new ArrayAdapter<>(view.getContext(), R.layout.language_spinner, languages));
         switch(getCurrentLanguage()) {
             case "en":
                 languageSelector.setSelection(0);
@@ -204,27 +215,38 @@ public class SettingsDialog extends AppCompatDialogFragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 TextView selection = (TextView) languageSelector.getChildAt(0);
-                if(selection == null)
-                    return;
-
-                selection.setTextColor(getContext().getColor(R.color.dial_text));
-                selection.setTextAlignment(TextView.TEXT_ALIGNMENT_TEXT_END);
-                selection.setTextSize(GlobalOptions.settingstextsize);
+                if(selection != null)
+                    selection.setTextSize(GlobalOptions.settingstextsize);
 
                 String result = "";
+                Locale locale = null;
                 switch(position) {
                     case 0:
                         result = "en";
+                        locale = Locale.ENGLISH;
                         break;
                     case 1:
                         result = "de";
+                        locale = Locale.GERMAN;
                         break;
                     default:
                         throw new RuntimeException("Invalid language selection");
                 }
 
-                LocaleListCompat appLocale = LocaleListCompat.forLanguageTags(result);
-                AppCompatDelegate.setApplicationLocales(appLocale);
+                if(result.equals(getCurrentLanguage()))
+                    selectedLanguage = null;
+                else {
+                    selectedLanguage = result;
+
+                    Resources standardResources = getResources();
+                    Configuration config = new Configuration(standardResources.getConfiguration());
+                    config.setLocale(locale);
+                    Context ctx = getDialog().getContext().createConfigurationContext(config);
+
+                    Toast toast = Toast.makeText(getContext(), ctx.getText(R.string.languageInfo), Toast.LENGTH_LONG);
+                    toast.setGravity(Gravity.TOP, 0, 10);
+                    toast.show();
+                }
             }
 
             @Override
@@ -305,6 +327,14 @@ public class SettingsDialog extends AppCompatDialogFragment {
         startLifeText = null;
         player1nameText = null;
         player2nameText = null;
+
+        try {
+            if(selectedLanguage != null) {
+                LocaleListCompat appLocale = LocaleListCompat.forLanguageTags(selectedLanguage);
+                selectedLanguage = null;
+                AppCompatDelegate.setApplicationLocales(appLocale);
+            }
+        } catch(Exception ignored) {}
     }
 
     public void setMainActivity(MainActivity act) {
