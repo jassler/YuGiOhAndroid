@@ -34,6 +34,7 @@ public class GlobalOptions {
     public static final String REMEMBER_VIEW = "rememberview";
     public static final String SHEEP_COUNT = "sheepcount";
     public static final String HISTORY = "history";
+    public static final String SHOW_ACTIONS = "show_actions";
     public static final String TIMER_IS_RUNNING = "timer_running";
     public static final String TIMER_IS_VISIBLE = "timer_visible";
     public static final String TIMER_PAUSE_TIME = "timer_paused";
@@ -49,6 +50,7 @@ public class GlobalOptions {
     private static boolean keepScreenOn = false;
     private static boolean deleteAfter4 = false;
     private static boolean showNames = false;
+    private static boolean showActions = true;
 
     private static boolean timerRunning = false;
     private static boolean timerVisible = false;
@@ -85,6 +87,12 @@ public class GlobalOptions {
             playerName2 = prefs.getString(PLAYER_NAME_2, "");
         } catch(Exception e) {
             setPlayerName2("");
+        }
+
+        try {
+            showActions = prefs.getBoolean(SHOW_ACTIONS, true);
+        } catch(Exception e) {
+            setActionsShown(true);
         }
 
         try {
@@ -181,6 +189,18 @@ public class GlobalOptions {
     public static void setPlayerName2(String newPlayerName2) {
         playerName2 = newPlayerName2;
         editor.putString(PLAYER_NAME_2, newPlayerName2).apply();
+    }
+
+    /*
+     * SHOW ACTIONS IN HISTORY DIALOG
+     */
+    public static boolean isActionsShown() {
+        return showActions;
+    }
+
+    public static void setActionsShown(boolean isShown) {
+        showActions = isShown;
+        editor.putBoolean(SHOW_ACTIONS, isShown).apply();
     }
 
     /*

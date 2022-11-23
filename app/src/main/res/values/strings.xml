@@ -65,4 +65,6 @@ If you want to say thank you and support us you can  \n
     <string name="playername2long">name too long</string>
     <string name="languageLabel">Language</string>
     <string name="languageInfo">Language will be changed once this dialog is closed.</string>
+    <string name="history_show_actions">Show actions</string>
+    <string name="history_hide_actions">Hide actions</string>
 </resources>
