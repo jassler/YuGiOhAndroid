@@ -58,6 +58,6 @@ Wenn du dich bei uns für die App bedanken möchtest:  \n
     <string name="playername2long">Name zu lang</string>
     <string name="languageLabel">Sprache</string>
     <string name="languageInfo">Sprache wird nach Schließen der Einstellungen übernommen.</string>
-    <string name="history_show_actions">Aktionen anzeigen</string>
-    <string name="history_hide_actions">Aktionen verbergen</string>
+    <string name="history_show_actions">Anzeigen</string>
+    <string name="history_hide_actions">Verbergen</string>
 </resources>
