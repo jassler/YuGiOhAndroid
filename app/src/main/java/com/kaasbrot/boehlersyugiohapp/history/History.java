@@ -159,6 +159,9 @@ public class History implements Iterable<Points> {
         return history.get(i);
     }
 
+    public Points getMaxPoints() {
+        return history.get(history.size()-1);
+    }
     /**
      * Deletes everything in history, only keeps the most current points (see {@link #getCurrentPoints()}.
      */

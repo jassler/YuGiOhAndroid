@@ -208,7 +208,7 @@ public class SettingsDialog extends AppCompatDialogFragment {
                 languageSelector.setSelection(1);
                 break;
             default:
-                throw new RuntimeException("Invalid language selection");
+                throw new RuntimeException(String.valueOf(R.string.invalid_lang));
         }
 
         languageSelector.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -230,7 +230,7 @@ public class SettingsDialog extends AppCompatDialogFragment {
                         locale = Locale.GERMAN;
                         break;
                     default:
-                        throw new RuntimeException("Invalid language selection");
+                        throw new RuntimeException(String.valueOf(R.string.invalid_lang));
                 }
 
                 if(result.equals(getCurrentLanguage()))
@@ -258,7 +258,7 @@ public class SettingsDialog extends AppCompatDialogFragment {
         /*
          * öhm... rest
          */
-        builder.setPositiveButton("ok", (dialogInterface, i) -> {});
+                builder.setPositiveButton("ok", (dialogInterface, i) -> {});
 
         view.setOnKeyListener((view1, i, keyEvent) -> {
             if (i == KeyEvent.KEYCODE_BACK && keyEvent.getAction() == KeyEvent.ACTION_UP) {
@@ -311,6 +311,15 @@ public class SettingsDialog extends AppCompatDialogFragment {
                 GlobalOptions.setStartingLifePoints(startPoints);
         } catch(Exception ignored) {}
 
+
+        try {
+            if(selectedLanguage != null) {
+                LocaleListCompat appLocale = LocaleListCompat.forLanguageTags(selectedLanguage);
+                selectedLanguage = null;
+                AppCompatDelegate.setApplicationLocales(appLocale);
+            }
+        } catch(Exception ignored) {}
+
         try {
             String player1 = player1nameText.getText().toString();
             GlobalOptions.setPlayerName1(player1);
@@ -327,14 +336,6 @@ public class SettingsDialog extends AppCompatDialogFragment {
         startLifeText = null;
         player1nameText = null;
         player2nameText = null;
-
-        try {
-            if(selectedLanguage != null) {
-                LocaleListCompat appLocale = LocaleListCompat.forLanguageTags(selectedLanguage);
-                selectedLanguage = null;
-                AppCompatDelegate.setApplicationLocales(appLocale);
-            }
-        } catch(Exception ignored) {}
     }
 
     public void setMainActivity(MainActivity act) {

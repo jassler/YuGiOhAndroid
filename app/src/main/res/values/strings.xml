@@ -67,4 +67,7 @@ If you want to say thank you and support us you can  \n
     <string name="languageInfo">Language will be changed once this dialog is closed.</string>
     <string name="history_show_actions">Show actions</string>
     <string name="history_hide_actions">Hide actions</string>
+    <string name="invalid_lang">Invalid language selection</string>
+    <string name="clear_history">Clear history</string>
+    <string name="are_you_sure">Are you sure?</string>
 </resources>
