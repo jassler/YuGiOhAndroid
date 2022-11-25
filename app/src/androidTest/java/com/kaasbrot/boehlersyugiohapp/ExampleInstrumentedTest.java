@@ -22,7 +22,7 @@ public class ExampleInstrumentedTest {
     @Test
     public void useAppContext() {
         // Context of the app under test.
-        Context appContext = InstrumentationRegistry.getTargetContext();
+        Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
 
         assertEquals("com.kaasbrot.boehlersyugiohapp", appContext.getPackageName());
     }
@@ -35,13 +35,13 @@ public class ExampleInstrumentedTest {
      */
     @Test
     public void actionHistoryTest() {
-        History history = new History(8000, 8000);
+        History history = new History(new Points(8000, 8000));
 
         // check initial setup
         assertFalse(history.canUndo());
         assertFalse(history.canRedo());
-        assertEquals(8000, ((Points) history.getCurrentEntry()).p1);
-        assertEquals(8000, ((Points) history.getCurrentEntry()).p2);
+        assertEquals(8000, history.getCurrentPoints().p1);
+        assertEquals(8000, history.getCurrentPoints().p2);
 
         // undo shouldn't change anything
         Points p = history.undo();
@@ -54,26 +54,26 @@ public class ExampleInstrumentedTest {
         assertEquals(8000, p.p2);
 
         // player 2 lost points
-        history.add(8000, 7000);
-        p = (Points) history.getCurrentEntry();
+        history.add(new Points(8000, 7000));
+        p = history.getCurrentPoints();
 
         assertTrue(history.canUndo());
         assertFalse(history.canRedo());
-        assertEquals(8000, ((Points) history.getCurrentEntry()).p1);
-        assertEquals(7000, ((Points) history.getCurrentEntry()).p2);
+        assertEquals(8000, history.getCurrentPoints().p1);
+        assertEquals(7000, history.getCurrentPoints().p2);
 
         // undo last action
         p = history.undo();
         assertFalse(history.canUndo());
         assertTrue(history.canRedo());
-        assertEquals(8000, ((Points) history.getCurrentEntry()).p1);
-        assertEquals(8000, ((Points) history.getCurrentEntry()).p2);
+        assertEquals(8000, history.getCurrentPoints().p1);
+        assertEquals(8000, history.getCurrentPoints().p2);
 
         // redo last action
         p = history.redo();
         assertTrue(history.canUndo());
         assertFalse(history.canRedo());
-        assertEquals(8000, ((Points) history.getCurrentEntry()).p1);
-        assertEquals(7000, ((Points) history.getCurrentEntry()).p2);
+        assertEquals(8000, history.getCurrentPoints().p1);
+        assertEquals(7000, history.getCurrentPoints().p2);
     }
 }
