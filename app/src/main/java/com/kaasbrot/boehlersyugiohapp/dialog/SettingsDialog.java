@@ -208,7 +208,9 @@ public class SettingsDialog extends AppCompatDialogFragment {
                 languageSelector.setSelection(1);
                 break;
             default:
-                throw new RuntimeException(String.valueOf(R.string.invalid_lang));
+                Toast toast = Toast.makeText(getContext(), getText(R.string.invalid_lang), Toast.LENGTH_LONG);
+                toast.setGravity(Gravity.TOP, 0, 10);
+                toast.show();
         }
 
         languageSelector.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -230,7 +232,10 @@ public class SettingsDialog extends AppCompatDialogFragment {
                         locale = Locale.GERMAN;
                         break;
                     default:
-                        throw new RuntimeException(String.valueOf(R.string.invalid_lang));
+                        Toast toast = Toast.makeText(getContext(), getText(R.string.invalid_lang), Toast.LENGTH_LONG);
+                        toast.setGravity(Gravity.TOP, 0, 10);
+                        toast.show();
+                        return;
                 }
 
                 if(result.equals(getCurrentLanguage()))
@@ -258,7 +263,7 @@ public class SettingsDialog extends AppCompatDialogFragment {
         /*
          * öhm... rest
          */
-                builder.setPositiveButton("ok", (dialogInterface, i) -> {});
+        builder.setPositiveButton("ok", (dialogInterface, i) -> {});
 
         view.setOnKeyListener((view1, i, keyEvent) -> {
             if (i == KeyEvent.KEYCODE_BACK && keyEvent.getAction() == KeyEvent.ACTION_UP) {
@@ -299,7 +304,6 @@ public class SettingsDialog extends AppCompatDialogFragment {
         TextView texts = this.getDialog().findViewById(android.R.id.message);
         texts.setTextSize(30);
         texts.setGravity(Gravity.CENTER);
-//        ((TextView) languageSelector.getChildAt(0)).setTextColor(getContext().getColor(R.color.dial_text));
     }
 
     @Override
@@ -309,15 +313,6 @@ public class SettingsDialog extends AppCompatDialogFragment {
             int startPoints = Integer.parseInt(startLifeText.getText().toString());
             if(POINTS_MIN <= startPoints && startPoints <= POINTS_MAX)
                 GlobalOptions.setStartingLifePoints(startPoints);
-        } catch(Exception ignored) {}
-
-
-        try {
-            if(selectedLanguage != null) {
-                LocaleListCompat appLocale = LocaleListCompat.forLanguageTags(selectedLanguage);
-                selectedLanguage = null;
-                AppCompatDelegate.setApplicationLocales(appLocale);
-            }
         } catch(Exception ignored) {}
 
         try {
@@ -336,6 +331,15 @@ public class SettingsDialog extends AppCompatDialogFragment {
         startLifeText = null;
         player1nameText = null;
         player2nameText = null;
+
+        // language change should be the last thing to happen
+        try {
+            if(selectedLanguage != null) {
+                LocaleListCompat appLocale = LocaleListCompat.forLanguageTags(selectedLanguage);
+                selectedLanguage = null;
+                AppCompatDelegate.setApplicationLocales(appLocale);
+            }
+        } catch(Exception ignored) {}
     }
 
     public void setMainActivity(MainActivity act) {
