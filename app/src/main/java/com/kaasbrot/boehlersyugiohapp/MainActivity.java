@@ -6,6 +6,7 @@ import static com.kaasbrot.boehlersyugiohapp.GameInformation.p2;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.os.Handler;
@@ -336,11 +337,17 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
     }
 
     public void updatePlayerNames() {
+        Resources res = getResources();
+        String p1Name = GlobalOptions.getPlayerName1OrDefault(res);
+        String p2Name = GlobalOptions.getPlayerName2OrDefault(res);
+
         TextView name = findViewById(R.id.namePlayer1);
-        name.setText(GlobalOptions.getPlayerName1OrDefault(getResources()));
+        name.setText(p1Name);
 
         name = findViewById(R.id.namePlayer2);
-        name.setText(GlobalOptions.getPlayerName2OrDefault(getResources()));
+        name.setText(p2Name);
+
+        history.updateNames(p1Name, p2Name);
     }
 
     /**
@@ -649,6 +656,13 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
         p2.updatePointsText();
 
         determineButtonEnable();
+
+        String[] names = newPoints.getNames();
+        if(names != null) {
+            GlobalOptions.setPlayerName1(names[0]);
+            GlobalOptions.setPlayerName2(names[1]);
+            updatePlayerNames();
+        }
     }
 
     /**

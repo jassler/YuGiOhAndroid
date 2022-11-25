@@ -23,6 +23,8 @@ import java.util.stream.Collectors;
 public class Points {
 
     private boolean isNewGame;
+    private String p1Name;
+    private String p2Name;
     public final int p1;
     public final int p2;
 
@@ -40,10 +42,16 @@ public class Points {
     }
 
     public Points(int p1, int p2, boolean isNewGame) {
+        this(p1, p2, isNewGame, null, null);
+    }
+
+    public Points(int p1, int p2, boolean isNewGame, String p1Name, String p2Name) {
         this.p1 = p1;
         this.p2 = p2;
         this.isNewGame = isNewGame;
         this.actions = null;
+        this.p1Name = p1Name;
+        this.p2Name = p2Name;
     }
 
     private String renderScore(int score, int diff) {
@@ -62,6 +70,17 @@ public class Points {
         actions.add(a);
     }
 
+    public void setNames(String p1Name, String p2Name) {
+        this.p1Name = p1Name;
+        this.p2Name = p2Name;
+    }
+
+    public String[] getNames() {
+        if(this.p1Name == null || this.p2Name == null)
+            return null;
+        return new String[]{ this.p1Name, this.p2Name };
+    }
+
     public void setNewGame(boolean newGame) {
         isNewGame = newGame;
     }
@@ -72,6 +91,8 @@ public class Points {
 
     public String renderP1(Points prev) {
         if(isNewGame) {
+            if(p1Name != null)
+                return "<b>" + p1Name + "<br>" + p1 + "</b>";
             return "<b>" + p1 + "</b>";
         } else {
             return renderScore(p1, p1 - prev.p1);
@@ -80,6 +101,8 @@ public class Points {
 
     public String renderP2(Points prev) {
         if(isNewGame) {
+            if(p2Name != null)
+                return "<b>" + p2Name + "<br>" + p2 + "</b>";
             return "<b>" + p2 + "</b>";
         } else {
             return renderScore(p2, p2 - prev.p2);

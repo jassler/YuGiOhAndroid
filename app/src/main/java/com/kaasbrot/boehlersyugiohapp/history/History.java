@@ -56,6 +56,15 @@ public class History implements Iterable<Points> {
     private void addToIndex(Points element) {
         // if index is in the middle of the list (which happens after undo),
         // remove everything after index
+        if(index < (history.size() - 1)) {
+            String[] names = getCurrentPoints().getNames();
+            if(names != null) {
+                GlobalOptions.setPlayerName1(names[0]);
+                GlobalOptions.setPlayerName2(names[1]);
+                element.setNames(names[0], names[1]);
+            }
+        }
+
         index++;
         if (index < history.size()) {
             history.subList(index, history.size()).clear();
@@ -79,6 +88,8 @@ public class History implements Iterable<Points> {
         // if points are the same as before, ignore
         if(p1 == current.p1 && p2 == current.p2)
             return;
+
+        p.setNames(GlobalOptions.getPlayerName1(), GlobalOptions.getPlayerName2());
 
         // if last entry less than <cooldown> ms ago, count as one action
         // also make sure, it's not the same player the points are subtracted from
@@ -142,6 +153,28 @@ public class History implements Iterable<Points> {
         }
     }
 
+    private int lastNewGame() {
+        int i = index;
+        while(i >= 0 && !history.get(i).isNewGame()) {
+            i--;
+        }
+        return i;
+    }
+
+    private int nextNewGame() {
+        int i = index + 1;
+        while(i < history.size() && !history.get(i).isNewGame()) {
+            i++;
+        }
+        return i;
+    }
+
+    public void updateNames(String p1Name, String p2Name) {
+        for(int i = Math.max(lastNewGame(), 0); i < nextNewGame(); i++) {
+            history.get(i).setNames(p1Name, p2Name);
+        }
+    }
+
     /**
      * Get the most current Point object in history.
      *
@@ -171,7 +204,6 @@ public class History implements Iterable<Points> {
 
         Points p = getCurrentPoints();
         p.clearActions();
-//        p.setNewGame(true);
         history.clear();
         history.add(p);
         index = 0;
@@ -182,14 +214,19 @@ public class History implements Iterable<Points> {
     }
 
     public void addNewGame() {
-        Points p = getCurrentPoints();
+        Points pOld = getCurrentPoints();
         int l = GlobalOptions.getStartingLifePoints();
-        if(p.isNewGame() && p.p1 == l && p.p2 == l)
+        if(pOld.isNewGame() && pOld.p1 == l && pOld.p2 == l)
             return;
+
+        String[] names = pOld.getNames();
+        Points p = (names == null) ?
+                new Points(l, l, true) :
+                new Points(l, l, true, names[0], names[1]);
 
         lastEntryPlayer = 0;
         lastEntry = 0;
-        add(new Points(l, l, true));
+        add(p);
     }
 
     public Points undo() {
