@@ -95,7 +95,6 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
 
         // load history
         SharedPreferences sharedPreferences = getPreferences(MODE_PRIVATE);
-        GlobalOptions.setPrefs(sharedPreferences);
 
         String json = sharedPreferences.getString(GlobalOptions.HISTORY, "");
 
@@ -107,9 +106,13 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
             history = new History(
                     elements.stream().map(HistoryElementParser::parse).collect(Collectors.toList())
             );
-//            elements.forEach(el -> history.add(el.parse()));
         }
         history.setEditor(sharedPreferences.edit());
+
+        GlobalOptions.setPrefs(sharedPreferences);
+        String[] names = history.getCurrentPoints().getNames();
+        GlobalOptions.setPlayerName1(names[0]);
+        GlobalOptions.setPlayerName2(names[1]);
         // hopefully done with loading
 
         cooldowns = new CooldownTracker();
@@ -337,15 +340,22 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
     }
 
     public void updatePlayerNames() {
-        Resources res = getResources();
-        String p1Name = GlobalOptions.getPlayerName1OrDefault(res);
-        String p2Name = GlobalOptions.getPlayerName2OrDefault(res);
+        String p1Name = GlobalOptions.getPlayerName1();
+        String p2Name = GlobalOptions.getPlayerName2();
 
         TextView name = findViewById(R.id.namePlayer1);
-        name.setText(p1Name);
+        if(p1Name.isEmpty()) {
+            name.setText(R.string.playername1);
+        } else {
+            name.setText(p1Name);
+        }
 
         name = findViewById(R.id.namePlayer2);
-        name.setText(p2Name);
+        if(p2Name.isEmpty()) {
+            name.setText(R.string.playername2);
+        } else {
+            name.setText(p2Name);
+        }
 
         history.updateNames(p1Name, p2Name);
     }
@@ -658,11 +668,9 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
         determineButtonEnable();
 
         String[] names = newPoints.getNames();
-        if(names != null) {
-            GlobalOptions.setPlayerName1(names[0]);
-            GlobalOptions.setPlayerName2(names[1]);
-            updatePlayerNames();
-        }
+        GlobalOptions.setPlayerName1(names[0]);
+        GlobalOptions.setPlayerName2(names[1]);
+        updatePlayerNames();
     }
 
     /**

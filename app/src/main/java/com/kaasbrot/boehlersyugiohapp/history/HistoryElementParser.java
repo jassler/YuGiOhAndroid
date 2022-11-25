@@ -11,9 +11,11 @@ public class HistoryElementParser {
     public boolean isNewGame;
     public int p1 = 0;
     public int p2 = 0;
+    public String p1Name;
+    public String p2Name;
 
     public Points parse() {
-        Points p = new Points(p1, p2, isNewGame);
+        Points p = new Points(p1, p2, isNewGame, p1Name, p2Name);
 
         if(actions == null)
             return p;

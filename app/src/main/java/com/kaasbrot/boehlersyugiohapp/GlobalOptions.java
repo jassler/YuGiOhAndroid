@@ -77,17 +77,17 @@ public class GlobalOptions {
             setStartingLifePoints(8000);
         }
 
-        try {
-            playerName1 = prefs.getString(PLAYER_NAME_1, "");
-        } catch(Exception e) {
-            setPlayerName1("");
-        }
-
-        try {
-            playerName2 = prefs.getString(PLAYER_NAME_2, "");
-        } catch(Exception e) {
-            setPlayerName2("");
-        }
+//        try {
+//            playerName1 = prefs.getString(PLAYER_NAME_1, "");
+//        } catch(Exception e) {
+//            setPlayerName1("");
+//        }
+//
+//        try {
+//            playerName2 = prefs.getString(PLAYER_NAME_2, "");
+//        } catch(Exception e) {
+//            setPlayerName2("");
+//        }
 
         try {
             showActions = prefs.getBoolean(SHOW_ACTIONS, true);
@@ -166,11 +166,8 @@ public class GlobalOptions {
         return playerName1;
     }
 
-    public static String getPlayerName1OrDefault(Resources res) {
-        return playerName1.isEmpty() ? res.getString(R.string.playername1) : playerName1;
-    }
-
     public static void setPlayerName1(String newPlayerName1) {
+        if(playerName1.equals(newPlayerName1)) return;
         playerName1 = newPlayerName1;
         editor.putString(PLAYER_NAME_1, newPlayerName1).apply();
     }
@@ -182,11 +179,8 @@ public class GlobalOptions {
         return playerName2;
     }
 
-    public static String getPlayerName2OrDefault(Resources res) {
-        return playerName2.isEmpty() ? res.getString(R.string.playername2) : playerName2;
-    }
-
     public static void setPlayerName2(String newPlayerName2) {
+        if(playerName2.equals(newPlayerName2)) return;
         playerName2 = newPlayerName2;
         editor.putString(PLAYER_NAME_2, newPlayerName2).apply();
     }

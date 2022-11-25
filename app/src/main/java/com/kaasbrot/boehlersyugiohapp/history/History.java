@@ -56,15 +56,6 @@ public class History implements Iterable<Points> {
     private void addToIndex(Points element) {
         // if index is in the middle of the list (which happens after undo),
         // remove everything after index
-        if(index < (history.size() - 1)) {
-            String[] names = getCurrentPoints().getNames();
-            if(names != null) {
-                GlobalOptions.setPlayerName1(names[0]);
-                GlobalOptions.setPlayerName2(names[1]);
-                element.setNames(names[0], names[1]);
-            }
-        }
-
         index++;
         if (index < history.size()) {
             history.subList(index, history.size()).clear();
@@ -89,7 +80,7 @@ public class History implements Iterable<Points> {
         if(p1 == current.p1 && p2 == current.p2)
             return;
 
-        p.setNames(GlobalOptions.getPlayerName1(), GlobalOptions.getPlayerName2());
+        p.setNames(current.getNames()[0], current.getNames()[1]);
 
         // if last entry less than <cooldown> ms ago, count as one action
         // also make sure, it's not the same player the points are subtracted from
@@ -173,6 +164,7 @@ public class History implements Iterable<Points> {
         for(int i = Math.max(lastNewGame(), 0); i < nextNewGame(); i++) {
             history.get(i).setNames(p1Name, p2Name);
         }
+        updateLocalStorage();
     }
 
     /**
@@ -220,9 +212,7 @@ public class History implements Iterable<Points> {
             return;
 
         String[] names = pOld.getNames();
-        Points p = (names == null) ?
-                new Points(l, l, true) :
-                new Points(l, l, true, names[0], names[1]);
+        Points p = new Points(l, l, true, names[0], names[1]);
 
         lastEntryPlayer = 0;
         lastEntry = 0;

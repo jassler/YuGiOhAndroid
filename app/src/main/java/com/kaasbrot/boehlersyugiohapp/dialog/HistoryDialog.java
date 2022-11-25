@@ -97,10 +97,9 @@ public class HistoryDialog extends AppCompatDialogFragment {
             View view = inflater.inflate(R.layout.dialog_history_element, parent, false);
             ((TextView) view.findViewById(R.id.p1)).setText(Html.fromHtml(p.renderP1(prev), Html.FROM_HTML_MODE_COMPACT));
             ((TextView) view.findViewById(R.id.p2)).setText(Html.fromHtml(p.renderP2(prev), Html.FROM_HTML_MODE_COMPACT));
-            if(showActions)
-                ((TextView) view.findViewById(R.id.info)).setText(Html.fromHtml(p.renderActions(res), Html.FROM_HTML_MODE_COMPACT));
+            ((TextView) view.findViewById(R.id.info)).setText(Html.fromHtml(p.renderActions(res, showActions), Html.FROM_HTML_MODE_COMPACT));
             if(p == current && p != history.getMaxPoints())
-                view.setBackgroundColor(Color.parseColor("#232323"));
+                view.setBackgroundColor(Color.parseColor("#323232"));
 
             parent.addView(view);
             historyElements.add(view);
@@ -145,10 +144,7 @@ public class HistoryDialog extends AppCompatDialogFragment {
 
             for (int i = 0; i < historyElements.size(); i++) {
                 TextView info = historyElements.get(i).findViewById(R.id.info);
-                if(isShown)
-                    info.setText(Html.fromHtml(history.get(i).renderActions(res), Html.FROM_HTML_MODE_COMPACT));
-                else
-                    info.setText("");
+                info.setText(Html.fromHtml(history.get(i).renderActions(res, isShown), Html.FROM_HTML_MODE_COMPACT));
             }
             if(isShown) {
                 ScrollView scroll = getDialog().findViewById(R.id.historyScroll);

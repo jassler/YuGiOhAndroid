@@ -1,24 +1,11 @@
 package com.kaasbrot.boehlersyugiohapp.history;
 
-import static android.text.Spanned.SPAN_EXCLUSIVE_EXCLUSIVE;
-import static android.text.Spanned.SPAN_INCLUSIVE_INCLUSIVE;
-
 import android.content.res.Resources;
-import android.text.Html;
-import android.text.SpannableString;
-import android.text.TextUtils;
-import android.text.style.AbsoluteSizeSpan;
-import android.text.style.RelativeSizeSpan;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.kaasbrot.boehlersyugiohapp.R;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class Points {
 
@@ -42,7 +29,7 @@ public class Points {
     }
 
     public Points(int p1, int p2, boolean isNewGame) {
-        this(p1, p2, isNewGame, null, null);
+        this(p1, p2, isNewGame, "", "");
     }
 
     public Points(int p1, int p2, boolean isNewGame, String p1Name, String p2Name) {
@@ -50,8 +37,8 @@ public class Points {
         this.p2 = p2;
         this.isNewGame = isNewGame;
         this.actions = null;
-        this.p1Name = p1Name;
-        this.p2Name = p2Name;
+        this.p1Name = (p1Name == null) ? "" : p1Name;
+        this.p2Name = (p2Name == null) ? "" : p2Name;
     }
 
     private String renderScore(int score, int diff) {
@@ -76,8 +63,6 @@ public class Points {
     }
 
     public String[] getNames() {
-        if(this.p1Name == null || this.p2Name == null)
-            return null;
         return new String[]{ this.p1Name, this.p2Name };
     }
 
@@ -91,9 +76,7 @@ public class Points {
 
     public String renderP1(Points prev) {
         if(isNewGame) {
-            if(p1Name != null)
-                return "<b>" + p1Name + "<br>" + p1 + "</b>";
-            return "<b>" + p1 + "</b>";
+            return "<br><br><b>" + p1 + "</b>";
         } else {
             return renderScore(p1, p1 - prev.p1);
         }
@@ -101,25 +84,33 @@ public class Points {
 
     public String renderP2(Points prev) {
         if(isNewGame) {
-            if(p2Name != null)
-                return "<b>" + p2Name + "<br>" + p2 + "</b>";
-            return "<b>" + p2 + "</b>";
+            return "<br><br><b>" + p2 + "</b>";
         } else {
             return renderScore(p2, p2 - prev.p2);
         }
     }
 
-    public String renderActions(Resources res) {
+    public String renderActions(Resources res, boolean showActions) {
 //        String pre = isNewGame ? ("<i>" + res.getString(R.string.new_game) + "</i><br><br>") : "<br><br>";
+        StringBuilder s = new StringBuilder();
+        if(isNewGame) {
+            s.append("<b>");
+            if(p1Name.isEmpty()) s.append(res.getText(R.string.playername1));
+            else s.append(p1Name);
 
-        if(actions == null) {
-            return "";
-        } else {
-//            return pre + actions.stream()
-            return (isNewGame ? "<br>" : "<br><br>") + actions.stream()
-                    .map(x -> x.render(res))
-                    .collect(Collectors.joining("<br>"));
+            s.append("</b> <i>vs</i> <b>");
+            if(p2Name.isEmpty()) s.append(res.getText(R.string.playername2));
+            else s.append(p2Name);
+
+            s.append("</b><br>");
         }
+
+        if(actions != null && showActions) {
+            s.append("<br>");
+            actions.forEach(action -> s.append("<br>").append(action.render(res)));
+        }
+
+        return s.toString();
     }
 
     public void clearActions() {
