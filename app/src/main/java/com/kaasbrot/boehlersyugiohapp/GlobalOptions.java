@@ -40,7 +40,8 @@ public class GlobalOptions {
     public static final String TIMER_PAUSE_TIME = "timer_paused";
     public static final String TIMER_START_TIME = "timer_started";
 
-    public static int settingstextsize = 20;
+    public static int settingstextsize;
+    public static int fakeswitchimagesize;
 
     private static SharedPreferences prefs = null;
     private static SharedPreferences.Editor editor = null;

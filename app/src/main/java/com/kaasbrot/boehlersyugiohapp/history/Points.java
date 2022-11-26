@@ -66,6 +66,14 @@ public class Points {
         return new String[]{ this.p1Name, this.p2Name };
     }
 
+    public String getP1Name() {
+        return p1Name;
+    }
+
+    public String getP2Name() {
+        return p2Name;
+    }
+
     public void setNewGame(boolean newGame) {
         isNewGame = newGame;
     }
@@ -76,7 +84,7 @@ public class Points {
 
     public String renderP1(Points prev) {
         if(isNewGame) {
-            return "<br><br><b>" + p1 + "</b>";
+            return "<b>" + p1 + "</b>";
         } else {
             return renderScore(p1, p1 - prev.p1);
         }
@@ -84,7 +92,7 @@ public class Points {
 
     public String renderP2(Points prev) {
         if(isNewGame) {
-            return "<br><br><b>" + p2 + "</b>";
+            return "<b>" + p2 + "</b>";
         } else {
             return renderScore(p2, p2 - prev.p2);
         }
@@ -93,7 +101,7 @@ public class Points {
     public String renderActions(Resources res, boolean showActions) {
 //        String pre = isNewGame ? ("<i>" + res.getString(R.string.new_game) + "</i><br><br>") : "<br><br>";
         StringBuilder s = new StringBuilder();
-        if(isNewGame) {
+        /*if(isNewGame) {
             s.append("<b>");
             if(p1Name.isEmpty()) s.append(res.getText(R.string.playername1));
             else s.append(p1Name);
@@ -103,10 +111,10 @@ public class Points {
             else s.append(p2Name);
 
             s.append("</b><br>");
-        }
+        }*/
 
         if(actions != null && showActions) {
-            s.append("<br>");
+            if(!isNewGame){s.append("<br>");}
             actions.forEach(action -> s.append("<br>").append(action.render(res)));
         }
 

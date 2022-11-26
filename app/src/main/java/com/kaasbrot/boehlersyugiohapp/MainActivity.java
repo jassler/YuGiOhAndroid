@@ -68,6 +68,7 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
     int lifetextsize;
     int numberbuttontextsize;
     int timertextsize;
+    int fakeswitchimagesize;
 
 
     Toolbar toolbar;
@@ -189,6 +190,7 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
             timertextsize=24;
             emptytextsize=10;
             GlobalOptions.settingstextsize=20;
+            GlobalOptions.fakeswitchimagesize=120;
         }else if(screen_height_sp > 580){
             //toggletimermax=55;
             //toggletimermax = 183;
@@ -199,6 +201,7 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
             timertextsize=20;
             emptytextsize=6;
             GlobalOptions.settingstextsize=16;
+            GlobalOptions.fakeswitchimagesize=75;
         }else{
             //toggletimermax=50;
             //toggletimermax = 167;
@@ -209,6 +212,7 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
             timertextsize=18;
             emptytextsize=2;
             GlobalOptions.settingstextsize=14;
+            GlobalOptions.fakeswitchimagesize=50;
         }
     }
 
@@ -289,9 +293,6 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
 
         settingsDialog.toggleShowNames();
         adjustToScreen();
-        if(!GlobalOptions.isShowNames()) {
-
-        }
     }
 
     /**
@@ -356,8 +357,11 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
         } else {
             name.setText(p2Name);
         }
-
+        if(GlobalOptions.isShowNames()){
         history.updateNames(p1Name, p2Name);
+        }else{
+        history.updateNames("","");
+        }
     }
 
     /**

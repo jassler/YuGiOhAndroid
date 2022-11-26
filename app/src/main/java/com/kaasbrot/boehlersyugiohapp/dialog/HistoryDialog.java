@@ -23,6 +23,8 @@ import com.kaasbrot.boehlersyugiohapp.R;
 import com.kaasbrot.boehlersyugiohapp.history.History;
 import com.kaasbrot.boehlersyugiohapp.history.Points;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -89,9 +91,18 @@ public class HistoryDialog extends AppCompatDialogFragment {
 
         for (Points p : history) {
             if(p.isNewGame()) {
-                parent.addView(
-                        inflater.inflate(R.layout.dialog_history_line, parent, false)
-                );
+                View lineview = inflater.inflate(R.layout.dialog_history_line, parent, false);
+                if(GlobalOptions.isShowNames()==false) {
+                    ((TextView) lineview.findViewById(R.id.line_p1)).setTextSize(0);
+                    ((TextView) lineview.findViewById(R.id.line_p2)).setTextSize(0);
+                }
+                String p1name = p.getP1Name();
+                String p2name = p.getP2Name();
+                if(p1name.isEmpty()) p1name = getResources().getString(R.string.playername1);
+                if(p2name.isEmpty()) p2name = getResources().getString(R.string.playername2);
+                ((TextView) lineview.findViewById(R.id.line_p1)).setText(p1name);
+                ((TextView) lineview.findViewById(R.id.line_p2)).setText(p2name);
+                parent.addView(lineview);
             }
 
             View view = inflater.inflate(R.layout.dialog_history_element, parent, false);

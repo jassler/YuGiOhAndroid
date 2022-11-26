@@ -197,8 +197,11 @@ public class History implements Iterable<Points> {
         Points p = getCurrentPoints();
         p.clearActions();
         history.clear();
+        if(p.isNewGame()==false) {
+            history.add(new Points(GlobalOptions.getStartingLifePoints(), GlobalOptions.getStartingLifePoints(), true, p.getP1Name(), p.getP2Name()));
+        }
         history.add(p);
-        index = 0;
+        index = history.size()-1;
         lastEntryPlayer = 0;
         lastEntry = 0;
 

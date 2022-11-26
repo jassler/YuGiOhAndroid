@@ -179,12 +179,15 @@ public class SettingsDialog extends AppCompatDialogFragment {
          * Toggles
          */
         ImageView img = view.findViewById(R.id.settingsScreenOnImage);
+        img.getLayoutParams().height=GlobalOptions.fakeswitchimagesize;
         img.setImageResource(GlobalOptions.isScreenAlwaysOn() ? R.drawable.tick1 : R.drawable.tick0);
 
         img = view.findViewById(R.id.settingsDeleteAfter4Image);
+        img.getLayoutParams().height=GlobalOptions.fakeswitchimagesize;
         img.setImageResource(GlobalOptions.isDeleteAfter4() ? R.drawable.tick1 : R.drawable.tick0);
 
         img = view.findViewById(R.id.settingsShowNamesImage);
+        img.getLayoutParams().height=GlobalOptions.fakeswitchimagesize;
         img.setImageResource(GlobalOptions.isShowNames() ? R.drawable.tick1 : R.drawable.tick0);
 
         /*
