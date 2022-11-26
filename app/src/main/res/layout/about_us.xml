@@ -9,15 +9,41 @@
     android:paddingEnd="8dp"
     android:paddingBottom="5dp">
 
-    <TextView
-        android:id="@+id/settingsPointsLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/our_goal"
-        android:textColor="@color/dialog_text"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
 
 
+
+            <TextView
+                android:id="@+id/about_us_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/our_goal"
+                android:textColor="@color/dialog_text" />
+
+            <TextView
+                android:id="@+id/about_us_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="email"
+                android:textAlignment="center"
+                android:textColor="@color/dialog_text"
+                android:textColorLink="@color/link"/>
+
+            <TextView
+                android:id="@+id/about_us_coffee_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/buy_coffee"
+                android:textColor="@color/dialog_text"
+                android:textColorLink="@color/link" />
+        </LinearLayout>
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

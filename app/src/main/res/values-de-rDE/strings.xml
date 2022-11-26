@@ -32,7 +32,7 @@
     <string name="show_names">Spieler Namen</string>
     <string name="about_us">Über uns</string>
     <string name="our_goal">
-    Unser Ziel war eine simple und effiziente App für Duelle: \n
+    Unser Ziel war eine simple und effiziente App: \n
     - keine Ladezeiten \n
     - schnelle Eingabe \n
     - Würfel, Münze, Timer \n
@@ -51,10 +51,7 @@ Man kann auch Effekte wie von Ring der Zerstörung für beide Spieler gleichzeit
  \n
 Der Timer kann durch runterziehen angezeigt werden. Würfel und Münze starten beim Antippen nochmal. \n
  \n
-Feedback und Fehler an:  \n
-        [e-mail]. \n
-Wenn du dich bei uns für die App bedanken möchtest:  \n
-        [buy us a coffee].</string>
+Feedback und Fehler an:</string>
     <string name="playername2long">Name zu lang</string>
     <string name="languageLabel">Sprache</string>
     <string name="languageInfo">Sprache wird nach Schließen der Einstellungen übernommen.</string>
@@ -63,4 +60,7 @@ Wenn du dich bei uns für die App bedanken möchtest:  \n
     <string name="invalid_lang">Ungültige Sprachauswahl</string>
     <string name="clear_history">Verlauf löschen</string>
     <string name="are_you_sure">Bist du sicher?</string>
+    <string name="buy_coffee">\n
+        Wenn du danke sagen möchtest, kannst du uns auf dieser Seite
+        <a href="https://www.buymeacoffee.com/yugicalc/">einen Kaffee</a> ausgeben .</string>
 </resources>

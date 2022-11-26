@@ -40,4 +40,6 @@
 
     <color name="dialog_text">#AAAAAA</color>
     <color name="dialog_bg">#181818</color>
+
+    <color name="link">#3f47e9</color>
 </resources>

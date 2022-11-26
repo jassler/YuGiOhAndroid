@@ -57,10 +57,7 @@ You can also resolve effects like Ring of Destruction for both players simultane
  \n
 The timer can be shown and hidden by dragging your finger down/up. Dice and coin can be thrown again by tapping them. \n
  \n
-Report bugs and submit feedback to  \n
-        [e-mail]. \n
-If you want to say thank you and support us you can  \n
-        [buy us a coffee].
+Report bugs and submit feedback to:
     </string>
     <string name="playername2long">name too long</string>
     <string name="languageLabel">Language</string>
@@ -70,4 +67,8 @@ If you want to say thank you and support us you can  \n
     <string name="invalid_lang">Invalid language selection</string>
     <string name="clear_history">Clear history</string>
     <string name="are_you_sure">Are you sure?</string>
+    <string name="buy_coffee">\n
+        If you want to say thank you and support us you can
+        <a href="https://www.buymeacoffee.com/yugicalc/">buy us a coffee</a> here.
+    </string>
 </resources>
