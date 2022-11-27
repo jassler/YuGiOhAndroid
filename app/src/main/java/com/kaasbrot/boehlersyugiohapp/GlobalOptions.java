@@ -39,6 +39,7 @@ public class GlobalOptions {
     public static final String TIMER_IS_VISIBLE = "timer_visible";
     public static final String TIMER_PAUSE_TIME = "timer_paused";
     public static final String TIMER_START_TIME = "timer_started";
+    public static String LANGUAGE = "language";
 
     public static int settingstextsize;
     public static int fakeswitchimagesize;
@@ -48,6 +49,7 @@ public class GlobalOptions {
     private static int startingLifePoints = 8000;
     private static String playerName1 = "Player 1";
     private static String playerName2 = "Player 2";
+    private static String language = "none";
     private static boolean keepScreenOn = false;
     private static boolean deleteAfter4 = false;
     private static boolean showNames = false;
@@ -141,6 +143,13 @@ public class GlobalOptions {
         } catch(Exception e) {
             setTimerVisible(false);
         }
+
+        //LANGUAGE
+        try {
+            language = prefs.getString(LANGUAGE, "none");
+        } catch(Exception e) {
+            setLanguage("none");
+        }
     }
 
     public static void reset() {
@@ -184,6 +193,19 @@ public class GlobalOptions {
         if(playerName2.equals(newPlayerName2)) return;
         playerName2 = newPlayerName2;
         editor.putString(PLAYER_NAME_2, newPlayerName2).apply();
+    }
+
+    /*
+     * LANGUAGE
+     */
+    public static String getLanguage() {
+        return language;
+    }
+
+    public static void setLanguage(String newLanguage) {
+        if(language.equals(newLanguage)) return;
+        language = newLanguage;
+        editor.putString(LANGUAGE, newLanguage).apply();
     }
 
     /*

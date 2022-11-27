@@ -36,7 +36,7 @@
     - keine Ladezeiten \n
     - schnelle Eingabe \n
     - Würfel, Münze, Timer \n
-    - Verlauf (wird gespeichert) \n
+    - Verlauf \n
     - Rückgängig, Wiederherstellen und Neustart \n
     - Keine Werbung \n
  \n
@@ -62,5 +62,5 @@ Feedback und Fehler an:</string>
     <string name="are_you_sure">Bist du sicher?</string>
     <string name="buy_coffee">\n
         Wenn du danke sagen möchtest, kannst du uns auf dieser Seite
-        <a href="https://www.buymeacoffee.com/yugicalc/">einen Kaffee</a> ausgeben .</string>
+        <a href="https://www.buymeacoffee.com/yugicalc/">einen Kaffee</a> ausgeben.</string>
 </resources>

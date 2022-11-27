@@ -3,6 +3,7 @@ package com.kaasbrot.boehlersyugiohapp.dialog;
 import android.app.Dialog;
 import android.content.res.Resources;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -100,8 +101,12 @@ public class HistoryDialog extends AppCompatDialogFragment {
                 String p2name = p.getP2Name();
                 if(p1name.isEmpty()) p1name = getResources().getString(R.string.playername1);
                 if(p2name.isEmpty()) p2name = getResources().getString(R.string.playername2);
-                ((TextView) lineview.findViewById(R.id.line_p1)).setText(p1name);
-                ((TextView) lineview.findViewById(R.id.line_p2)).setText(p2name);
+                TextView textview_p1 = lineview.findViewById(R.id.line_p1);
+                TextView textview_p2 = lineview.findViewById(R.id.line_p2);
+                textview_p1.setText(p1name);
+                textview_p2.setText(p2name);
+                textview_p1.setPaintFlags(textview_p1.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+                textview_p2.setPaintFlags(textview_p2.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
                 parent.addView(lineview);
             }
 
