@@ -6,6 +6,7 @@
     android:layout_height="wrap_content"
     android:textSize="20sp"
     android:gravity="end"
+    android:background="@drawable/spinner_background"
     android:textColor="@color/dial_text"
     android:padding="5dip"
     />

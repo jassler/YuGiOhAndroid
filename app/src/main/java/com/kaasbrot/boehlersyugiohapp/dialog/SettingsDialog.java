@@ -223,8 +223,8 @@ public class SettingsDialog extends AppCompatDialogFragment {
                 if(selection != null)
                     selection.setTextSize(GlobalOptions.settingstextsize);
 
-                String result = "";
-                Locale locale = null;
+                String result;
+                Locale locale;
                 switch(position) {
                     case 0:
                         result = "en";
