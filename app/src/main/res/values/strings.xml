@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name" translatable="false">YuGiCalc</string>
+    <string name="app_name" translatable="false">YugiCalc</string>
 
     <string name="show_timer">Show timer</string>
     <string name="hide_timer">Hide timer</string>
@@ -28,7 +28,7 @@
     <string name="playername1">Player 1</string>
     <string name="playername2">Player 2</string>
     <string name="show_names">Player Names</string>
-    <string name="about_us">About Us</string>
+    <string name="about_us">About</string>
     <string name="our_goal">Our goal was to create a clean and simple App for dueling: \n
     - no long loading screen \n
     - efficient input system \n

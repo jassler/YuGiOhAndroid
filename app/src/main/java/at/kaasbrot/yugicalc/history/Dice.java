@@ -2,7 +2,8 @@ package at.kaasbrot.yugicalc.history;
 
 import android.content.res.Resources;
 
-import com.kaasbrot.boehlersyugiohapp.R;
+import at.kaasbrot.yugicalc.R;
+
 
 public class Dice implements HistoryAction {
     public final int roll;
@@ -32,7 +33,7 @@ public class Dice implements HistoryAction {
             case 4: return "&#x2683;";
             case 5: return "&#x2684;";
             case 6: return "&#x2685;";
-            default: return "Unknown Unicode for " + roll;
+            default: return "" + roll;
         }
     }
 
@@ -44,7 +45,7 @@ public class Dice implements HistoryAction {
             case 4: return "\u2683";
             case 5: return "\u2684";
             case 6: return "\u2685";
-            default: return "Unknown Unicode for " + roll;
+            default: return "" + roll;
         }
     }
 }

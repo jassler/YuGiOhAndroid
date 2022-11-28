@@ -2,7 +2,8 @@ package at.kaasbrot.yugicalc.history;
 
 import android.content.res.Resources;
 
-import com.kaasbrot.boehlersyugiohapp.R;
+import at.kaasbrot.yugicalc.R;
+
 
 public class Coin implements HistoryAction {
     public enum Toss {
@@ -27,13 +28,13 @@ public class Coin implements HistoryAction {
         this(isHeads ? Toss.HEADS : Toss.TAILS);
     }
 
-    public int tossDrawable() {
-        switch(toss) {
-            case HEADS: return R.drawable.heads_aa;
-            case TAILS: return R.drawable.tails_aa;
-            default: throw new RuntimeException("Unknown Toss value " + toss);
-        }
-    }
+//    public int tossDrawable() {
+//        switch(toss) {
+//            case HEADS: return R.drawable.heads_aa;
+//            case TAILS: return R.drawable.tails_aa;
+//            default: throw new RuntimeException("Unknown Toss value " + toss);
+//        }
+//    }
 
     @Override
     public String render(Resources res) {

@@ -17,7 +17,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
-import com.kaasbrot.boehlersyugiohapp.R;
+import at.kaasbrot.yugicalc.BuildConfig;
+import at.kaasbrot.yugicalc.R;
+
 
 public class AboutDialog extends AppCompatDialogFragment {
 
@@ -25,7 +27,7 @@ public class AboutDialog extends AppCompatDialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext(), R.style.MyDialogTheme);
-        builder.setMessage(R.string.about_us);
+        builder.setMessage(R.string.app_name);
 
         LayoutInflater inflater =  LayoutInflater.from(getContext());
         View view = inflater.inflate(R.layout.about_us, null);
@@ -34,11 +36,11 @@ public class AboutDialog extends AppCompatDialogFragment {
         //dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         builder.setCancelable(true);
 
-//      ((TextView) view.findViewById(R.id.settingsPointsLabel)).setTextSize(GlobalOptions.settingstextsize);
+        ((TextView) view.findViewById(R.id.aboutVersion)).setText("v" + BuildConfig.VERSION_NAME);
         TextView email = (TextView) view.findViewById(R.id.about_us_email);
         email.setMovementMethod(LinkMovementMethod.getInstance());
         String content = "<a href=\"mailto:yugicalcapp@gmail.com\">yugicalcapp@gmail.com</a>";
-        Spannable s = (Spannable) Html.fromHtml(content);
+        Spannable s = (Spannable) Html.fromHtml(content, Html.FROM_HTML_MODE_COMPACT);
         for (URLSpan u: s.getSpans(0, s.length(), URLSpan.class)) {
             s.setSpan(new UnderlineSpan() {
                 public void updateDrawState(TextPaint tp) {

@@ -17,7 +17,6 @@ import static at.kaasbrot.yugicalc.GlobalOptions.getTimerStartTime;
 import static at.kaasbrot.yugicalc.GlobalOptions.setTimerValues;
 import static at.kaasbrot.yugicalc.GlobalOptions.setTimerVisible;
 
-import com.kaasbrot.boehlersyugiohapp.R;
 
 import java.util.Locale;
 

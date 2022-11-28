@@ -2,7 +2,6 @@ package at.kaasbrot.yugicalc;
 
 import android.content.SharedPreferences;
 
-import com.kaasbrot.boehlersyugiohapp.R;
 
 import java.util.Random;
 

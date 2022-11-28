@@ -2,11 +2,12 @@ package at.kaasbrot.yugicalc.history;
 
 import android.content.res.Resources;
 
-import com.kaasbrot.boehlersyugiohapp.R;
 
 import java.util.Arrays;
 import java.util.Random;
 import java.util.stream.Collectors;
+
+import at.kaasbrot.yugicalc.R;
 
 public class Coins implements HistoryAction {
     public final Coin[] coins;

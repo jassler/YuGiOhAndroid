@@ -5,14 +5,6 @@ import android.content.SharedPreferences;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.os.Handler;
-
-import androidx.appcompat.app.AppCompatDelegate;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.core.content.res.ResourcesCompat;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.core.os.LocaleListCompat;
-
 import android.view.Display;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -28,9 +20,19 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
+import androidx.appcompat.widget.Toolbar;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.res.ResourcesCompat;
+import androidx.core.os.LocaleListCompat;
+
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.kaasbrot.boehlersyugiohapp.R;
+
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 import at.kaasbrot.yugicalc.dialog.AboutDialog;
 import at.kaasbrot.yugicalc.dialog.CasinoDialog;
@@ -41,10 +43,6 @@ import at.kaasbrot.yugicalc.dialog.SettingsDialog;
 import at.kaasbrot.yugicalc.history.History;
 import at.kaasbrot.yugicalc.history.HistoryElementParser;
 import at.kaasbrot.yugicalc.history.Points;
-
-import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.stream.Collectors;
 
 public class MainActivity extends AppCompatActivity implements ButtonDeterminer {
 

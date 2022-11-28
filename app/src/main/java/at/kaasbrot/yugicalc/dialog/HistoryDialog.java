@@ -20,7 +20,7 @@ import android.widget.TextView;
 
 import at.kaasbrot.yugicalc.GlobalOptions;
 import at.kaasbrot.yugicalc.MainActivity;
-import com.kaasbrot.boehlersyugiohapp.R;
+import at.kaasbrot.yugicalc.R;
 import at.kaasbrot.yugicalc.history.History;
 import at.kaasbrot.yugicalc.history.Points;
 

@@ -26,7 +26,7 @@ import android.widget.Toast;
 
 import at.kaasbrot.yugicalc.GlobalOptions;
 import at.kaasbrot.yugicalc.MainActivity;
-import com.kaasbrot.boehlersyugiohapp.R;
+import at.kaasbrot.yugicalc.R;
 
 import java.util.Locale;
 

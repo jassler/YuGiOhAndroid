@@ -19,7 +19,7 @@ import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.kaasbrot.boehlersyugiohapp.R;
+import at.kaasbrot.yugicalc.R;
 import at.kaasbrot.yugicalc.history.Coin;
 import at.kaasbrot.yugicalc.history.History;
 

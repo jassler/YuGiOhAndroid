@@ -18,7 +18,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import at.kaasbrot.yugicalc.GlobalOptions;
-import com.kaasbrot.boehlersyugiohapp.R;
+import at.kaasbrot.yugicalc.R;
 import at.kaasbrot.yugicalc.history.Dice;
 import at.kaasbrot.yugicalc.history.History;
 
