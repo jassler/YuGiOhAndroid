@@ -228,10 +228,12 @@ public class SettingsDialog extends AppCompatDialogFragment {
                 switch(position) {
                     case 0:
                         result = "en";
+                        GlobalOptions.setLanguage("en");
                         locale = Locale.ENGLISH;
                         break;
                     case 1:
                         result = "de";
+                        GlobalOptions.setLanguage("de");
                         locale = Locale.GERMAN;
                         break;
                     default:

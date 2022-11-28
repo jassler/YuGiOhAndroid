@@ -4,8 +4,10 @@ import static com.kaasbrot.boehlersyugiohapp.GameInformation.history;
 import static com.kaasbrot.boehlersyugiohapp.GameInformation.p1;
 import static com.kaasbrot.boehlersyugiohapp.GameInformation.p2;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Point;
 import android.os.Bundle;
@@ -16,6 +18,8 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.os.LocaleListCompat;
+
 import android.view.Display;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -45,6 +49,7 @@ import com.kaasbrot.boehlersyugiohapp.history.Points;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.stream.Collectors;
 
 public class MainActivity extends AppCompatActivity implements ButtonDeterminer {
@@ -114,8 +119,19 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
         GlobalOptions.setPlayerName1(names[0]);
         GlobalOptions.setPlayerName2(names[1]);
         // hopefully done with loading
-
         cooldowns = new CooldownTracker();
+
+
+        //LANGUAGE STUFF
+        loadedlanguage = GlobalOptions.getLanguage();
+        if(loadedlanguage.equals("en")) {
+            LocaleListCompat appLocale = LocaleListCompat.forLanguageTags(loadedlanguage);
+            AppCompatDelegate.setApplicationLocales(appLocale);
+        }else if(loadedlanguage.equals("de")){
+            LocaleListCompat appLocale = LocaleListCompat.forLanguageTags(loadedlanguage);
+            AppCompatDelegate.setApplicationLocales(appLocale);
+        }
+
 
         getWindow().setNavigationBarColor(ResourcesCompat.getColor(getResources(), R.color.colorPrimary,null));
         setContentView(GlobalOptions.getCurrentView().layout);
@@ -165,6 +181,15 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
         p1.reset(p.p1);
         p2.reset(p.p2);
         adjustToScreen();
+    }
+
+    public static void setLocale(Activity activity, String languageCode) {
+        Locale locale = new Locale(languageCode);
+        Locale.setDefault(locale);
+        Resources resources = activity.getResources();
+        Configuration config = resources.getConfiguration();
+        config.setLocale(locale);
+        resources.updateConfiguration(config, resources.getDisplayMetrics());
     }
 
     public void getScreenSize() {
@@ -250,6 +275,7 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
             ((Button) findViewById(R.id.button8)).setTextSize(numberbuttontextsize);
             ((Button) findViewById(R.id.button9)).setTextSize(numberbuttontextsize);
         }
+
         if(GlobalOptions.isShowNames()){
             ((TextView) findViewById(R.id.namePlayer1)).setTextSize(playernametextsize);
             ((TextView) findViewById(R.id.namePlayer2)).setTextSize(playernametextsize);

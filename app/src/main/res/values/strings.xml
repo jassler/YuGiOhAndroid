@@ -8,7 +8,7 @@
     <string name="timer_err_max_exceeded">Timer cannot exceed 5 hours</string>
     <string name="show_history">History</string>
     <string name="dice_lands_on">Dice landed on</string>
-    <string name="new_game"><u>New Game</u></string>
+    <string name="new_game">New Game</string>
     <string name="three_coins">Three Coins</string>
     <string name="settings">Settings</string>
     <string name="dice_title">Dice</string>
@@ -33,7 +33,7 @@
     - no long loading screen \n
     - efficient input system \n
     - dice, coin and timer \n
-    - history (saved when closing) \n
+    - history \n
     - undo, redo and reset button \n
     - no ads \n
  \n
