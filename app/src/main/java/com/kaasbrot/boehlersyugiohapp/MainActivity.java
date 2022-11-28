@@ -68,7 +68,6 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
     int lifetextsize;
     int numberbuttontextsize;
     int timertextsize;
-    int fakeswitchimagesize;
 
 
     Toolbar toolbar;

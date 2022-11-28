@@ -27,13 +27,4 @@
         <item name="android:textColorPrimary">@color/dialog_text</item>
     </style>
 
-    <style name="InternetTheme" parent="ThemeOverlay.AppCompat.Light">
-        <item name="colorControlNormal">@android:color/white</item>
-        <item name="android:actionButtonStyle">@style/myActionButtonStyle</item>
-        <item name="actionButtonStyle">@style/myActionButtonStyle</item>
-    </style>
-    <style name="myActionButtonStyle" parent="Widget.AppCompat.ActionButton">
-        <item name="android:height">30dp</item>
-        <item name="android:width">30dp</item>
-    </style>
 </resources>
