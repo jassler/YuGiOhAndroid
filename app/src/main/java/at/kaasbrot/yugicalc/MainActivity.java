@@ -1,10 +1,7 @@
 package at.kaasbrot.yugicalc;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.content.res.Configuration;
-import android.content.res.Resources;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.os.Handler;
@@ -47,7 +44,6 @@ import at.kaasbrot.yugicalc.history.Points;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.Locale;
 import java.util.stream.Collectors;
 
 public class MainActivity extends AppCompatActivity implements ButtonDeterminer {
@@ -58,20 +54,19 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
 
     int currentMenu;
 
-    int screen_height;
-    int screen_width;
-    int screen_ratio;
-    int screen_height_sp;
-    int screen_width_sp;
+    int screenHeight;
+    int screenWidth;
+    int screenRatio;
+    int screenHeightSp;
+    int screenWidthSp;
 
-    int actionbar_height;
-    int actionbar_width;
-    int emptytextsize;
-    int playernametextsize;
-    int lifetextsize;
-    int numberbuttontextsize;
-    int timertextsize;
-
+    int actionbarHeight;
+    int actionbarWidth;
+    int emptyTextSize;
+    int playernameTextSize;
+    int lifeTextSize;
+    int numberButtonTextSize;
+    int timerTextSize;
 
     Toolbar toolbar;
 
@@ -79,7 +74,6 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
 
     // counts seconds passed since game started
     GameTimer gameTimer;
-    Player playerForTimer;
 
     HistoryDialog historyDialog;
     CasinoDialog casinoDialog;
@@ -87,8 +81,7 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
     CoinsDialog coinsDialog;
     SettingsDialog settingsDialog;
     AboutDialog aboutDialog;
-    TextView belowtimertext;
-    int belowtimersize;
+    int belowTimerSize;
 
     CooldownTracker cooldowns;
 
@@ -138,8 +131,8 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
         if(GlobalOptions.isFirstView()) {
             currentMenu = R.menu.menu_main;
             toolbar = findViewById(R.id.toolbar_main);
-            belowtimertext = findViewById(R.id.TextBelow);
-            belowtimertext.setTextSize(belowtimersize);
+            TextView tv = findViewById(R.id.TextBelow);
+            tv.setTextSize(belowTimerSize);
         } else {
             currentMenu = R.menu.menu_points;
             toolbar = findViewById(R.id.toolbar_points);
@@ -168,8 +161,8 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
 
         aboutDialog = new AboutDialog();
 
-        getScreenSize();
-        getActionBarHeight();
+        initScreenSize();
+        initActionBarHeight();
     }
 
     @Override
@@ -181,110 +174,101 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
         adjustToScreen();
     }
 
-    public static void setLocale(Activity activity, String languageCode) {
-        Locale locale = new Locale(languageCode);
-        Locale.setDefault(locale);
-        Resources resources = activity.getResources();
-        Configuration config = resources.getConfiguration();
-        config.setLocale(locale);
-        resources.updateConfiguration(config, resources.getDisplayMetrics());
-    }
-
-    public void getScreenSize() {
+    public void initScreenSize() {
         Display display = getWindowManager().getDefaultDisplay();
         Point m_size = new Point();
         display.getSize(m_size);
-        screen_width = m_size.x;
-        screen_height = m_size.y;
-        screen_ratio = screen_height/screen_width;
-        screen_width_sp = (int)(screen_width / getResources().getDisplayMetrics().scaledDensity);
-        screen_height_sp = (int)(screen_height / getResources().getDisplayMetrics().scaledDensity);
+        screenWidth = m_size.x;
+        screenHeight = m_size.y;
+        screenRatio = screenHeight / screenWidth;
+        screenWidthSp = (int)(screenWidth / getResources().getDisplayMetrics().scaledDensity);
+        screenHeightSp = (int)(screenHeight / getResources().getDisplayMetrics().scaledDensity);
 
-        belowtimersize = (screen_ratio > 2) ? 30 : 0;
+        belowTimerSize = (screenRatio > 2) ? 30 : 0;
 
-        if(screen_height_sp > 650){
+        if(screenHeightSp > 650){
             //toggletimermax=60;
             //toggletimermax = 200;
             gameTimer.setTopMarginMax(200);
-            lifetextsize=34;
-            playernametextsize=18;
-            numberbuttontextsize=32;
-            timertextsize=24;
-            emptytextsize=10;
+            lifeTextSize =34;
+            playernameTextSize =18;
+            numberButtonTextSize =32;
+            timerTextSize =24;
+            emptyTextSize =10;
             GlobalOptions.settingstextsize=20;
             GlobalOptions.fakeswitchimagesize=120;
-        }else if(screen_height_sp > 580){
+        }else if(screenHeightSp > 580){
             //toggletimermax=55;
             //toggletimermax = 183;
             gameTimer.setTopMarginMax(135);
-            lifetextsize=22;
-            playernametextsize=15;
-            numberbuttontextsize=26;
-            timertextsize=20;
-            emptytextsize=6;
+            lifeTextSize =22;
+            playernameTextSize =15;
+            numberButtonTextSize =26;
+            timerTextSize =20;
+            emptyTextSize =6;
             GlobalOptions.settingstextsize=16;
             GlobalOptions.fakeswitchimagesize=75;
         }else{
             //toggletimermax=50;
             //toggletimermax = 167;
             gameTimer.setTopMarginMax(90);
-            lifetextsize=20;
-            playernametextsize=12;
-            numberbuttontextsize=20;
-            timertextsize=18;
-            emptytextsize=2;
+            lifeTextSize =20;
+            playernameTextSize =12;
+            numberButtonTextSize =20;
+            timerTextSize =18;
+            emptyTextSize =2;
             GlobalOptions.settingstextsize=14;
             GlobalOptions.fakeswitchimagesize=50;
         }
     }
 
-    public void getActionBarHeight() {
-        actionbar_height = toolbar.getLayoutParams().height;
-        actionbar_width = toolbar.getLayoutParams().width;
+    public void initActionBarHeight() {
+        actionbarHeight = toolbar.getLayoutParams().height;
+        actionbarWidth = toolbar.getLayoutParams().width;
 
     }
 
-    public static float pixelsToSp(Context context, float px) {
-        float scaledDensity = context.getResources().getDisplayMetrics().scaledDensity;
-        return px/scaledDensity;
-        //pixelsToSp(getActivity(), number);
-    }
+//    public static float pixelsToSp(Context context, float px) {
+//        float scaledDensity = context.getResources().getDisplayMetrics().scaledDensity;
+//        return px/scaledDensity;
+//        //pixelsToSp(getActivity(), number);
+//    }
 
     public void adjustToScreen() {
-        ((EditText) findViewById(R.id.timerText)).setTextSize(timertextsize);
+        ((EditText) findViewById(R.id.timerText)).setTextSize(timerTextSize);
         if(GlobalOptions.isFirstView()) {
-            ((TextView) findViewById(R.id.pointsPlayer1)).setTextSize(lifetextsize);
-            ((TextView) findViewById(R.id.pointsPlayer2)).setTextSize(lifetextsize);
-            ((TextView) findViewById(R.id.emptytext1)).setTextSize(emptytextsize);
-            ((TextView) findViewById(R.id.emptytext2)).setTextSize(emptytextsize);
+            ((TextView) findViewById(R.id.pointsPlayer1)).setTextSize(lifeTextSize);
+            ((TextView) findViewById(R.id.pointsPlayer2)).setTextSize(lifeTextSize);
+            ((TextView) findViewById(R.id.emptytext1)).setTextSize(emptyTextSize);
+            ((TextView) findViewById(R.id.emptytext2)).setTextSize(emptyTextSize);
         } else {
-            ((TextView) findViewById(R.id.pointsPlayer1)).setTextSize(lifetextsize);
-            ((TextView) findViewById(R.id.pointsPlayer2)).setTextSize(lifetextsize);
-            ((TextView) findViewById(R.id.customInput)).setTextSize(lifetextsize);
-            ((Button) findViewById(R.id.button00)).setTextSize(numberbuttontextsize);
-            ((Button) findViewById(R.id.button0)).setTextSize(numberbuttontextsize);
-            ((Button) findViewById(R.id.button1)).setTextSize(numberbuttontextsize);
-            ((Button) findViewById(R.id.button2)).setTextSize(numberbuttontextsize);
-            ((Button) findViewById(R.id.button3)).setTextSize(numberbuttontextsize);
-            ((Button) findViewById(R.id.button4)).setTextSize(numberbuttontextsize);
-            ((Button) findViewById(R.id.button5)).setTextSize(numberbuttontextsize);
-            ((Button) findViewById(R.id.button6)).setTextSize(numberbuttontextsize);
-            ((Button) findViewById(R.id.button7)).setTextSize(numberbuttontextsize);
-            ((Button) findViewById(R.id.button8)).setTextSize(numberbuttontextsize);
-            ((Button) findViewById(R.id.button9)).setTextSize(numberbuttontextsize);
+            ((TextView) findViewById(R.id.pointsPlayer1)).setTextSize(lifeTextSize);
+            ((TextView) findViewById(R.id.pointsPlayer2)).setTextSize(lifeTextSize);
+            ((TextView) findViewById(R.id.customInput)).setTextSize(lifeTextSize);
+            ((Button) findViewById(R.id.button00)).setTextSize(numberButtonTextSize);
+            ((Button) findViewById(R.id.button0)).setTextSize(numberButtonTextSize);
+            ((Button) findViewById(R.id.button1)).setTextSize(numberButtonTextSize);
+            ((Button) findViewById(R.id.button2)).setTextSize(numberButtonTextSize);
+            ((Button) findViewById(R.id.button3)).setTextSize(numberButtonTextSize);
+            ((Button) findViewById(R.id.button4)).setTextSize(numberButtonTextSize);
+            ((Button) findViewById(R.id.button5)).setTextSize(numberButtonTextSize);
+            ((Button) findViewById(R.id.button6)).setTextSize(numberButtonTextSize);
+            ((Button) findViewById(R.id.button7)).setTextSize(numberButtonTextSize);
+            ((Button) findViewById(R.id.button8)).setTextSize(numberButtonTextSize);
+            ((Button) findViewById(R.id.button9)).setTextSize(numberButtonTextSize);
         }
 
         if(GlobalOptions.isShowNames()){
-            ((TextView) findViewById(R.id.namePlayer1)).setTextSize(playernametextsize);
-            ((TextView) findViewById(R.id.namePlayer2)).setTextSize(playernametextsize);
+            ((TextView) findViewById(R.id.namePlayer1)).setTextSize(playernameTextSize);
+            ((TextView) findViewById(R.id.namePlayer2)).setTextSize(playernameTextSize);
         } else {
             ((TextView) findViewById(R.id.namePlayer1)).setTextSize(0);
             ((TextView) findViewById(R.id.namePlayer2)).setTextSize(0);
         }
 
 
-        ((TextView) findViewById(R.id.pointsPlayer1)).setTextSize(lifetextsize);
-        ((TextView) findViewById(R.id.pointsPlayer2)).setTextSize(lifetextsize);
+        ((TextView) findViewById(R.id.pointsPlayer1)).setTextSize(lifeTextSize);
+        ((TextView) findViewById(R.id.pointsPlayer2)).setTextSize(lifeTextSize);
 
     }
 
@@ -457,10 +441,10 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
 
         // check if undo/redo Buttons should be enabled
         // determineButtonEnable();
-        if(screen_width_sp < 380) {
+        if(screenWidthSp < 380) {
             menu.getItem(6).setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
         }
-        if(screen_width_sp < 320) {
+        if(screenWidthSp < 320) {
             menu.getItem(3).setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
         }
         //AdjustToScreen();
@@ -879,8 +863,8 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
         updateComponentActivities();
 
         if(GlobalOptions.isFirstView()) {
-            belowtimertext = findViewById(R.id.TextBelow);
-            belowtimertext.setTextSize(belowtimersize);
+            TextView tv = findViewById(R.id.TextBelow);
+            tv.setTextSize(belowTimerSize);
         }
     }
 
