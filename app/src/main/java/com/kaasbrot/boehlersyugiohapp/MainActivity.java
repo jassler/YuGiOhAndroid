@@ -123,7 +123,7 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
 
 
         //LANGUAGE STUFF
-        loadedlanguage = GlobalOptions.getLanguage();
+        String loadedlanguage = GlobalOptions.getLanguage();
         if(loadedlanguage.equals("en")) {
             LocaleListCompat appLocale = LocaleListCompat.forLanguageTags(loadedlanguage);
             AppCompatDelegate.setApplicationLocales(appLocale);

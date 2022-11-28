@@ -77,7 +77,7 @@
 
     <item
         android:id="@+id/action_about_us"
-        android:orderInCategory="750"
+        android:orderInCategory="850"
         android:title="@string/about_us"
         android:icon="@drawable/ic_baseline_add_circle_outline_24px"
         android:onClick="showAboutUs"
