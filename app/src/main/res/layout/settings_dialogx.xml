@@ -182,13 +182,12 @@
     <Spinner
         android:id="@+id/settingsLanguageSelector"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_height="match_parent"
         android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
         android:backgroundTint="@color/dialog_text"
         android:minHeight="48dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/settingsLanguageLabel"
         app:layout_constraintTop_toBottomOf="@+id/settingsDeleteAfter4Image" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

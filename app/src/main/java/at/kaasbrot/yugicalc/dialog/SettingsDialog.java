@@ -212,8 +212,9 @@ public class SettingsDialog extends AppCompatDialogFragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 TextView selection = (TextView) languageSelector.getChildAt(0);
-                if(selection != null)
+                if(selection != null) {
                     selection.setTextSize(GlobalOptions.settingstextsize);
+                }
 
                 String result;
                 Locale locale;
