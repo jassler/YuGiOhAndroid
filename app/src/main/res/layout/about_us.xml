@@ -5,8 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingStart="8dp"
-    android:paddingTop="5dp"
-    android:paddingEnd="8dp"
+    android:paddingTop="2dp"
+    android:paddingEnd="2dp"
     android:paddingBottom="5dp">
 
     <ScrollView
@@ -19,20 +19,12 @@
             android:orientation="vertical" >
 
 
-            <TextView
-                android:id="@+id/aboutVersion"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="v"
-                android:textAlignment="center"
-                android:textColor="@color/colorAccent" />
-
             <View
                 android:id="@+id/divider2"
                 android:layout_width="match_parent"
                 android:layout_height="1.5dp"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="6dp"
                 android:layout_marginBottom="8dp"
                 android:layout_marginEnd="8dp"
                 android:background="#AAAAAA"
@@ -64,6 +56,28 @@
                 android:text="@string/buy_coffee"
                 android:textColor="@color/dialog_text"
                 android:textColorLink="@color/link" />
+
+            <View
+                android:id="@+id/divider3"
+                android:layout_width="match_parent"
+                android:layout_height="1.5dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginBottom="6dp"
+                android:layout_marginEnd="8dp"
+                android:background="#AAAAAA"
+                android:backgroundTint="#AAAAAA"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/about_us_coffee_text" />
+
+            <TextView
+                android:id="@+id/aboutVersion"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="v"
+                android:textAlignment="center"
+                android:textColor="@color/colorAccent" />
         </LinearLayout>
     </ScrollView>
 
