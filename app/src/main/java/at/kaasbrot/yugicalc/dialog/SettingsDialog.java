@@ -11,6 +11,8 @@ import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.app.AppCompatDialogFragment;
 import androidx.core.os.LocaleListCompat;
 
+import android.os.Handler;
+import android.text.Html;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -18,8 +20,10 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -250,7 +254,7 @@ public class SettingsDialog extends AppCompatDialogFragment {
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                System.out.println("bbbbb");
+
             }
         });
 
@@ -268,12 +272,16 @@ public class SettingsDialog extends AppCompatDialogFragment {
             return true;
         });
 
+        builder.setNeutralButton(R.string.settings_reset, (dialog, which) -> {});
+
         return builder.create();
     }
 
     private void updateImageToggle(int id, boolean val) {
-        ImageView img = this.getDialog().findViewById(id);
-        img.setImageResource(val ? R.drawable.tick1 : R.drawable.tick0);
+        if(getDialog() != null) {
+            ImageView img = this.getDialog().findViewById(id);
+            img.setImageResource(val ? R.drawable.tick1 : R.drawable.tick0);
+        }
     }
 
     public void toggleScreenAlwaysOn() {
@@ -298,6 +306,25 @@ public class SettingsDialog extends AppCompatDialogFragment {
         TextView texts = this.getDialog().findViewById(android.R.id.message);
         texts.setTextSize(30);
         texts.setGravity(Gravity.CENTER);
+
+        Button neutralButton = ((AlertDialog) getDialog()).getButton(AlertDialog.BUTTON_NEUTRAL);
+        neutralButton.setOnClickListener(b -> {
+            GlobalOptions.setStartingLifePoints(8000);
+            GlobalOptions.setPlayerName1("");
+            GlobalOptions.setPlayerName2("");
+            GlobalOptions.setScreenAlwaysOn(GlobalOptions.DEFAULT_KEEP_SCREEN_ON);
+            GlobalOptions.setDeleteAfter4(GlobalOptions.DEFAULT_DELETE_AFTER_4);
+            GlobalOptions.setShowNames(GlobalOptions.DEFAULT_SHOW_NAMES);
+
+            if(startLifeText != null) startLifeText.setText("8000");
+            if(player1nameText != null) player1nameText.setText("");
+            if(player2nameText != null) player2nameText.setText("");
+            updateImageToggle(R.id.settingsScreenOnImage, GlobalOptions.isScreenAlwaysOn());
+            updateImageToggle(R.id.settingsDeleteAfter4Image, GlobalOptions.isDeleteAfter4());
+            updateImageToggle(R.id.settingsShowNamesImage, GlobalOptions.isShowNames());
+
+            mainActivity.updatePlayerNames();
+        });
     }
 
     @Override

@@ -41,6 +41,11 @@ public class GlobalOptions {
     public static final String TIMER_START_TIME = "timer_started";
     public static String LANGUAGE = "language";
 
+
+    public static final boolean DEFAULT_KEEP_SCREEN_ON = true;
+    public static final boolean DEFAULT_DELETE_AFTER_4 = true;
+    public static final boolean DEFAULT_SHOW_NAMES = false;
+
     public static int settingstextsize;
     public static int fakeswitchimagesize;
 
@@ -99,21 +104,21 @@ public class GlobalOptions {
         }
 
         try {
-            keepScreenOn = prefs.getBoolean(KEEP_SCREEN_ON, true);
+            keepScreenOn = prefs.getBoolean(KEEP_SCREEN_ON, DEFAULT_KEEP_SCREEN_ON);
         } catch(Exception e) {
-            setScreenAlwaysOn(true);
+            setScreenAlwaysOn(DEFAULT_KEEP_SCREEN_ON);
         }
 
         try {
-            deleteAfter4 = prefs.getBoolean(DELETE_AFTER_4, true);
+            deleteAfter4 = prefs.getBoolean(DELETE_AFTER_4, DEFAULT_DELETE_AFTER_4);
         } catch(Exception e) {
-            setDeleteAfter4(true);
+            setDeleteAfter4(DEFAULT_DELETE_AFTER_4);
         }
 
         try {
-            showNames = prefs.getBoolean(SHOW_NAMES, false);
+            showNames = prefs.getBoolean(SHOW_NAMES, DEFAULT_SHOW_NAMES);
         } catch(Exception e) {
-            setShowNames(false);
+            setShowNames(DEFAULT_SHOW_NAMES);
         }
 
         try {

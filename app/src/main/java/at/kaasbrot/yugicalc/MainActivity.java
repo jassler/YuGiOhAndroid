@@ -264,7 +264,6 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
             ((TextView) findViewById(R.id.namePlayer2)).setTextSize(0);
         }
 
-
         ((TextView) findViewById(R.id.pointsPlayer1)).setTextSize(lifeTextSize);
         ((TextView) findViewById(R.id.pointsPlayer2)).setTextSize(lifeTextSize);
 
@@ -362,10 +361,13 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
         } else {
             name.setText(p2Name);
         }
-        if(GlobalOptions.isShowNames()){
-        GameInformation.history.updateNames(p1Name, p2Name);
-        }else{
-        GameInformation.history.updateNames("","");
+
+        if(GlobalOptions.isShowNames()) {
+            GameInformation.history.updateNames(p1Name, p2Name);
+            adjustToScreen();
+        } else {
+            GameInformation.history.updateNames("","");
+            adjustToScreen();
         }
     }
 

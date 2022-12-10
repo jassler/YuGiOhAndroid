@@ -59,4 +59,5 @@ Feedback und Fehler an:</string>
     <string name="buy_coffee">\n
         Wenn du danke sagen möchtest, kannst du uns auf dieser Seite
         <a href="https://www.buymeacoffee.com/yugicalc/">einen Kaffee</a> ausgeben.</string>
+    <string name="settings_reset">Zurücksetzen</string>
 </resources>

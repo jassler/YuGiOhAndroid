@@ -61,4 +61,5 @@ Report bugs and submit feedback to:
         If you want to say thank you and support us you can
         <a href="https://www.buymeacoffee.com/yugicalc/">buy us a coffee</a> here.
     </string>
+    <string name="settings_reset">Reset</string>
 </resources>
