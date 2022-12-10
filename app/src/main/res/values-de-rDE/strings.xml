@@ -21,7 +21,6 @@
     <string name="starting_lp">Start Lebenspunkte</string>
     <string name="keep_screen_on">Bildschirm bleibt an</string>
     <string name="remember_games">Nur 4 Spiele im Verlauf</string>
-    <string name="set_lifepoint_max">Maximal 40000</string>
     <string name="set_lifepoint_min">Minimum 1</string>
     <string name="bad_number_format">Bitte eine gültige Zahl eingeben</string>
     <string name="playername1">Spieler 1</string>

@@ -33,7 +33,6 @@ import java.util.Locale;
 public class SettingsDialog extends AppCompatDialogFragment {
 
     private static final int POINTS_MIN = 1;
-    private static final int POINTS_MAX = 40_000;
 
     private static final int MAX_PLAYER_NAME_LENGTH = 20;
 
@@ -58,10 +57,7 @@ public class SettingsDialog extends AppCompatDialogFragment {
         try {
             int startLifetempint = Integer.parseInt(startLifeTemp);
             toast.setGravity(Gravity.TOP, 0, 10);
-            if (startLifetempint > POINTS_MAX) {
-                toast.setText(R.string.set_lifepoint_max);
-                toast.show();
-            } else if (startLifetempint < POINTS_MIN) {
+            if (startLifetempint < POINTS_MIN) {
                 toast.setText(R.string.set_lifepoint_min);
                 toast.show();
             } else {
@@ -309,7 +305,7 @@ public class SettingsDialog extends AppCompatDialogFragment {
         super.onDestroy();
         try {
             int startPoints = Integer.parseInt(startLifeText.getText().toString());
-            if(POINTS_MIN <= startPoints && startPoints <= POINTS_MAX)
+            if(POINTS_MIN <= startPoints)
                 GlobalOptions.setStartingLifePoints(startPoints);
         } catch(Exception ignored) {}
 
