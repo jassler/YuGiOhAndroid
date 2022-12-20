@@ -1,11 +1,11 @@
-package at.kaasbrot.yugicalc.history;
+package at.appdev.yugicalc.history;
 
 import android.content.SharedPreferences;
 
 import androidx.annotation.NonNull;
 
 import com.google.gson.Gson;
-import at.kaasbrot.yugicalc.GlobalOptions;
+import at.appdev.yugicalc.GlobalOptions;
 
 import java.util.ArrayList;
 import java.util.Collections;

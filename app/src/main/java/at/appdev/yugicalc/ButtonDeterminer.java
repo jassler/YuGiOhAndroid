@@ -1,4 +1,4 @@
-package at.kaasbrot.yugicalc;
+package at.appdev.yugicalc;
 
 public interface ButtonDeterminer {
 

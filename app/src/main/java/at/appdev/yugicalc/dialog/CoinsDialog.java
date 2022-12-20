@@ -1,4 +1,4 @@
-package at.kaasbrot.yugicalc.dialog;
+package at.appdev.yugicalc.dialog;
 
 import android.app.Dialog;
 import android.os.Bundle;
@@ -11,10 +11,10 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import at.kaasbrot.yugicalc.R;
-import at.kaasbrot.yugicalc.history.Coin;
-import at.kaasbrot.yugicalc.history.Coins;
-import at.kaasbrot.yugicalc.history.History;
+import at.appdev.yugicalc.R;
+import at.appdev.yugicalc.history.Coin;
+import at.appdev.yugicalc.history.Coins;
+import at.appdev.yugicalc.history.History;
 
 import java.util.Random;
 

@@ -1,4 +1,4 @@
-package at.kaasbrot.yugicalc;
+package at.appdev.yugicalc;
 
 import android.animation.TypeEvaluator;
 import android.animation.ValueAnimator;
@@ -6,7 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.TextView;
 
-import at.kaasbrot.yugicalc.history.Points;
+import at.appdev.yugicalc.history.Points;
 
 import java.util.Timer;
 import java.util.TimerTask;

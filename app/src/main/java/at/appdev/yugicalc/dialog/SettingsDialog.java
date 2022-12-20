@@ -1,4 +1,4 @@
-package at.kaasbrot.yugicalc.dialog;
+package at.appdev.yugicalc.dialog;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -11,8 +11,6 @@ import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.app.AppCompatDialogFragment;
 import androidx.core.os.LocaleListCompat;
 
-import android.os.Handler;
-import android.text.Html;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -23,14 +21,13 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import at.kaasbrot.yugicalc.GlobalOptions;
-import at.kaasbrot.yugicalc.MainActivity;
-import at.kaasbrot.yugicalc.R;
+import at.appdev.yugicalc.GlobalOptions;
+import at.appdev.yugicalc.MainActivity;
+import at.appdev.yugicalc.R;
 
 import java.util.Locale;
 

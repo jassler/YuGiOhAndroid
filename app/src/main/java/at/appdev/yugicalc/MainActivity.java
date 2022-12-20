@@ -1,4 +1,4 @@
-package at.kaasbrot.yugicalc;
+package at.appdev.yugicalc;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -34,15 +34,15 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 
-import at.kaasbrot.yugicalc.dialog.AboutDialog;
-import at.kaasbrot.yugicalc.dialog.CasinoDialog;
-import at.kaasbrot.yugicalc.dialog.CoinDialog;
-import at.kaasbrot.yugicalc.dialog.CoinsDialog;
-import at.kaasbrot.yugicalc.dialog.HistoryDialog;
-import at.kaasbrot.yugicalc.dialog.SettingsDialog;
-import at.kaasbrot.yugicalc.history.History;
-import at.kaasbrot.yugicalc.history.HistoryElementParser;
-import at.kaasbrot.yugicalc.history.Points;
+import at.appdev.yugicalc.dialog.AboutDialog;
+import at.appdev.yugicalc.dialog.CasinoDialog;
+import at.appdev.yugicalc.dialog.CoinDialog;
+import at.appdev.yugicalc.dialog.CoinsDialog;
+import at.appdev.yugicalc.dialog.HistoryDialog;
+import at.appdev.yugicalc.dialog.SettingsDialog;
+import at.appdev.yugicalc.history.History;
+import at.appdev.yugicalc.history.HistoryElementParser;
+import at.appdev.yugicalc.history.Points;
 
 public class MainActivity extends AppCompatActivity implements ButtonDeterminer {
 

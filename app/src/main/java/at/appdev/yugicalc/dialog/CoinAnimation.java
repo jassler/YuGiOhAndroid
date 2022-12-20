@@ -1,4 +1,4 @@
-package at.kaasbrot.yugicalc.dialog;
+package at.appdev.yugicalc.dialog;
 
 import android.graphics.Camera;
 import android.graphics.Matrix;

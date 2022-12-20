@@ -1,4 +1,4 @@
-package at.kaasbrot.yugicalc.history;
+package at.appdev.yugicalc.history;
 
 import android.content.res.Resources;
 
@@ -7,7 +7,7 @@ import java.util.Arrays;
 import java.util.Random;
 import java.util.stream.Collectors;
 
-import at.kaasbrot.yugicalc.R;
+import at.appdev.yugicalc.R;
 
 public class Coins implements HistoryAction {
     public final Coin[] coins;

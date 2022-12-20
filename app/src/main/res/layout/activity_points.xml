@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/black"
-    tools:context="at.kaasbrot.yugicalc.MainActivity">
+    tools:context="at.appdev.yugicalc.MainActivity">
 
     <include
         android:id="@+id/toolbar_points"

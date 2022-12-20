@@ -1,4 +1,4 @@
-package at.kaasbrot.yugicalc;
+package at.appdev.yugicalc;
 
 import android.os.Handler;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -11,11 +11,11 @@ import android.view.animation.Transformation;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import static at.kaasbrot.yugicalc.GlobalOptions.isTimerRunning;
-import static at.kaasbrot.yugicalc.GlobalOptions.getTimerPauseTime;
-import static at.kaasbrot.yugicalc.GlobalOptions.getTimerStartTime;
-import static at.kaasbrot.yugicalc.GlobalOptions.setTimerValues;
-import static at.kaasbrot.yugicalc.GlobalOptions.setTimerVisible;
+import static at.appdev.yugicalc.GlobalOptions.isTimerRunning;
+import static at.appdev.yugicalc.GlobalOptions.getTimerPauseTime;
+import static at.appdev.yugicalc.GlobalOptions.getTimerStartTime;
+import static at.appdev.yugicalc.GlobalOptions.setTimerValues;
+import static at.appdev.yugicalc.GlobalOptions.setTimerVisible;
 
 
 import java.util.Locale;

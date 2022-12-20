@@ -1,4 +1,4 @@
-package at.kaasbrot.yugicalc.dialog;
+package at.appdev.yugicalc.dialog;
 
 import android.app.Dialog;
 import android.os.Bundle;
@@ -18,8 +18,8 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import at.kaasbrot.yugicalc.BuildConfig;
-import at.kaasbrot.yugicalc.R;
+import at.appdev.yugicalc.BuildConfig;
+import at.appdev.yugicalc.R;
 
 
 public class AboutDialog extends AppCompatDialogFragment {

@@ -1,4 +1,4 @@
-package at.kaasbrot.yugicalc.dialog;
+package at.appdev.yugicalc.dialog;
 
 import android.animation.Animator;
 import android.animation.AnimatorSet;
@@ -19,9 +19,9 @@ import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import at.kaasbrot.yugicalc.R;
-import at.kaasbrot.yugicalc.history.Coin;
-import at.kaasbrot.yugicalc.history.History;
+import at.appdev.yugicalc.R;
+import at.appdev.yugicalc.history.Coin;
+import at.appdev.yugicalc.history.History;
 
 import java.util.Random;
 

@@ -1,7 +1,7 @@
-package at.kaasbrot.yugicalc;
+package at.appdev.yugicalc;
 
-import at.kaasbrot.yugicalc.history.History;
-import at.kaasbrot.yugicalc.history.Points;
+import at.appdev.yugicalc.history.History;
+import at.appdev.yugicalc.history.Points;
 
 public class GameInformation {
 

@@ -1,4 +1,4 @@
-package at.kaasbrot.yugicalc.dialog;
+package at.appdev.yugicalc.dialog;
 
 import android.app.Dialog;
 import android.content.res.Resources;
@@ -18,11 +18,11 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import at.kaasbrot.yugicalc.GlobalOptions;
-import at.kaasbrot.yugicalc.MainActivity;
-import at.kaasbrot.yugicalc.R;
-import at.kaasbrot.yugicalc.history.History;
-import at.kaasbrot.yugicalc.history.Points;
+import at.appdev.yugicalc.GlobalOptions;
+import at.appdev.yugicalc.MainActivity;
+import at.appdev.yugicalc.R;
+import at.appdev.yugicalc.history.History;
+import at.appdev.yugicalc.history.Points;
 
 import java.util.ArrayList;
 import java.util.List;

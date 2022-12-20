@@ -1,4 +1,4 @@
-package at.kaasbrot.yugicalc.history;
+package at.appdev.yugicalc.history;
 
 import android.content.res.Resources;
 

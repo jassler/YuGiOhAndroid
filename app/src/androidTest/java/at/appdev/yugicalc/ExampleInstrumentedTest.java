@@ -1,4 +1,4 @@
-package at.kaasbrot.yugicalc;
+package at.appdev.yugicalc;
 
 import android.content.Context;
 import androidx.test.platform.app.InstrumentationRegistry;
@@ -9,8 +9,8 @@ import org.junit.runner.RunWith;
 
 import static org.junit.Assert.*;
 
-import at.kaasbrot.yugicalc.history.History;
-import at.kaasbrot.yugicalc.history.Points;
+import at.appdev.yugicalc.history.History;
+import at.appdev.yugicalc.history.Points;
 
 /**
  * Instrumented test, which will execute on an Android device.
@@ -24,7 +24,7 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
 
-        assertEquals("com.kaasbrot.boehlersyugiohapp", appContext.getPackageName());
+        assertEquals("com.appdev.boehlersyugiohapp", appContext.getPackageName());
     }
 
     /**
