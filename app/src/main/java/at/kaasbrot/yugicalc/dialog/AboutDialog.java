@@ -15,6 +15,7 @@ import android.text.style.UnderlineSpan;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import at.kaasbrot.yugicalc.BuildConfig;
@@ -36,7 +37,11 @@ public class AboutDialog extends AppCompatDialogFragment {
         //dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         builder.setCancelable(true);
 
-        ((TextView) view.findViewById(R.id.aboutVersion)).setText("v" + BuildConfig.VERSION_NAME);
+        TextView aboutVersionView = view.findViewById(R.id.aboutVersion);
+        aboutVersionView.setText("\nv" + BuildConfig.VERSION_NAME);
+        LinearLayout.LayoutParams l = (LinearLayout.LayoutParams) aboutVersionView.getLayoutParams();
+        l.topMargin = -15;
+
         TextView email = (TextView) view.findViewById(R.id.about_us_email);
         email.setMovementMethod(LinkMovementMethod.getInstance());
         String content = "<a href=\"mailto:yugicalcapp@gmail.com\">yugicalcapp@gmail.com</a>";

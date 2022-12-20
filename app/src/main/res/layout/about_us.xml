@@ -41,14 +41,6 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/aboutVersion"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="v"
-                android:textAlignment="textEnd"
-                android:textColor="@color/colorAccent" />
-
-            <TextView
                 android:id="@+id/about_us_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -71,6 +63,14 @@
                 android:text="@string/buy_coffee"
                 android:textColor="@color/dialog_text"
                 android:textColorLink="@color/link" />
+
+            <TextView
+                android:id="@+id/aboutVersion"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="v"
+                android:textAlignment="textStart"
+                android:textColor="@color/colorAccent" />
 
         </LinearLayout>
     </ScrollView>
