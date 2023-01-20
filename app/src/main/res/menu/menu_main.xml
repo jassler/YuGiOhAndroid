@@ -8,25 +8,25 @@
 
     <item
         android:id="@+id/action_undo"
-        android:orderInCategory="100"
-        android:title="Undo"
         android:icon="@drawable/ic_baseline_undo_24px"
         android:onClick="undo"
-        app:showAsAction="always"/>
+        android:orderInCategory="100"
+        android:title="@string/button_undo"
+        app:showAsAction="always" />
     <item
         android:id="@+id/action_redo"
         android:icon="@drawable/ic_baseline_redo_24px"
         android:onClick="redo"
         android:orderInCategory="200"
-        android:title="Redo"
-        app:showAsAction="always"/>
+        android:title="@string/button_redo"
+        app:showAsAction="always" />
     <item
         android:id="@+id/action_reset"
-        android:orderInCategory="300"
-        android:title="Reset"
         android:icon="@drawable/ic_baseline_autorenew_24px"
         android:onClick="reset"
-        app:showAsAction="always"/>
+        android:orderInCategory="300"
+        android:title="@string/button_reset"
+        app:showAsAction="always" />
     <item
         android:id="@+id/action_show_history"
         android:orderInCategory="400"
@@ -39,14 +39,14 @@
         android:icon="@drawable/ic_dice"
 
         android:orderInCategory="400"
-        android:title="Casino"
+        android:title="@string/button_dice"
         app:showAsAction="always" />
     <item
         android:id="@+id/action_show_coin"
         android:icon="@drawable/ic_coin_icon2"
         android:onClick="showCoin"
         android:orderInCategory="450"
-        android:title="Coin"
+        android:title="@string/button_casino"
         app:showAsAction="always" />
     <item
         android:id="@+id/action_custom"

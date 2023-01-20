@@ -60,4 +60,9 @@ Feedback und Fehler an:</string>
         Wenn du danke sagen möchtest, kannst du uns auf dieser Seite
         <a href="https://www.buymeacoffee.com/yugicalc/">einen Kaffee</a> ausgeben.</string>
     <string name="settings_reset">Zurücksetzen</string>
+    <string name="button_undo">Rückgängig</string>
+    <string name="button_redo">Vorwärts</string>
+    <string name="button_casino">Münze werfen</string>
+    <string name="button_dice">Würfel werfen</string>
+    <string name="button_reset">Neues Spiel</string>
 </resources>
