@@ -46,7 +46,7 @@
         android:icon="@drawable/ic_coin_icon2"
         android:onClick="showCoin"
         android:orderInCategory="450"
-        android:title="@string/button_casino"
+        android:title="@string/button_coin"
         app:showAsAction="always" />
     <item
         android:id="@+id/action_custom"

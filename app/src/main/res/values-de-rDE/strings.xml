@@ -62,7 +62,7 @@ Feedback und Fehler an:</string>
     <string name="settings_reset">Zurücksetzen</string>
     <string name="button_undo">Rückgängig</string>
     <string name="button_redo">Vorwärts</string>
-    <string name="button_casino">Münze werfen</string>
+    <string name="button_coin">Münze werfen</string>
     <string name="button_dice">Würfel werfen</string>
     <string name="button_reset">Neues Spiel</string>
 </resources>

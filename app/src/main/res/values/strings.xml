@@ -64,7 +64,7 @@ Report bugs and submit feedback to:
     <string name="settings_reset">Reset</string>
     <string name="button_undo">Undo</string>
     <string name="button_redo">Redo</string>
-    <string name="button_casino">Throw coin</string>
+    <string name="button_coin">Throw coin</string>
     <string name="button_dice">Throw dice</string>
     <string name="button_reset">Reset</string>
 </resources>
