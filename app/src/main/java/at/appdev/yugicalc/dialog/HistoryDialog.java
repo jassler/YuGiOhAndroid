@@ -42,6 +42,10 @@ public class HistoryDialog extends AppCompatDialogFragment {
         this.activity = activity;
     }
 
+    public HistoryDialog(History history) {
+        this.history = history;
+    }
+
     @Override
     @NonNull
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -52,14 +56,20 @@ public class HistoryDialog extends AppCompatDialogFragment {
         builder
                 .setView(view)
                 .setTitle(R.string.show_history)
-                .setPositiveButton("ok", (dialogInterface, i) -> {})
-                .setNegativeButton(R.string.clear_text, (dialogInterface, i) -> promptClearHistory())
-                .setNeutralButton(GlobalOptions.isActionsShown() ?
-                        R.string.history_hide_actions :
-                        R.string.history_show_actions,
-                        (dialog, which) -> {}
-                )
-        ;
+                .setPositiveButton("ok", (dialogInterface, i) -> {});
+
+        if(!this.history.isEmpty()) {
+            builder.setNegativeButton(R.string.clear_text, (dialogInterface, i) -> promptClearHistory());
+        }
+
+        if(this.history.hasActions()) {
+            builder.setNeutralButton(GlobalOptions.isActionsShown() ?
+                            R.string.history_hide_actions :
+                            R.string.history_show_actions,
+                    (dialog, which) -> {}
+            );
+        }
+
         return builder.create();
     }
 
@@ -91,7 +101,7 @@ public class HistoryDialog extends AppCompatDialogFragment {
         for (Points p : history) {
             if(p.isNewGame()) {
                 View lineview = inflater.inflate(R.layout.dialog_history_line, parent, false);
-                if(GlobalOptions.isShowNames()==false) {
+                if(!GlobalOptions.isShowNames()) {
                     ((TextView) lineview.findViewById(R.id.line_p1)).setTextSize(0);
                     ((TextView) lineview.findViewById(R.id.line_p2)).setTextSize(0);
                 }
@@ -131,17 +141,22 @@ public class HistoryDialog extends AppCompatDialogFragment {
         builder
                 .setView(parentView)
                 .setTitle(R.string.show_history)
-                .setPositiveButton("ok", (dialogInterface, i) -> {})
-                .setNegativeButton(R.string.clear_text, ((dialogInterface, i) -> {
-                    if(history != null) history.clearHistory();
-                    if(activity != null) activity.determineButtonEnable();
-                }))
-                .setNeutralButton(GlobalOptions.isActionsShown() ?
-                                R.string.history_hide_actions :
-                                R.string.history_show_actions,
-                        (dialog, which) -> {}
-                )
-        ;
+                .setPositiveButton("ok", (dialogInterface, i) -> {});
+
+        if(!this.history.isEmpty()) {
+            builder.setNegativeButton(R.string.clear_text, ((dialogInterface, i) -> {
+                if(history != null) history.clearHistory();
+                if(activity != null) activity.determineButtonEnable();
+            }));
+        }
+
+        if(this.history.hasActions()) {
+            builder.setNeutralButton(GlobalOptions.isActionsShown() ?
+                            R.string.history_hide_actions :
+                            R.string.history_show_actions,
+                    (dialog, which) -> {}
+            );
+        }
 
         return parentView;
     }

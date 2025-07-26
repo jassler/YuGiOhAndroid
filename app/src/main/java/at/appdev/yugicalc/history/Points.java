@@ -119,6 +119,10 @@ public class Points {
         return s.toString();
     }
 
+    public boolean hasActions() {
+        return !(this.actions == null || this.actions.isEmpty());
+    }
+
     public void clearActions() {
         this.actions = null;
     }

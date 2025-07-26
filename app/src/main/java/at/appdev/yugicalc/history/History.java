@@ -34,7 +34,7 @@ public class History implements Iterable<Points> {
         lastEntry = 0;
         lastEntryPlayer = 0;
 
-        if(history.size() == 0) {
+        if(history.isEmpty()) {
             history.add(new Points(GlobalOptions.getStartingLifePoints()));
             index = 0;
         }
@@ -169,7 +169,7 @@ public class History implements Iterable<Points> {
 
     /**
      * Get the most current Point object in history.
-     *
+     * <p>
      * History may be muddied with NewGame, Coin, Dice
      * or other HistoryElement objects, so to easily access the current life points for each
      * player, this method may be called.
@@ -191,14 +191,18 @@ public class History implements Iterable<Points> {
      * Deletes everything in history, only keeps the most current points (see {@link #getCurrentPoints()}.
      */
     public void clearHistory() {
-        if(history.size() <= 1)
+        if(isEmpty())
             return;
 
         Points p = getCurrentPoints();
         p.clearActions();
         history.clear();
-        if(p.isNewGame()==false) {
-            history.add(new Points(GlobalOptions.getStartingLifePoints(), GlobalOptions.getStartingLifePoints(), true, p.getP1Name(), p.getP2Name()));
+        if(!p.isNewGame()) {
+            if(p.p1 == GlobalOptions.getStartingLifePoints() && p.p2 == GlobalOptions.getStartingLifePoints()) {
+                p.setNewGame(true);
+            } else {
+                history.add(new Points(GlobalOptions.getStartingLifePoints(), GlobalOptions.getStartingLifePoints(), true, p.getP1Name(), p.getP2Name()));
+            }
         }
         history.add(p);
         index = history.size()-1;
@@ -206,6 +210,10 @@ public class History implements Iterable<Points> {
         lastEntry = 0;
 
         updateLocalStorage();
+    }
+
+    public boolean isEmpty() {
+        return history.size() <= 1;
     }
 
     public void addNewGame() {
@@ -220,6 +228,15 @@ public class History implements Iterable<Points> {
         lastEntryPlayer = 0;
         lastEntry = 0;
         add(p);
+    }
+
+    public boolean hasActions() {
+        for(Points action : this.history) {
+            if(action.hasActions()) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public Points undo() {

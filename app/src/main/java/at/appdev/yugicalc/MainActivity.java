@@ -141,8 +141,7 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
         gameTimer = new GameTimer();
         updateComponentActivities();
 
-        historyDialog = new HistoryDialog();
-        historyDialog.setHistory(GameInformation.history);
+        historyDialog = new HistoryDialog(GameInformation.history);
         historyDialog.setActivity(this);
 
         casinoDialog = new CasinoDialog();
