@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import at.appdev.yugicalc.history.Points;
 
+import java.lang.ref.WeakReference;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -23,11 +24,11 @@ public class Player {
     // the fancy countdown machine
     ValueAnimator animator;
 
-    TextView pointsView;
-    TextView tmpView;
+    WeakReference<TextView> pointsView;
+    WeakReference<TextView> tmpView;
 
     // Needed for main UI thread (animation) and undo / redo enable stuff
-    private AppCompatActivity currentActivity;
+    private WeakReference<AppCompatActivity> currentActivity;
 
     public Player(int points) {
         this.points = points;
@@ -39,10 +40,9 @@ public class Player {
         animator.setEvaluator((TypeEvaluator<Integer>) (fraction, startValue, endValue) ->
                 Math.round(startValue + (endValue - startValue) * fraction));
 
-        this.pointsView = null;
-        this.tmpView = null;
-
-        this.currentActivity = null;
+        this.pointsView = new WeakReference<>(null);
+        this.tmpView = new WeakReference<>(null);
+        this.currentActivity = new WeakReference<>(null);
     }
 
     /**
@@ -52,18 +52,33 @@ public class Player {
      * @param activity Needed for main UI thread (animation) and undo / redo enable stuff
      */
     void updateActivity(TextView pointsView, TextView tmpView, AppCompatActivity activity) {
-        this.pointsView = pointsView;
-        this.tmpView = tmpView;
-        this.currentActivity = activity;
+        this.pointsView = new WeakReference<>(pointsView);
+        this.tmpView = new WeakReference<>(tmpView);
+        this.currentActivity = new WeakReference<>(activity);
         updatePointsText();
     }
 
+    void releaseActivity() {
+        cancelTimer();
+        pointsView.clear();
+        tmpView.clear();
+        currentActivity.clear();
+    }
+
     void updatePointsText() {
-        pointsView.setText(String.valueOf(points));
+        TextView view = pointsView.get();
+        if(view == null)
+            return;
+
+        view.setText(String.valueOf(points));
     }
 
     void setPointsText(String text) {
-        pointsView.setText(text);
+        TextView view = pointsView.get();
+        if(view == null)
+            return;
+
+        view.setText(text);
     }
 
     void updateTmpText() {
@@ -71,11 +86,15 @@ public class Player {
     }
 
     void setTmpText(int value) {
+        TextView view = tmpView.get();
+        if(view == null)
+            return;
+
         if(value == 0) {
-            tmpView.setText("");
+            view.setText("");
         } else {
             String content = (value > 0 ? "+" : "") + value + " ";
-            tmpView.setText(content);
+            view.setText(content);
         }
     }
 
@@ -106,7 +125,10 @@ public class Player {
         this.tmpCalc = 0;
         this.points = points;
 
-        tmpView.setText("");
+        TextView view = tmpView.get();
+        if(view != null) {
+            view.setText("");
+        }
         updatePointsText();
     }
 
@@ -118,7 +140,12 @@ public class Player {
      * @param added Difference (eg. +1500)
      */
     private void animatePoints(final Integer points, final Integer added) {
-        currentActivity.runOnUiThread(() -> {
+        AppCompatActivity activity = currentActivity.get();
+        if(activity == null) {
+            return;
+        }
+
+        activity.runOnUiThread(() -> {
             animator.setObjectValues(added, 0);
 
             // if tmpText should be updated as well, use pre
@@ -159,8 +186,9 @@ public class Player {
         points += tmpCalc;
         tmpCalc = 0;
         GameInformation.history.add(new Points(GameInformation.p1.points, GameInformation.p2.points));
-        if(currentActivity instanceof ButtonDeterminer)
-            ((ButtonDeterminer) currentActivity).determineButtonEnable();
+        AppCompatActivity activity = currentActivity.get();
+        if(activity instanceof ButtonDeterminer)
+            ((ButtonDeterminer) activity).determineButtonEnable();
     }
 
     /**
@@ -194,8 +222,9 @@ public class Player {
                 points += tmpCalc;
                 tmpCalc = 0;
                 GameInformation.history.add(new Points(GameInformation.p1.points, GameInformation.p2.points));
-                if(currentActivity instanceof ButtonDeterminer)
-                    ((ButtonDeterminer) currentActivity).determineButtonEnable();
+                AppCompatActivity activity = currentActivity.get();
+                if(activity instanceof ButtonDeterminer)
+                    ((ButtonDeterminer) activity).determineButtonEnable();
             }
         }, wait);
     }

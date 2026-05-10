@@ -22,7 +22,6 @@ import at.appdev.yugicalc.R;
 import at.appdev.yugicalc.history.Dice;
 import at.appdev.yugicalc.history.History;
 
-import java.util.Arrays;
 import java.util.Random;
 
 public class CasinoDialog extends AppCompatDialogFragment {
@@ -48,9 +47,18 @@ public class CasinoDialog extends AppCompatDialogFragment {
     int[] imgPaths;
 
     private void updateImage(ImageView img, int i) {
-        if(!animatorSet.isRunning()) return;
+        if(animatorSet == null || !animatorSet.isRunning()) return;
         img.setImageResource(imgPaths[dicesequence[i]]);
         new Handler().postDelayed(() -> updateImage(img, (i+1)%6), imgtime);
+    }
+
+    private int findDiceSequenceIndex(int roll) {
+        for(int i = 0; i < dicesequence.length; i++) {
+            if(dicesequence[i] == roll - 1) {
+                return i;
+            }
+        }
+        return 0;
     }
 
     private void playAnimation(View view) {
@@ -59,7 +67,7 @@ public class CasinoDialog extends AppCompatDialogFragment {
         }
         d = new Dice(rand.nextInt(6) + 1);
         //wo d in dicesequence
-        int sequencegoal = Arrays.asList(dicesequence).indexOf(d.roll-1);
+        int sequencegoal = findDiceSequenceIndex(d.roll);
         int sequencestart = (sequencegoal-numfaces+600)%6;
 
         Animator upup = ObjectAnimator.ofFloat(view, View.TRANSLATION_Y, 0f, -120f).setDuration(animationtime);
@@ -141,7 +149,9 @@ public class CasinoDialog extends AppCompatDialogFragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        animatorSet.cancel();
+        if(animatorSet != null) {
+            animatorSet.cancel();
+        }
     }
 
     public void setHistory(History history) {

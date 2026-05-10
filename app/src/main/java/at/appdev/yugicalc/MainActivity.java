@@ -12,6 +12,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
@@ -20,12 +21,17 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.res.ResourcesCompat;
+import androidx.core.graphics.Insets;
 import androidx.core.os.LocaleListCompat;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowCompat;
+import androidx.core.view.WindowInsetsCompat;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -54,7 +60,7 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
 
     int screenHeight;
     int screenWidth;
-    int screenRatio;
+    float screenRatio;
     int screenHeightSp;
     int screenWidthSp;
 
@@ -109,6 +115,8 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
         GlobalOptions.setPlayerName2(names[1]);
         // hopefully done with loading
         cooldowns = new CooldownTracker();
+        gameTimer = new GameTimer();
+        initScreenSize();
 
 
         //LANGUAGE STUFF
@@ -124,7 +132,8 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
 
         getWindow().setNavigationBarColor(ResourcesCompat.getColor(getResources(), R.color.colorPrimary,null));
         setContentView(GlobalOptions.getCurrentView().layout);
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        applySystemBarInsets();
+        applyScreenAlwaysOnSetting();
 
         if(GlobalOptions.isFirstView()) {
             currentMenu = R.menu.menu_main;
@@ -138,8 +147,8 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
 
         setSupportActionBar(toolbar);
 
-        gameTimer = new GameTimer();
         updateComponentActivities();
+        registerBackCallback();
 
         historyDialog = new HistoryDialog(GameInformation.history);
         historyDialog.setActivity(this);
@@ -158,7 +167,6 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
 
         aboutDialog = new AboutDialog();
 
-        initScreenSize();
         initActionBarHeight();
     }
 
@@ -177,7 +185,7 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
         display.getSize(m_size);
         screenWidth = m_size.x;
         screenHeight = m_size.y;
-        screenRatio = screenHeight / screenWidth;
+        screenRatio = (float) screenHeight / screenWidth;
         screenWidthSp = (int)(screenWidth / getResources().getDisplayMetrics().scaledDensity);
         screenHeightSp = (int)(screenHeight / getResources().getDisplayMetrics().scaledDensity);
 
@@ -223,6 +231,21 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
         actionbarHeight = toolbar.getLayoutParams().height;
         actionbarWidth = toolbar.getLayoutParams().width;
 
+    }
+
+    private void applySystemBarInsets() {
+        WindowCompat.setDecorFitsSystemWindows(getWindow(), false);
+        ViewGroup content = findViewById(android.R.id.content);
+        View root = content.getChildAt(0);
+        if(root == null) {
+            return;
+        }
+        ViewCompat.setOnApplyWindowInsetsListener(root, (view, windowInsets) -> {
+            Insets systemBars = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars());
+            view.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            return windowInsets;
+        });
+        ViewCompat.requestApplyInsets(root);
     }
 
 //    public static float pixelsToSp(Context context, float px) {
@@ -273,11 +296,30 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
             return;
 
         settingsDialog.toggleScreenAlwaysOn();
+        applyScreenAlwaysOnSetting();
+    }
+
+    private void applyScreenAlwaysOnSetting() {
         if(GlobalOptions.isScreenAlwaysOn()) {
-            getWindow().clearFlags(android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-        } else {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        } else {
+            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         }
+    }
+
+    private void registerBackCallback() {
+        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                if(timerText != null && timerText.hasFocus()) {
+                    timerText.clearFocus();
+                    return;
+                }
+
+                setEnabled(false);
+                getOnBackPressedDispatcher().onBackPressed();
+            }
+        });
     }
 
     public void toggleDeleteHistory(View v) {
@@ -745,9 +787,13 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
     }
 
     @Override
-    public void onBackPressed(){
-        //clear focus with double back
-        if(timerText != null) {timerText.clearFocus();}
+    protected void onDestroy() {
+        super.onDestroy();
+        if(gameTimer != null) {
+            gameTimer.release();
+        }
+        GameInformation.p1.releaseActivity();
+        GameInformation.p2.releaseActivity();
     }
 
 
@@ -856,6 +902,7 @@ public class MainActivity extends AppCompatActivity implements ButtonDeterminer 
             GlobalOptions.setCurrentView(GlobalOptions.Views.FIRST_VIEW);
         }
 
+        applySystemBarInsets();
         toolbar = findViewById(toolbar_id);
         setSupportActionBar(toolbar);
         adjustToScreen();

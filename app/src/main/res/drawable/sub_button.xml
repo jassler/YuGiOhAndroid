@@ -11,5 +11,5 @@
         android:state_pressed="true"
         android:drawable="@drawable/sub_button_pressed"
         android:color="@color/sub_text_pressed"
-        />>
+        />
 </selector>

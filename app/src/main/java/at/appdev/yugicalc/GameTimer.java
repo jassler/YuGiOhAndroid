@@ -71,7 +71,7 @@ public class GameTimer {
 
     public void setTopMarginMax(int max) {
         this.topMarginMax = max;
-        if(isTimerVisible()) {
+        if(isTimerVisible() && layoutParams != null && viewTimer != null) {
             this.layoutParams.topMargin = max;
             this.viewTimer.requestLayout();
         }
@@ -141,6 +141,9 @@ public class GameTimer {
     private void animateStuff() {
 //        TransitionManager.beginDelayedTransition((ViewGroup) viewTimer.getParent());
 //        layoutParams.topMargin = isTimerVisible() ? topMarginMax : 0;
+        if(viewTimer == null) {
+            return;
+        }
         interpolator.setReversed(!isTimerVisible());
         viewTimer.startAnimation(animation);
     }
@@ -163,6 +166,9 @@ public class GameTimer {
     }
 
     private void updateButtonImage() {
+        if(startStopButton == null) {
+            return;
+        }
         startStopButton.setImageResource(isRunning() ?
                         R.drawable.ic_baseline_pause_24px :
                         R.drawable.ic_baseline_play_arrow_24px
@@ -199,6 +205,18 @@ public class GameTimer {
     public void resetTimer() {
         setTimerValues(isRunning(), isRunning() ? System.currentTimeMillis() : 0, 0);
         updateTimerText();
+    }
+
+    public void release() {
+        handler.removeCallbacks(repeatingCall);
+        if(viewTimer != null) {
+            viewTimer.clearAnimation();
+        }
+        viewTimer = null;
+        textTimer = null;
+        topBox = null;
+        startStopButton = null;
+        layoutParams = null;
     }
 
 }

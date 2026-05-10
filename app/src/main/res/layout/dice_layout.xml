@@ -5,8 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    "<!-- dicetext1 is space above dicepicture,
-    dicet2 beneath, both can be changed.-->"
+    <!-- dicetext1 is space above dicepicture,
+    dicet2 beneath, both can be changed. -->
     <TextView
         android:id="@+id/dicet1"
         android:text=""
