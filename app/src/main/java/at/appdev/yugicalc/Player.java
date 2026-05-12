@@ -19,8 +19,9 @@ public class Player {
     // meanwhile the "zwischenergebnis" is saved in tmpCalc
     int tmpCalc;
 
-    // the "1-second-waiter"
-    Timer timer;
+    // the shared "1-second-waiter" for both players
+    private static final Object timerLock = new Object();
+    private static Timer sharedTimer;
     // the fancy countdown machine
     ValueAnimator animator;
 
@@ -33,7 +34,6 @@ public class Player {
     public Player(int points) {
         this.points = points;
         this.tmpCalc = 0;
-        this.timer = null;
         this.animator = new ValueAnimator();
         animator.setInterpolator(new DecelerateInterpolator(2));
 
@@ -103,16 +103,14 @@ public class Player {
      * If points animation is running, act as if that animation is already done.
      */
     public void cancelTimer() {
-        if(timer != null) {
-            timer.cancel();
-            timer = null;
-        }
+        cancelSharedTimer();
+        tmpCalc = 0;
 
         if(animator.isRunning()) {
             animator.cancel();
             updatePointsText();
-            updateTmpText();
         }
+        updateTmpText();
     }
 
     void reset() {
@@ -172,6 +170,7 @@ public class Player {
      * If points are uneven, points are rounded up.
      */
     public void divide() {
+        commitPendingCalculations();
         cancelTimer();
 
         // subtract half of the player's points
@@ -185,10 +184,9 @@ public class Player {
 
         points += tmpCalc;
         tmpCalc = 0;
+        updateTmpText();
         GameInformation.history.add(new Points(GameInformation.p1.points, GameInformation.p2.points));
-        AppCompatActivity activity = currentActivity.get();
-        if(activity instanceof ButtonDeterminer)
-            ((ButtonDeterminer) activity).determineButtonEnable();
+        determineButtonEnable();
     }
 
     /**
@@ -202,30 +200,89 @@ public class Player {
         //if(amount == 0) //cancelWait() from MainActivity sends calculate with 0 to stop waitdelay
         //    return;
 
-        cancelTimer();
-
-        tmpCalc += amount;
-        updateTmpText();
+        cancelRunningAnimation();
 
         int wait = (withDelay ? 1000 : 0);
-
-        timer = new Timer();
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                if(tmpCalc == 0) {
-                    return;
+        synchronized(timerLock) {
+            cancelSharedTimerLocked();
+            tmpCalc += amount;
+            sharedTimer = new Timer();
+            sharedTimer.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    commitPendingCalculations();
                 }
+            }, wait);
+        }
+        updateTmpText();
+    }
 
-                animatePoints(points, tmpCalc);
+    private static void cancelSharedTimer() {
+        synchronized(timerLock) {
+            cancelSharedTimerLocked();
+        }
+    }
 
-                points += tmpCalc;
-                tmpCalc = 0;
-                GameInformation.history.add(new Points(GameInformation.p1.points, GameInformation.p2.points));
-                AppCompatActivity activity = currentActivity.get();
-                if(activity instanceof ButtonDeterminer)
-                    ((ButtonDeterminer) activity).determineButtonEnable();
+    private static void cancelSharedTimerLocked() {
+        if(sharedTimer != null) {
+            sharedTimer.cancel();
+            sharedTimer = null;
+        }
+    }
+
+    private void cancelRunningAnimation() {
+        if(animator.isRunning()) {
+            animator.cancel();
+            updatePointsText();
+            updateTmpText();
+        }
+    }
+
+    private static void commitPendingCalculations() {
+        Player p1 = GameInformation.p1;
+        Player p2 = GameInformation.p2;
+        int p1Tmp;
+        int p2Tmp;
+        int p1Start;
+        int p2Start;
+
+        synchronized(timerLock) {
+            cancelSharedTimerLocked();
+            p1Tmp = p1.tmpCalc;
+            p2Tmp = p2.tmpCalc;
+
+            if(p1Tmp == 0 && p2Tmp == 0) {
+                return;
             }
-        }, wait);
+
+            p1Start = p1.points;
+            p2Start = p2.points;
+            p1.points += p1Tmp;
+            p2.points += p2Tmp;
+            p1.tmpCalc = 0;
+            p2.tmpCalc = 0;
+        }
+
+        if(p1Tmp != 0) {
+            p1.animatePoints(p1Start, p1Tmp);
+        }
+
+        if(p2Tmp != 0) {
+            p2.animatePoints(p2Start, p2Tmp);
+        }
+
+        GameInformation.history.add(new Points(p1.points, p2.points));
+        determineButtonEnable();
+    }
+
+    private static void determineButtonEnable() {
+        AppCompatActivity activity = GameInformation.p1.currentActivity.get();
+        if(!(activity instanceof ButtonDeterminer)) {
+            activity = GameInformation.p2.currentActivity.get();
+        }
+
+        if(activity instanceof ButtonDeterminer) {
+            ((ButtonDeterminer) activity).determineButtonEnable();
+        }
     }
 }

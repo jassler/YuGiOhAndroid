@@ -14,12 +14,6 @@ import java.util.List;
 
 public class History implements Iterable<Points> {
 
-    // if last entry was less than <cooldown> ms ago, save as one action
-    private static final long COOLDOWN = 200;
-
-    private long lastEntry;
-    private int lastEntryPlayer;
-
     private int index;
     private final List<Points> history;
     private SharedPreferences.Editor editor = null;
@@ -31,8 +25,6 @@ public class History implements Iterable<Points> {
     public History(List<Points> history) {
         this.history = history;
         index = history.size() - 1;
-        lastEntry = 0;
-        lastEntryPlayer = 0;
 
         if(history.isEmpty()) {
             history.add(new Points(GlobalOptions.getStartingLifePoints()));
@@ -82,27 +74,7 @@ public class History implements Iterable<Points> {
 
         p.setNames(current.getNames()[0], current.getNames()[1]);
 
-        // if last entry less than <cooldown> ms ago, count as one action
-        // also make sure, it's not the same player the points are subtracted from
-        if (System.currentTimeMillis() - lastEntry <= COOLDOWN && (
-                (p1 != current.p1 && p2 == current.p2 && lastEntryPlayer == 2) ||
-                (p1 == current.p1 && p2 != current.p2 && lastEntryPlayer == 1)
-        )) {
-            history.set(index, p);
-            lastEntryPlayer = 0;
-
-        } else {
-            // save time of last entry for cooldown
-            lastEntry = System.currentTimeMillis();
-            if (p1 != current.p1 && p2 == current.p2)
-                lastEntryPlayer = 1;
-            else if (p1 == current.p1 && p2 != current.p2)
-                lastEntryPlayer = 2;
-            else
-                lastEntryPlayer = 0;
-
-            addToIndex(p);
-        }
+        addToIndex(p);
     }
 
     /**
@@ -206,8 +178,6 @@ public class History implements Iterable<Points> {
         }
         history.add(p);
         index = history.size()-1;
-        lastEntryPlayer = 0;
-        lastEntry = 0;
 
         updateLocalStorage();
     }
@@ -225,8 +195,6 @@ public class History implements Iterable<Points> {
         String[] names = pOld.getNames();
         Points p = new Points(l, l, true, names[0], names[1]);
 
-        lastEntryPlayer = 0;
-        lastEntry = 0;
         add(p);
     }
 
