@@ -57,10 +57,6 @@ Report bugs and submit feedback to:
     <string name="invalid_lang">Invalid language selection</string>
     <string name="clear_history">Clear history</string>
     <string name="are_you_sure">Are you sure?</string>
-    <string name="buy_coffee">\n
-        If you want to say thank you and support us you can
-        <a href="https://www.buymeacoffee.com/yugicalc/">buy us a coffee</a> here.
-    </string>
     <string name="settings_reset">Reset</string>
     <string name="button_undo">Undo</string>
     <string name="button_redo">Redo</string>

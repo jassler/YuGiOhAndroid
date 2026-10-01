@@ -55,9 +55,6 @@ public class AboutDialog extends AppCompatDialogFragment {
         }
         email.setText(s);
 
-        TextView coffee = (TextView) view.findViewById(R.id.about_us_coffee_text);
-        coffee.setMovementMethod(LinkMovementMethod.getInstance());
-
         builder.setPositiveButton("ok", (dialogInterface, i) -> {});
 
         return builder.create();

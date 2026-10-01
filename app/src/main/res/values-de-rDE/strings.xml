@@ -56,9 +56,6 @@ Feedback und Fehler an:</string>
     <string name="invalid_lang">Ungültige Sprachauswahl</string>
     <string name="clear_history">Verlauf löschen</string>
     <string name="are_you_sure">Bist du sicher?</string>
-    <string name="buy_coffee">\n
-        Wenn du danke sagen möchtest, kannst du uns auf dieser Seite
-        <a href="https://www.buymeacoffee.com/yugicalc/">einen Kaffee</a> ausgeben.</string>
     <string name="settings_reset">Zurücksetzen</string>
     <string name="button_undo">Rückgängig</string>
     <string name="button_redo">Vorwärts</string>
